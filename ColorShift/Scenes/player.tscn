@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dvyi7y4b1e4jd"]
 
+[ext_resource type="Script" uid="uid://b4i6h63nttu73" path="res://Scenes/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://b8cmjj8vq3r8d" path="res://Assets/knight.png" id="1_v0iea"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
@@ -17,6 +18,26 @@ region = Rect2(64, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("1_v0iea")
 region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpjfl"]
+atlas = ExtResource("1_v0iea")
+region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi64h"]
+atlas = ExtResource("1_v0iea")
+region = Rect2(32, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ijsl"]
+atlas = ExtResource("1_v0iea")
+region = Rect2(64, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1odr"]
+atlas = ExtResource("1_v0iea")
+region = Rect2(192, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gysh"]
+atlas = ExtResource("1_v0iea")
+region = Rect2(224, 160, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3wgy"]
 atlas = ExtResource("1_v0iea")
@@ -98,7 +119,27 @@ animations = [{
 "texture": SubResource("AtlasTexture_fkybt")
 }],
 "loop": 1,
-"name": &"Idle",
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpjfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bi64h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ijsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1odr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gysh")
+}],
+"loop": 1,
+"name": &"jump",
 "speed": 5.0
 }, {
 "frames": [{
@@ -151,18 +192,22 @@ animations = [{
 "texture": SubResource("AtlasTexture_olqyp")
 }],
 "loop": 1,
-"name": &"Run",
+"name": &"run",
 "speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4v7s"]
+radius = 5.0
+height = 16.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1444945355]
+script = ExtResource("1_cvnsp")
 
 [node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=762289119]
 sprite_frames = SubResource("SpriteFrames_g4v7s")
-animation = &"Run"
+animation = &"jump"
 
 [node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1566685478]
+position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_g4v7s")
 metadata/_edit_group_ = true

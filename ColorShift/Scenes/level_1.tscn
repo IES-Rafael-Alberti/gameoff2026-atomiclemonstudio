@@ -1,8 +1,17 @@
 [gd_scene format=3 uid="uid://cm4bikj82wevj"]
 
-[ext_resource type="PackedScene" uid="uid://d0s7s3ib3kx54" path="res://Scenes/Terrain.tscn" id="1_vk57k"]
+[ext_resource type="PackedScene" uid="uid://d0s7s3ib3kx54" path="res://Scenes/terrain.tscn" id="1_vk57k"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="2_8ffim"]
 
 [node name="Level1" type="Node" unique_id=669477309]
 metadata/_edit_group_ = true
 
 [node name="Terrain" parent="." unique_id=2050875851 instance=ExtResource("1_vk57k")]
+
+[node name="Player" parent="." unique_id=1444945355 instance=ExtResource("2_8ffim")]
+position = Vector2(27, -17)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1899948239]
+position = Vector2(-27, 17)
+scale = Vector2(1, 7.32)
+zoom = Vector2(2, 2)
