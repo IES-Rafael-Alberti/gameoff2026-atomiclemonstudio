@@ -1,4 +1,8 @@
 [gd_scene format=3 uid="uid://cm4bikj82wevj"]
 
-[node name="Level1" type="Node2D" unique_id=1585772213]
+[ext_resource type="PackedScene" uid="uid://d0s7s3ib3kx54" path="res://Scenes/Terrain.tscn" id="1_vk57k"]
+
+[node name="Level1" type="Node" unique_id=669477309]
 metadata/_edit_group_ = true
+
+[node name="Terrain" parent="." unique_id=2050875851 instance=ExtResource("1_vk57k")]
