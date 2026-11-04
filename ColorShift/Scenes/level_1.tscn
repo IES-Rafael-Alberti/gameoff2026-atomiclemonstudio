@@ -10,6 +10,7 @@ metadata/_edit_group_ = true
 [node name="Terrain" parent="." unique_id=2050875851 instance=ExtResource("1_vk57k")]
 
 [node name="Player" parent="." unique_id=1444945355 instance=ExtResource("2_8ffim")]
+unique_name_in_owner = true
 position = Vector2(27, -17)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1899948239]
