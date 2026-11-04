@@ -45,7 +45,7 @@ Cada nivel tiene un tema de misterio y resolución, y el filtro le añade una ca
 
 | Hito 1: mecánicas | Hito 2: niveles 1–8 (congelación) | Hito 3: pulido y pruebas | Envío | Fecha límite |
 |---|---|---|---|---|
-| 17/11/26 | 24/11/26 | 29/11/26 | 30/11/26 | **01/12/26, 22:00** |
+| 15/11/26 | 22/11/26 | 29/11/26 | 30/11/26 | **01/12/26, 22:00** |
 
 ---
 
@@ -85,3 +85,43 @@ Cada nivel tiene un tema de misterio y resolución, y el filtro le añade una ca
 - Distinguir Shift izquierdo y derecho (`InputEventKey.location`) y avisar de las *Teclas especiales* de Windows (Shift ×5).
 - En móvil: mando virtual táctil, orientación horizontal, botón de pantalla completa y elementos legibles en pantallas pequeñas.
 - Guardado del progreso y de los controles en el almacenamiento del navegador.
+
+---
+
+## Preguntas pendientes — GDD extenso (wiki).
+
+**1. Historia.** ¿Quién roba el color y por qué? ¿Cómo termina el juego tras el nivel 8? ¿Se cuenta con texto, con viñetas o sin texto? ¿Cómo se llama la conejita?
+> R:
+
+**2. Orden de los discos.** ¿En qué orden van los colores en cada disco (por ejemplo, transparente → rojo → amarillo → azul)? ¿Cada disco gira solo en un sentido?
+> R:
+
+**3. Jugador atrapado.** Si giras el disco cuando estás dentro de algo atravesable y ese objeto vuelve a ser sólido, ¿mueres, sales expulsado o no te deja girar?
+> R:
+
+**4. Objetos ocultos.** Cuando no se ven, ¿tampoco existen (no se pueden pisar ni recoger)? ¿Las reglas cambian al empezar la animación de giro o al terminarla?
+> R:
+
+**5. Habilidades.** ¿Están activas solo mientras su filtro está puesto? ¿Son pasivas (el peso o el flotar actúan solos) o usan un botón? ¿El supersalto es el salto normal pero más alto?
+> R:
+
+**6. Interruptores, llaves y salida.** ¿Qué activan los interruptores y las placas (puertas, plataformas móviles…)? ¿La llave se coge al tocarla o con E/X? ¿La salida necesita llave?
+> R:
+
+**7. Enemigos y pinchos.** ¿Qué insectos hay además de la hormiga y la oruga, y en qué se diferencian? ¿Se pueden eliminar (por ejemplo, cayéndoles encima con el peso rojo)? ¿Los pinchos tienen color?
+> R:
+
+**8. Soluciones.** DIS-4 dice "solución única" y el issue #28 dice "múltiple solución". ¿Cuál vale?
+> R:
+
+**9. Curva de dificultad.** En la página Levels propongo en qué nivel aparece cada habilidad y cada peligro. ¿Te vale?
+> R:
+
+**10. Pistas y menús.** ¿Las pistas aparecen tras un tiempo o con un botón? ¿Hay selección de niveles o el juego es lineal? ¿Pausa con Esc/Start?
+> R:
+
+**11. Arte.** ¿Qué resolución base tiene el pixel art? ¿Hay paleta concreta (valores hex)? ¿Qué animaciones lleva la conejita?
+> R:
+
+**12. Plan de recorte.** En la página Production propongo un orden de recorte (niveles 9–10 → habilidades secundarias → modo daltónico → pistas → táctil). ¿Te vale?
+> R:
