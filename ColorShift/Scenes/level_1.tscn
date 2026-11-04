@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d0s7s3ib3kx54" path="res://Scenes/terrain.tscn" id="1_vk57k"]
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="2_8ffim"]
+[ext_resource type="PackedScene" uid="uid://c46yhtbcast2j" path="res://color_glasses.tscn" id="3_xfk5q"]
 
 [node name="Level1" type="Node" unique_id=669477309]
 metadata/_edit_group_ = true
@@ -14,4 +15,6 @@ position = Vector2(27, -17)
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1899948239]
 position = Vector2(-27, 17)
 scale = Vector2(1, 7.32)
-zoom = Vector2(2, 2)
+zoom = Vector2(3, 3)
+
+[node name="ColorGlasses" parent="Player/Camera2D" unique_id=1534257056 instance=ExtResource("3_xfk5q")]
