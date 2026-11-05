@@ -65,9 +65,7 @@ func die() -> void:
 func visual_die():
 	# Logic to change the shader to represent the character is hit and dead
 	
-	# TODO: we have to put has a variable the animated sprite of the character and link the shaderMaterial in it
-	
-	var material_shader = animated_sprite_2d.material
+	var material_shader = animated_sprite.material
 	if material_shader is ShaderMaterial:
 		material_shader.set_shader_parameter("progress", 0.0)
 		

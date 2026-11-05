@@ -3,7 +3,7 @@ extends Node
 enum game_states {PLAYING, TIME_PAUSED, PAUSED, GAME_OVER, VICTORY}
 var game_state = game_states.PLAYING
 
-enum colors {GREY, RED, GREEN, BLUE}
+enum colors {GREY, RED, BLUE, YELLOW}
 var actual_color = colors.GREY
 
 @export var player_node: Node2D
