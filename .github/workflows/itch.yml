@@ -1,0 +1,66 @@
+name: Build and publish to itch.io
+
+# Pull request to main: build only (nothing is published).
+# Push to main: build and publish. main is protected, so a push to main
+# only happens when a pull request is merged.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: itch-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Must match the Godot version of the project and the image tag below.
+  GODOT_VERSION: 4.7.1
+
+jobs:
+  web:
+    name: Web export
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:4.7.1
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Export Web build
+        working-directory: ColorShift
+        run: |
+          mkdir -v -p build/web
+          godot --headless --verbose --export-release "Web" build/web/index.html
+
+      - name: Check the build
+        run: test -f ColorShift/build/web/index.html
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: ColorShift/build/web
+          retention-days: 7
+
+      # Only runs on a push to main, i.e. when a PR is merged.
+      - name: Publish to itch.io
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          ITCHIO_USERNAME: ${{ vars.ITCHIO_USERNAME }}
+          ITCHIO_GAME: ${{ vars.ITCHIO_GAME }}
+        run: |
+          # ponytail: strip ".itch.io" in case the variable holds the full subdomain
+          butler push ColorShift/build/web "${ITCHIO_USERNAME%.itch.io}/${ITCHIO_GAME}:html" --userversion "${GITHUB_SHA::7}"
