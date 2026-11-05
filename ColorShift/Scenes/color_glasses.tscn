@@ -9,4 +9,5 @@ anchors_preset = 0
 script = ExtResource("1_fb4mt")
 
 [node name="GlassesImage" type="Sprite2D" parent="." unique_id=1236115004]
+rotation = 1.5707964
 texture = ExtResource("2_r2uym")
