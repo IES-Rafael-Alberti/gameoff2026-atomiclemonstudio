@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 const SPEED = 130.0
 const JUMP_VELOCITY = -350.0
 const JUMP_DELAY = 0.10
@@ -16,7 +15,6 @@ signal change_color
 @onready var animated_sprite = $PlayerSkin
 
 func _ready() -> void:
-	GameManager.player_node = self
 	game_over.connect(GameManager._on_game_over)
 	change_color.connect(GameManager._on_change_color)
 
