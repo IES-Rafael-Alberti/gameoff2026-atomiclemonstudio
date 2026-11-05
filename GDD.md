@@ -7,9 +7,13 @@
 
 ### Género / Historia / Mecánicas
 **Género:** plataformas 2D de puzles (puzle-plataformas de cambio de color).
+
 **Historia:** alguien ha robado el color del mundo. Una conejita caballero lo recorre con el **Cromoscopio** (*Chromoscope*), un visor de dos discos de colores que tiñe lo que mira.
+
 **Mecánicas:** sin filtro (hueco transparente) todo se ve en escala de grises: el escenario neutro y los objetos de color, cada uno en el gris que le corresponde por luminosidad (el amarillo, el tono más claro; el azul, el más oscuro). Al girar un disco se aplica un filtro: el escenario gris se tiñe de ese color, los objetos de ese mismo color se vuelven transparentes y atravesables, y los ocultos de ese color aparecen. Los objetos de otros colores siguen sólidos y lo oculto de otros colores no se ve. *A debate del equipo:* cómo se ve con filtro un objeto de otro color ("corrompido", negro o en el color de la mezcla) y qué pasa, por ejemplo, con un objeto azul bajo el filtro violeta. (**Proposición**:Cada color da una habilidad: rojo = peso (rompe suelos, empuja bloques), azul = flotar, amarillo = supersalto. Las de los secundarios (verde = trepar, violeta = fase, naranja = dash) quedan *fuera de alcance*: si no da tiempo, esos colores solo revelan y abren.)
+
 **Core loop:** explorar → identificar los obstáculos de color → girar los discos para revelar, abrir o activar una habilidad → llegar a la salida → siguiente nivel.
+
 **Niveles:** 8 pantallas cortas de 2–4 minutos (el 9 y el 10 son opcionales). Del nivel 1 al 3 se juega con el disco derecho (rojo, amarillo, azul). En el 4 se consigue el izquierdo, que aparece superpuesto al primero y permite mezclar colores: naranja (R+A), verde (A+Az) y violeta (R+Az). Un objeto violeta solo reacciona al violeta.
 - **Objetos:** puertas, muros y plataformas de color, llaves (pueden estar ocultas), interruptores y la salida.
 - **Peligros:** pinchos, caídas y enemigos insecto de colores que patrullan de lado a lado. Con su filtro se vuelven invisibles, pero siguen matando al tocarlos.
