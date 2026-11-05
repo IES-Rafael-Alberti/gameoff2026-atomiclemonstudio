@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkku1ywmr3ond"
-path="res://.godot/imported/Ground_yellow.png-840b2b72015bc5708a1359b347bfe764.ctex"
+uid="uid://vnvm6i130m4y"
+path="res://.godot/imported/platform_blue.png-799718a78f99c1a10d1626c744729653.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Ground_yellow.png"
-dest_files=["res://.godot/imported/Ground_yellow.png-840b2b72015bc5708a1359b347bfe764.ctex"]
+source_file="res://assets/sprites/scenary/platform_blue.png"
+dest_files=["res://.godot/imported/platform_blue.png-799718a78f99c1a10d1626c744729653.ctex"]
 
 [params]
 
