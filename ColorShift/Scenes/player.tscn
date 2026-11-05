@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://dvyi7y4b1e4jd"]
 
-[ext_resource type="Script" uid="uid://70p2wfkn243o" path="res://Scripts/statemachine.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://b8cmjj8vq3r8d" path="res://Assets/knight.png" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://70p2wfkn243o" path="res://Scripts/state_machine.gd" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://cs0xbtkj0yv8i" path="res://Scripts/idle_state.gd" id="3_fkybt"]
+[ext_resource type="Script" uid="uid://behyqplvsa1fq" path="res://Scripts/jump_state.gd" id="4_x3wgy"]
+[ext_resource type="Script" uid="uid://1vqr4378shph" path="res://Scripts/run_state.gd" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://ll7mp3jbrd75" path="res://Scripts/fall_state.gd" id="6_x3wgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("1_v0iea")
@@ -200,14 +204,36 @@ animations = [{
 radius = 5.0
 height = 16.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1444945355]
-script = ExtResource("1_cvnsp")
+[node name="Player" type="CharacterBody2D" unique_id=889365973]
 
-[node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=762289119]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=967696184]
+zoom = Vector2(3, 3)
+
+[node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=1560109266]
 sprite_frames = SubResource("SpriteFrames_g4v7s")
 animation = &"jump"
 
-[node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1566685478]
+[node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1667839542]
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_g4v7s")
 metadata/_edit_group_ = true
+
+[node name="StateMachine" type="Node" parent="." unique_id=531200265 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_cvnsp")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=1370993115]
+script = ExtResource("3_fkybt")
+metadata/_custom_type_script = "uid://cs0xbtkj0yv8i"
+
+[node name="JumpState" type="Node" parent="StateMachine" unique_id=2145152060]
+script = ExtResource("4_x3wgy")
+metadata/_custom_type_script = "uid://behyqplvsa1fq"
+
+[node name="WalkState" type="Node" parent="StateMachine" unique_id=1587509849]
+script = ExtResource("5_3smsa")
+metadata/_custom_type_script = "uid://1vqr4378shph"
+
+[node name="FallState" type="Node" parent="StateMachine" unique_id=640205230]
+script = ExtResource("6_x3wgy")
+metadata/_custom_type_script = "uid://ll7mp3jbrd75"
