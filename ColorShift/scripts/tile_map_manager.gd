@@ -18,20 +18,33 @@ func _ready() -> void:
 				#"GREY": data.get_custom_data("GREY"),
 				"RED": data.get_custom_data("RED"),
 				"YELLOW": data.get_custom_data("YELLOW"),
-				"BLUE": data.get_custom_data("BLUE")
+				"BLUE": data.get_custom_data("BLUE"),
+				"HIDE": data.get_custom_data("HIDE")
 			}
 	
 	# Listen for color changes from the GameManager autoload.
 	# Connecting from the scene node guarantees we use THIS instance's
 	# tiles dictionary (not an empty autoload instance).
 	GameManager.color_changed.connect(on_change_color)
+	on_change_color("GREY")
 
 func on_change_color(actual_color: String) -> void:
 	for coords in tiles:
 		var tile = tiles[coords]
-		
-		# If the tile's flag for the current color is true, hide it
-		if tile.get(actual_color, false):
+
+		# true if the current color is this tile's color
+		var matches_color: bool = tile.get(actual_color, false)
+		var hidden_by_default: bool = tile.get("HIDE", false)
+
+		var should_hide: bool
+		if hidden_by_default:
+			# Always hidden, except when its color matches the current one
+			should_hide = not matches_color
+		else:
+			# Original behavior: hidden on the color it is flagged with
+			should_hide = matches_color
+
+		if should_hide:
 			# source_id = -1 and atlas = (-1, -1) erases the cell
 			set_cell(coords, -1, Vector2i(-1, -1))
 		else:
