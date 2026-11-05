@@ -11,8 +11,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var dead: bool = false
 signal game_over
+signal change_color
 
 @onready var animated_sprite = $PlayerSkin
+
+func _ready() -> void:
+	GameManager.player_node = self
+	game_over.connect(GameManager._on_game_over)
+	change_color.connect(GameManager._on_change_color)
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -51,6 +57,10 @@ func _physics_process(delta):
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	if Input.is_action_just_pressed("shift"):
+		print("shift pulsado")
+		change_color.emit()
 
 	move_and_slide()
 
