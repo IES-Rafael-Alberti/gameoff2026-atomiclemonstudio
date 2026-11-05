@@ -2,28 +2,23 @@ extends State
 
 class_name JumpState
 
-
 func enter():
+	print("Entering jump state")
 	var character = state_machine.get_parent()
 	character.velocity.y = -400
 
 func physics_update(delta):
 	var character = state_machine.get_parent()
 
-	#Apply gravity
-	character.velocity.y += 980 * delta
-	if character.velocity.y > 0:
-		state_machine.change_state("fallstate")
-	
-	#Handle horizontal movement
+	# Gravity
+	character.velocity.y += GRAVITY * delta
+
+	# Horizontal movement (air control)
 	var direction = Input.get_axis("move_left", "move_right")
-	character.velocity.x = direction * 200
-	
+	character.velocity.x = direction * SPEED
 	character.move_and_slide()
-	
-	#Return appropiate state when landing on the floor
-	if character.is_on_floor():
-		if direction != 0:
-			state_machine.change_state("walkstate")
-		else:
-			state_machine.change_state("idlestate")
+
+	# Once we stop going up (or bonk a ceiling), hand over to fall.
+	# Landing is handled by FallState.
+	if character.velocity.y >= 0:
+		state_machine.change_state("fallstate")
