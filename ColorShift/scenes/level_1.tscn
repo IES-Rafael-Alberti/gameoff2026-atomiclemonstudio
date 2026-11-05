@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cm4bikj82wevj"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="2_8ffim"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="2_8ffim"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xfk5q"]
 radius = 8.0
