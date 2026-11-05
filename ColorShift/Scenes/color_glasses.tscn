@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c46yhtbcast2j"]
+
+[ext_resource type="Script" uid="uid://bn5mdqdvu3cjr" path="res://Scripts/color_glasses.gd" id="1_fb4mt"]
+[ext_resource type="Texture2D" uid="uid://b6yp2n10sfcll" path="res://Assets/Color wheel.png" id="2_vp5yv"]
+
+[node name="ColorGlasses" type="Control" unique_id=1534257056]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fb4mt")
+
+[node name="GlassesImage" type="Sprite2D" parent="." unique_id=1236115004]
+texture = ExtResource("2_vp5yv")
