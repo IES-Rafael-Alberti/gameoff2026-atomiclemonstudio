@@ -14,7 +14,8 @@ func _ready() -> void:
 				"id": get_cell_source_id(coords),
 				"atlas": get_cell_atlas_coords(coords),
 				# Custom data flags from the TileSet: true = hide on that color
-				"GREY": data.get_custom_data("GREY"),
+				# The grey color for now doesnt need to disapear
+				#"GREY": data.get_custom_data("GREY"),
 				"RED": data.get_custom_data("RED"),
 				"YELLOW": data.get_custom_data("YELLOW"),
 				"BLUE": data.get_custom_data("BLUE")
