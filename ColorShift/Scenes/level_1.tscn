@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d0s7s3ib3kx54" path="res://Scenes/terrain.tscn" id="1_vk57k"]
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="2_8ffim"]
 [ext_resource type="Script" uid="uid://ctgtfd3xs0omp" path="res://Scripts/shifting_state.gd" id="3_xfk5q"]
+[ext_resource type="PackedScene" uid="uid://c46yhtbcast2j" path="res://Scenes/color_glasses.tscn" id="4_7p6j4"]
 
 [node name="Level1" type="Node" unique_id=669477309]
 metadata/_edit_group_ = true
@@ -11,6 +12,12 @@ metadata/_edit_group_ = true
 
 [node name="Character" parent="." unique_id=1505105855 instance=ExtResource("2_8ffim")]
 position = Vector2(9, -12)
+
+[node name="ColorGlasses" parent="Character/Camera2D" parent_id_path=PackedInt32Array(1505105855, 967696184) index="0" unique_id=1534257056 instance=ExtResource("4_7p6j4")]
+offset_left = -172.0
+offset_top = 129.0
+offset_right = -172.0
+offset_bottom = 129.0
 
 [node name="ShiftingState" type="Node" parent="Character/StateMachine" parent_id_path=PackedInt32Array(1505105855, 531200265) index="4" unique_id=932471300]
 script = ExtResource("3_xfk5q")
