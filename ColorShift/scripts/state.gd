@@ -1,6 +1,11 @@
-extends CharacterBody2D
+extends Node
 
 class_name State
+var state_machine: StateMachine
+
+# Shared values so every state uses the same numbers
+const GRAVITY := 980.0
+const SPEED := 200.0
 
 func enter():
 	pass

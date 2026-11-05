@@ -1,27 +1,26 @@
 extends Node
 
-enum game_states {PLAYING, TIME_PAUSED, PAUSED, GAME_OVER, VICTORY}
-var game_state = game_states.PLAYING
+enum Colors { GREY, RED, BLUE, YELLOW }
 
-enum colors {GREY, RED, BLUE, YELLOW}
-var actual_color_index = 0
-var actual_color = null
+var actual_color_index: int = 0
+var actual_color: Colors = Colors.GREY
 
-# Emitted whenever the active color changes.
 signal color_changed(color: String)
 
 func _ready() -> void:
-	actual_color = colors.find_key(actual_color_index)
+	update_color()
 
-func _on_game_over():
-	SceneManager.change_scene("END")
-	game_state = game_states.GAME_OVER
+func change_color() -> void:
+	# Advance to the next color
+	actual_color_index = (actual_color_index + 1) % Colors.size()
 
-func _on_change_color():
-	# Advance to the next color, wrapping around to the first one at the end
-	actual_color_index = (actual_color_index + 1) % colors.size()
-	actual_color = colors.keys()[actual_color_index]
-	print("color cambiado: ", actual_color)
-	
-	# Notify every listener of the new color
-	color_changed.emit(actual_color)
+	update_color()
+
+func update_color() -> void:
+	actual_color = actual_color_index
+	var color_name = Colors.keys()[actual_color_index]
+
+	print("Color changed: ", color_name)
+
+	# Notify every listener
+	color_changed.emit(color_name)

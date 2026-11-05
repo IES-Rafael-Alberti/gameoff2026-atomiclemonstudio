@@ -4,11 +4,25 @@ class_name IdleState
 
 func enter():
 	print("Entering idle state")
+	var character = state_machine.get_parent()
+	character.velocity.x = 0
 
-func handle_input(event: InputEvent):
-	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
+func physics_update(delta):
+	var character = state_machine.get_parent()
+
+	# Gravity, so walking off a ledge while idle still works
+	character.velocity.y += GRAVITY * delta
+	character.move_and_slide()
+
+	if not character.is_on_floor():
+		state_machine.change_state("fallstate")
+		return
+
+	if Input.get_axis("move_left", "move_right") != 0:
 		state_machine.change_state("walkstate")
-	elif Input.is_action_just_pressed("jump"):
+
+func handle_input(event):
+	if Input.is_action_just_pressed("jump"):
 		state_machine.change_state("jumpstate")
-	
-	pass
+	elif Input.is_action_just_pressed("shift"):
+		state_machine.change_state("shiftingstate")

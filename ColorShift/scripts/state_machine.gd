@@ -1,4 +1,6 @@
-extends CharacterBody2D
+extends Node
+
+class_name StateMachine
 
 @export var initial_state: State
 var current_state: State
@@ -35,4 +37,3 @@ func change_state(new_state_name: String) -> void:
 	
 	if current_state:
 		current_state.enter()
-	pass

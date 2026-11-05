@@ -1,69 +1,66 @@
 [gd_scene format=3 uid="uid://dvyi7y4b1e4jd"]
 
-[ext_resource type="Script" uid="uid://nlr0jwu0wswe" path="res://scripts/player.gd" id="1_3vyb7"]
-[ext_resource type="Texture2D" uid="uid://cjjtgx4swyb48" path="res://assets/sprites/player.png" id="2_g2els"]
-[ext_resource type="Shader" uid="uid://dcfvu7ahu2y55" path="res://shader/player.gdshader" id="2_qhqgy"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vlhjm"]
-shader = ExtResource("2_qhqgy")
-shader_parameter/death_color = Color(0.1, 0.1, 0.1, 1)
-shader_parameter/progress = 0.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
-atlas = ExtResource("2_g2els")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
-atlas = ExtResource("2_g2els")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
-atlas = ExtResource("2_g2els")
-region = Rect2(0, 0, 64, 64)
+[ext_resource type="PackedScene" uid="uid://c46yhtbcast2j" path="res://scenes/color_glasses.tscn" id="1_8erm5"]
+[ext_resource type="Texture2D" uid="uid://cjjtgx4swyb48" path="res://assets/sprites/player.png" id="1_x3wgy"]
+[ext_resource type="Script" uid="uid://b2ou8mwcyl5um" path="res://scripts/state_machine.gd" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://bfbmgtwnhvp20" path="res://scripts/idle_state.gd" id="3_fkybt"]
+[ext_resource type="Script" uid="uid://c60rowaewl75j" path="res://scripts/jump_state.gd" id="4_x3wgy"]
+[ext_resource type="Script" uid="uid://denqhds1nueep" path="res://scripts/run_state.gd" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://dhi7v3luv2gu6" path="res://scripts/fall_state.gd" id="6_x3wgy"]
+[ext_resource type="Script" uid="uid://ctgtfd3xs0omp" path="res://scripts/shifting_state.gd" id="7_3smsa"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qhqgy")
+"texture": ExtResource("1_x3wgy")
 }],
 "loop": 1,
 "name": &"idle",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vgqql")
-}],
-"loop": 1,
-"name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6t5aa")
-}],
-"loop": 1,
-"name": &"run",
-"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4v7s"]
-radius = 12.0
-height = 44.0
+radius = 5.0
+height = 16.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1444945355]
-script = ExtResource("1_3vyb7")
+[node name="Player" type="CharacterBody2D" unique_id=889365973]
 
-[node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=762289119]
-material = SubResource("ShaderMaterial_vlhjm")
+[node name="Camera2D" type="Camera2D" parent="." unique_id=967696184]
+zoom = Vector2(3, 3)
+
+[node name="ColorGlasses" parent="Camera2D" unique_id=1534257056 instance=ExtResource("1_8erm5")]
+offset_left = -171.0
+offset_top = 128.0
+offset_right = -171.0
+offset_bottom = 128.0
+scale = Vector2(11, 11)
+
+[node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=1560109266]
 sprite_frames = SubResource("SpriteFrames_g4v7s")
-animation = &"jump"
+animation = &"idle"
 
-[node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1566685478]
+[node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1667839542]
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_g4v7s")
 metadata/_edit_group_ = true
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1299398254]
-zoom = Vector2(2, 2)
+[node name="StateMachine" type="Node" parent="." unique_id=531200265 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_cvnsp")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=1370993115]
+script = ExtResource("3_fkybt")
+
+[node name="JumpState" type="Node" parent="StateMachine" unique_id=2145152060]
+script = ExtResource("4_x3wgy")
+
+[node name="WalkState" type="Node" parent="StateMachine" unique_id=1587509849]
+script = ExtResource("5_3smsa")
+
+[node name="FallState" type="Node" parent="StateMachine" unique_id=640205230]
+script = ExtResource("6_x3wgy")
+
+[node name="ShiftingState" type="Node" parent="StateMachine" unique_id=2007618455]
+script = ExtResource("7_3smsa")
+metadata/_custom_type_script = "uid://ctgtfd3xs0omp"
