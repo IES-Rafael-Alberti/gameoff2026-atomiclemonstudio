@@ -1,8 +1,5 @@
 extends Node
 
-enum game_states {PLAYING, TIME_PAUSED, PAUSED, GAME_OVER, VICTORY}
-var game_state = game_states.PLAYING
-
 enum colors {GREY, RED, BLUE, YELLOW}
 var actual_color_index = 0
 var actual_color = null
@@ -12,10 +9,6 @@ signal color_changed(color: String)
 
 func _ready() -> void:
 	actual_color = colors.find_key(actual_color_index)
-
-func _on_game_over():
-	SceneManager.change_scene("END")
-	game_state = game_states.GAME_OVER
 
 func _on_change_color():
 	# Advance to the next color, wrapping around to the first one at the end

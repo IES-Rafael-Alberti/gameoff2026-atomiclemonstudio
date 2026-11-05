@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://7wt2jw0uwxyb" path="res://assets/sprites/Ground_blue.png" id="2_i46ye"]
 [ext_resource type="Texture2D" uid="uid://dfljj1x4uj8cp" path="res://assets/sprites/Ground_red.png" id="4_freo2"]
 [ext_resource type="Texture2D" uid="uid://dsip0u3dlntjo" path="res://assets/sprites/Ground_grey.png" id="5_88xa8"]
-[ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://Scripts/tile_map_manager.gd" id="6_6wx8f"]
+[ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://scripts/tile_map_manager.gd" id="6_6wx8f"]
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="6_vlhjm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r34ug"]
