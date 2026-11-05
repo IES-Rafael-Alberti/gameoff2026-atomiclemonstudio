@@ -1,7 +1,6 @@
-
 extends Node
 
-enum Colors { GREY, RED, BLUE, GREEN }
+enum Colors { GREY, RED, BLUE, YELLOW }
 
 var actual_color_index: int = 0
 var actual_color: Colors = Colors.GREY
