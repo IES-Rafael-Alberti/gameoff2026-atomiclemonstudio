@@ -2,6 +2,8 @@ extends State
 
 class_name FallState
 
+@onready var animated_sprite = %PlayerSkin
+
 func enter():
 	print("Entering fall state")
 
