@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cft6gus3h7sq1"
-path="res://.godot/imported/fruit.png-3735163b668af10c2b35b52cba81b68a.ctex"
+uid="uid://7wt2jw0uwxyb"
+path="res://.godot/imported/Ground_blue.png-ce6514816bc6bcb20ec52f45eeef42d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/fruit.png"
-dest_files=["res://.godot/imported/fruit.png-3735163b668af10c2b35b52cba81b68a.ctex"]
+source_file="res://assets/sprites/Ground_blue.png"
+dest_files=["res://.godot/imported/Ground_blue.png-ce6514816bc6bcb20ec52f45eeef42d6.ctex"]
 
 [params]
 
