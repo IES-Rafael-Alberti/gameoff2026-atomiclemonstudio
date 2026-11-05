@@ -16,11 +16,13 @@ func change_color() -> void:
 
 	update_color()
 
+
 func update_color() -> void:
-	actual_color = actual_color_index
+	# Convertimos el entero (int) al tipo del enum (Colors)
+	actual_color = actual_color_index as Colors
+	
 	var color_name = Colors.keys()[actual_color_index]
-
 	print("Color changed: ", color_name)
-
 	# Notify every listener
 	color_changed.emit(color_name)
+	
