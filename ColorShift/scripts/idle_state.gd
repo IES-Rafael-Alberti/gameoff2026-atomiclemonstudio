@@ -2,11 +2,14 @@ extends State
 
 class_name IdleState
 
+@onready var animated_sprite = %PlayerSkin
+
 func enter():
 	print("Entering idle state")
 	var character = state_machine.get_parent()
 	character.velocity.x = 0
-
+	animated_sprite.play("idle")
+	
 func physics_update(delta):
 	var character = state_machine.get_parent()
 

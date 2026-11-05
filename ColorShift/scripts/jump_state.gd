@@ -2,10 +2,12 @@ extends State
 
 class_name JumpState
 
+@onready var animated_sprite = %PlayerSkin
+
 func enter():
 	print("Entering jump state")
 	var character = state_machine.get_parent()
-	character.velocity.y = -400
+	character.velocity.y = -500
 
 func physics_update(delta):
 	var character = state_machine.get_parent()

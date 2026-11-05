@@ -2,6 +2,8 @@ extends State
 
 class_name ShiftingState
 
+@onready var animated_sprite = %PlayerSkin
+
 # Player stands still while shift is held, so left/right can be used
 # to rotate the color glasses instead of moving the character.
 
