@@ -7,7 +7,8 @@ class_name JumpState
 func enter():
 	print("Entering jump state")
 	var character = state_machine.get_parent()
-	character.velocity.y = -500
+	character.velocity.y = -450
+	animated_sprite.play("jump")
 
 func physics_update(delta):
 	var character = state_machine.get_parent()

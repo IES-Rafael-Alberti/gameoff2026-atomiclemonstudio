@@ -45,6 +45,8 @@ func change_scene(scene_name: String):
 	color_rect.queue_free()
 
 func reload_scene():
+	# A level restart also resets the color filter to its initial state.
+	GameManager.reset_color()
 	get_tree().reload_current_scene()
 
 func get_actual_scene() -> String:

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnq2o6o0mm723"
-path="res://.godot/imported/Larry_run.png-63bf78352efcd79c7a8d949a7dcbc9af.ctex"
+uid="uid://vnvm6i130m4y"
+path="res://.godot/imported/platform_blue.png-799718a78f99c1a10d1626c744729653.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Larry_run.png"
-dest_files=["res://.godot/imported/Larry_run.png-63bf78352efcd79c7a8d949a7dcbc9af.ctex"]
+source_file="res://assets/sprites/scenary/platform_blue.png"
+dest_files=["res://.godot/imported/platform_blue.png-799718a78f99c1a10d1626c744729653.ctex"]
 
 [params]
 
