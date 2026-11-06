@@ -8,15 +8,16 @@
 ### Género / Historia / Mecánicas
 **Género:** plataformas 2D de puzles (puzle-plataformas de cambio de color).
 
-**Historia:** alguien ha robado el color del mundo. Una conejita caballero lo recorre con el **Cromoscopio** (*Chromoscope*), un visor de dos discos de colores que tiñe lo que mira.
+**Historia:** alguien ha robado el color del mundo. Una conejita caballero lo recorre con el **Cromoscopio** (*Chromoscope*), un visor de dos discos de colores que tiñe lo que mira. (Jefe o enemigo final, camaleón)
 
 **Mecánicas:** sin filtro (hueco transparente) todo se ve en escala de grises: el escenario neutro y los objetos de color, cada uno en el gris que le corresponde por luminosidad (el amarillo, el tono más claro; el azul, el más oscuro). Al girar un disco se aplica un filtro: el escenario gris se tiñe de ese color, los objetos de ese mismo color se vuelven transparentes y atravesables, y los ocultos de ese color aparecen. Los objetos de otros colores siguen sólidos y lo oculto de otros colores no se ve. *A debate del equipo:* cómo se ve con filtro un objeto de otro color ("corrompido", negro o en el color de la mezcla) y qué pasa, por ejemplo, con un objeto azul bajo el filtro violeta. (**Proposición**:Cada color da una habilidad: rojo = peso (rompe suelos, empuja bloques), azul = flotar, amarillo = supersalto. Las de los secundarios (verde = trepar, violeta = fase, naranja = dash) quedan *fuera de alcance*: si no da tiempo, esos colores solo revelan y abren.)
 
 **Core loop:** explorar → identificar los obstáculos de color → girar los discos para revelar, abrir o activar una habilidad → llegar a la salida → siguiente nivel.
 
-**Niveles:** 8 pantallas cortas de 2–4 minutos (el 9 y el 10 son opcionales). Del nivel 1 al 3 se juega con el disco derecho (rojo, amarillo, azul). En el 4 se consigue el izquierdo, que aparece superpuesto al primero y permite mezclar colores: naranja (R+A), verde (A+Az) y violeta (R+Az). Un objeto violeta solo reacciona al violeta.
+**Niveles:** 8 pantallas cortas de 2–4 minutos (el 9 y el 10 son opcionales). Del nivel 1 al 3 se juega con el disco derecho (rojo, amarillo, azul). En el 4 se consigue el izquierdo, que aparece superpuesto al primero y permite mezclar colores: naranja (R+A), verde (A+Az) y violeta (R+Az). Un objeto violeta solo reacciona al violeta. Al terminar nivel, aparece escena de progreso por puntos.
 - **Objetos:** puertas, muros y plataformas de color, llaves (pueden estar ocultas), interruptores y la salida.
 - **Peligros:** pinchos, caídas y enemigos insecto de colores que patrullan de lado a lado. Con su filtro se vuelven invisibles, pero siguen matando al tocarlos.
+- **Reintentos:** golpear un obstáculo te hace perder intentos dentro del nivel.
 - **Morir:** se reinicia la pantalla.
 - **Pistas:** cada nivel tiene una.
 
@@ -94,38 +95,38 @@ Cada nivel tiene un tema de misterio y resolución, y el filtro le añade una ca
 
 ## Preguntas pendientes — GDD extenso (wiki).
 
-**1. Historia.** ¿Quién roba el color y por qué? ¿Cómo termina el juego tras el nivel 8? ¿Se cuenta con texto, con viñetas o sin texto? ¿Cómo se llama la conejita?
-> R:
-
 **2. Orden de los discos.** ¿En qué orden van los colores en cada disco (por ejemplo, transparente → rojo → amarillo → azul)? ¿Cada disco gira solo en un sentido?
-> R:
+> R: Disco primero (izquierdo) -> Norte rojo, sur azul, este transparente, oeste amarillo. Invertido en todos los puntos cardinales los colores para el derecho.
 
 **3. Jugador atrapado.** Si giras el disco cuando estás dentro de algo atravesable y ese objeto vuelve a ser sólido, ¿mueres, sales expulsado o no te deja girar?
-> R:
+> R: Reinicias nivel.
 
 **4. Objetos ocultos.** Cuando no se ven, ¿tampoco existen (no se pueden pisar ni recoger)? ¿Las reglas cambian al empezar la animación de giro o al terminarla?
-> R:
+> R: A mitad. La barra de "plástico del circulo marca cuando se "dibuja" en la pantalla los objetos. Pueden verse a mitad.
 
 **5. Habilidades.** ¿Están activas solo mientras su filtro está puesto? ¿Son pasivas (el peso o el flotar actúan solos) o usan un botón? ¿El supersalto es el salto normal pero más alto?
-> R:
+> R: Solo mientras el filtro está puesto. Serán recursos de Godot.
 
 **6. Interruptores, llaves y salida.** ¿Qué activan los interruptores y las placas (puertas, plataformas móviles…)? ¿La llave se coge al tocarla o con E/X? ¿La salida necesita llave?
-> R:
+> R: La llave se recoge al tocarla, pero se interactuca con el objeto que se abre con la E. Indicado más adelante en el 13. Controles.
 
 **7. Enemigos y pinchos.** ¿Qué insectos hay además de la hormiga y la oruga, y en qué se diferencian? ¿Se pueden eliminar (por ejemplo, cayéndoles encima con el peso rojo)? ¿Los pinchos tienen color?
-> R:
+> R: Queda pendiente de respuesta.
 
 **8. Soluciones.** DIS-4 dice "solución única" y el issue #28 dice "múltiple solución". ¿Cuál vale?
-> R:
+> R: Solución única por ahora. Niveles 9 y 10, pueden contener múltiple, ya que quedan fuera de scope si no dan tiempo.
 
 **9. Curva de dificultad.** En la página Levels propongo en qué nivel aparece cada habilidad y cada peligro. ¿Te vale?
-> R:
+> R: Si.
 
 **10. Pistas y menús.** ¿Las pistas aparecen tras un tiempo o con un botón? ¿Hay selección de niveles o el juego es lineal? ¿Pausa con Esc/Start?
-> R:
+> R: Son permanentes. Hay selección de niveles, hay pantalla de selección de nivel tipo supermario. Pausa con Tabulador para ver el menú. Este hace de pausa. Detallado en 13.
 
 **11. Arte.** ¿Qué resolución base tiene el pixel art? ¿Hay paleta concreta (valores hex)? ¿Qué animaciones lleva la conejita?
-> R:
+> R: 32 x 32, char es 64 x 64. Paleta, por determinar.
 
 **12. Plan de recorte.** En la página Production propongo un orden de recorte (niveles 9–10 → habilidades secundarias → modo daltónico → pistas → táctil). ¿Te vale?
-> R:
+> R: El plan de recorte lo propongo así: niveles 9–10 → modo daltónico → pistas -> habilidades secundarias → táctil
+
+**13. Controles del jugador.**
+> R: Los controles del jugador serán: WASD para movimiento. Barra espaciadora para el salto. Q y E para girar los discos, Q el izquierdo y E el derecho. Interactuar con objetos, la F. Del 1 al 4 en los números son para girar y buscar el color directamente: 1 transparente, 2 rojo, 3 azul y 4 amarillo. Del 5 al 9, en el mismo orden los colores pero del disco derecho. Con Q y E se hacen secuenciales. Para reiniciar el nivel en el que se encuentra el usuario, la L. Habrá pantalla para que los jugadores con algún tipo de dificultad puedan cambiarlo. Tabulador abre el menú contextual de: salir del juego, nivel, opciones. Dentro de opciones, sonido, controles y accesibilidad.
