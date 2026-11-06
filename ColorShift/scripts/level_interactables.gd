@@ -130,6 +130,7 @@ func _open_barrier() -> void:
 func _finish_tutorial() -> void:
 	_door_used = true
 	_show_message("¡Has superado el tutorial con éxito!", 4.0)
+	SceneManager.change_scene("level_1")
 
 func _update_hint(delta: float) -> void:
 	var text := ""
