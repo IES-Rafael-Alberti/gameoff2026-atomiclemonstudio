@@ -1,53 +1,98 @@
 extends Node
 
-# Add here all the level paths
-const menu_path: String = "res://scenes/menu.tscn"
-const demo_level_path: String = "res://scenes/demo_level.tscn"
-const level_1_path: String = "res://scenes/level_1.tscn"
-const level_2_path: String = "res://scenes/level_2.tscn"
+signal scene_change_started(scene_name: String)
+signal scene_changed(scene_name: String)
 
-var paths = {
-	"DEMO_LEVEL": demo_level_path, 
-	"LEVEL_1": level_1_path, 
-	"LEVEL_2": level_2_path
-	}
+const FADE_TIME := 0.5
 
-var actual_scene: String = "No Scene"
+# Un único sitio donde registrar escenas: nombre -> ruta
+const SCENES := {
+	"menu": "res://scenes/menu.tscn",
+	"demo_level": "res://scenes/demo_level.tscn",
+	"level_1": "res://scenes/level_1.tscn",
+	"level_2": "res://scenes/level_2.tscn",
+}
 
-func change_scene(scene_name: String):
-	
-	# Fade out to black when changes scenes
-	var color_rect = ColorRect.new()
-	color_rect.color = Color.BLACK
-	color_rect.modulate.a = 0.0
-	color_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	get_tree().root.add_child(color_rect)
-	
-	var tween = create_tween()
-	tween.tween_property(color_rect, "modulate:a", 1.0, 0.5)
-	await tween.finished
-	
-	# Change the scene
-	var scene_path: String = paths.get(scene_name)
-	
-	var error = get_tree().change_scene_to_file(scene_path)
+var current_scene_name: String = ""
+var is_transitioning: bool = false
+
+var _fade_layer: CanvasLayer
+var _fade_rect: ColorRect
+
+
+func _ready() -> void:
+	# Que el fundido funcione aunque el juego esté en pausa
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	_fade_layer = CanvasLayer.new()
+	_fade_layer.layer = 100 # por encima de cualquier HUD
+	add_child(_fade_layer)
+
+	_fade_rect = ColorRect.new()
+	_fade_rect.color = Color.BLACK
+	_fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_fade_rect.modulate.a = 0.0
+	_fade_layer.add_child(_fade_rect)
+
+
+func change_scene(scene_name: String) -> void:
+	var key := scene_name.to_lower()
+
+	if not SCENES.has(key):
+		push_error("SceneManager: la escena '%s' no está registrada." % scene_name)
+		return
+	if is_transitioning:
+		return
+
+	is_transitioning = true
+	scene_change_started.emit(key)
+
+	await _fade_to(1.0)
+
+	var error := get_tree().change_scene_to_file(SCENES[key])
 	if error != OK:
-		print("Error when changing to scene: ", scene_name)
-	
-	actual_scene = scene_name
-	
-	# Fade in when the scene already changed
+		push_error("SceneManager: error al cargar '%s' (código %d)." % [key, error])
+	else:
+		current_scene_name = key
+
+	# change_scene_to_file es diferido: esperamos a que la nueva escena esté lista
 	await get_tree().process_frame
-	var tween_in = create_tween()
-	tween_in.tween_property(color_rect, "modulate:a", 0.0, 0.5)
-	await tween_in.finished
-	
-	color_rect.queue_free()
+	await get_tree().process_frame
 
-func reload_scene():
-	# A level restart also resets the color filter to its initial state.
+	await _fade_to(0.0)
+
+	is_transitioning = false
+	if error == OK:
+		scene_changed.emit(key)
+
+
+func reload_scene() -> void:
+	if is_transitioning:
+		return
+	is_transitioning = true
+
+	# Reiniciar el nivel también resetea el filtro de color
 	GameManager.reset_color()
-	get_tree().reload_current_scene()
 
-func get_actual_scene() -> String:
-	return actual_scene
+	await _fade_to(1.0)
+	get_tree().reload_current_scene()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await _fade_to(0.0)
+
+	is_transitioning = false
+
+
+func get_current_scene() -> String:
+	return current_scene_name
+
+
+func _fade_to(target_alpha: float) -> void:
+	# Mientras haya fundido, se bloquea el input del ratón
+	_fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+	var tween := create_tween()
+	tween.tween_property(_fade_rect, "modulate:a", target_alpha, FADE_TIME)
+	await tween.finished
+	if target_alpha == 0.0:
+		_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
