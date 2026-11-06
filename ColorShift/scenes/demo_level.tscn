@@ -1,13 +1,10 @@
 [gd_scene format=4 uid="uid://bf6lpmmbemfg1"]
 
-[ext_resource type="Texture2D" uid="uid://dkku1ywmr3ond" path="res://assets/sprites/scenary/Ground_yellow.png" id="1_fmty4"]
-[ext_resource type="Texture2D" uid="uid://brj8pfusmjfdq" path="res://assets/sprites/scenary/barrier gate.png" id="2_i2ok4"]
-[ext_resource type="Texture2D" uid="uid://7wt2jw0uwxyb" path="res://assets/sprites/scenary/Ground_blue.png" id="2_i46ye"]
-[ext_resource type="Texture2D" uid="uid://d01opg3d23xiu" path="res://assets/sprites/scenary/door.png" id="3_t3uk0"]
-[ext_resource type="Texture2D" uid="uid://dfljj1x4uj8cp" path="res://assets/sprites/scenary/Ground_red.png" id="4_freo2"]
-[ext_resource type="Texture2D" uid="uid://dsip0u3dlntjo" path="res://assets/sprites/scenary/Ground_grey.png" id="5_88xa8"]
-[ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://scripts/tile_map_manager.gd" id="6_6wx8f"]
-[ext_resource type="Texture2D" uid="uid://n20r4b2h5wdv" path="res://assets/sprites/scenary/platform_yellow.png" id="6_iqpg7"]
+[ext_resource type="Texture2D" uid="uid://dkku1ywmr3ond" path="res://assets/sprites/Ground_yellow.png" id="1_fmty4"]
+[ext_resource type="Texture2D" uid="uid://7wt2jw0uwxyb" path="res://assets/sprites/Ground_blue.png" id="2_i46ye"]
+[ext_resource type="Texture2D" uid="uid://dfljj1x4uj8cp" path="res://assets/sprites/Ground_red.png" id="4_freo2"]
+[ext_resource type="Texture2D" uid="uid://dsip0u3dlntjo" path="res://assets/sprites/Ground_grey.png" id="5_88xa8"]
+[ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://Scripts/tile_map_manager.gd" id="6_6wx8f"]
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="6_vlhjm"]
 [ext_resource type="Texture2D" uid="uid://dldl7ja812qq3" path="res://assets/sprites/scenary/spike_blue.png" id="7_cgsjm"]
 [ext_resource type="Script" uid="uid://c8rbe2rhvkq8c" path="res://scripts/level_interactables.gd" id="7_interact"]
@@ -62,6 +59,7 @@ texture_region_size = Vector2i(32, 32)
 1:0/0 = 0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 1:0/0/custom_data_3 = true
+1:0/0/custom_data_4 = true
 2:0/0 = 0
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 2:0/0/custom_data_3 = true
@@ -341,16 +339,8 @@ custom_data_layer_2/name = "BLUE"
 custom_data_layer_2/type = 1
 custom_data_layer_3/name = "YELLOW"
 custom_data_layer_3/type = 1
-custom_data_layer_4/name = "REVEAL"
+custom_data_layer_4/name = "HIDE"
 custom_data_layer_4/type = 1
-custom_data_layer_5/name = "SPIKE"
-custom_data_layer_5/type = 1
-custom_data_layer_6/name = "KEY"
-custom_data_layer_6/type = 1
-custom_data_layer_7/name = "BARRIER"
-custom_data_layer_7/type = 1
-custom_data_layer_8/name = "DOOR"
-custom_data_layer_8/type = 1
 sources/9 = SubResource("TileSetAtlasSource_4g462")
 sources/8 = SubResource("TileSetAtlasSource_8ie3e")
 sources/10 = SubResource("TileSetAtlasSource_r34ug")
