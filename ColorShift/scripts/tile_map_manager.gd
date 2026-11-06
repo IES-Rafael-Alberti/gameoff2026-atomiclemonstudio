@@ -43,3 +43,9 @@ func _exit_tree() -> void:
 	# to avoid calling a freed node from the GameManager signal
 	if GameManager.color_changed.is_connected(on_change_color):
 		GameManager.color_changed.disconnect(on_change_color)
+
+# Removes a tile permanently (a picked-up key, an opened gate...) and forgets
+# it, so a later color change cannot bring it back.
+func remove_tile(coords: Vector2i) -> void:
+	tiles.erase(coords)
+	set_cell(coords, -1, Vector2i(-1, -1))
