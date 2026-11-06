@@ -32,7 +32,7 @@ func _input(event: InputEvent) -> void:
 		current_state.handle_input(event)
 
 func _check_spike_collisions() -> void:
-	if current_state is DeathState:
+	if current_state and current_state.name.to_lower() == "deathstate":
 		return
 
 	var character = get_parent() as CharacterBody2D
@@ -65,7 +65,7 @@ func _is_spike_at(world_position: Vector2) -> bool:
 	return false
 
 func _check_drop_through() -> void:
-	if current_state is DeathState:
+	if current_state and current_state.name.to_lower() == "deathstate":
 		return
 
 	var character = get_parent() as CharacterBody2D

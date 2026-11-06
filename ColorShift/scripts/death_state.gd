@@ -1,7 +1,5 @@
 extends State
 
-class_name DeathState
-
 # Seconds the character takes to fade out before the level restarts.
 @export var fade_duration: float = 0.5
 
