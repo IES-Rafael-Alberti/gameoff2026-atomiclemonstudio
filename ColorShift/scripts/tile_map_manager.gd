@@ -13,52 +13,30 @@ func _ready() -> void:
 			tiles[coords] = {
 				"id": get_cell_source_id(coords),
 				"atlas": get_cell_atlas_coords(coords),
-				# Custom data flags from the TileSet
-				"GREY": data.get_custom_data("GREY"),
+				# Custom data flags from the TileSet: true = hide on that color
+				# The grey color for now doesnt need to disapear
+				#"GREY": data.get_custom_data("GREY"),
 				"RED": data.get_custom_data("RED"),
 				"YELLOW": data.get_custom_data("YELLOW"),
-				"BLUE": data.get_custom_data("BLUE"),
-				"HIDE": data.get_custom_data("HIDE")
+				"BLUE": data.get_custom_data("BLUE")
 			}
-
+	
 	# Listen for color changes from the GameManager autoload.
 	# Connecting from the scene node guarantees we use THIS instance's
 	# tiles dictionary (not an empty autoload instance).
 	GameManager.color_changed.connect(on_change_color)
-	on_change_color("GREY")
-
-	# Apply the current color immediately. Otherwise the level would start
-	# with every tile visible until the player changes color for the first time.
-	on_change_color(GameManager.get_color_name())
 
 func on_change_color(actual_color: String) -> void:
 	for coords in tiles:
 		var tile = tiles[coords]
-
-		# true if the current color is this tile's color
-		var matches_color: bool = tile.get(actual_color, false)
-		var hidden_by_default: bool = tile.get("HIDE", false)
-
-		var should_hide: bool
-		if hidden_by_default:
-			# Always hidden, except when its color matches the current one
-			should_hide = not matches_color
-		else:
-			# Original behavior: hidden on the color it is flagged with
-			should_hide = matches_color
-
-		if should_hide:
+		
+		# If the tile's flag for the current color is true, hide it
+		if tile.get(actual_color, false):
 			# source_id = -1 and atlas = (-1, -1) erases the cell
 			set_cell(coords, -1, Vector2i(-1, -1))
 		else:
 			# Otherwise restore the original tile from the cache
 			set_cell(coords, tile["id"], tile["atlas"])
-
-# Removes a tile permanently (a picked-up key, an opened gate...) and forgets
-# it, so a later color change cannot bring it back.
-func remove_tile(coords: Vector2i) -> void:
-	tiles.erase(coords)
-	set_cell(coords, -1, Vector2i(-1, -1))
 
 func _exit_tree() -> void:
 	# Disconnect when the node leaves the tree (e.g. on scene change)
