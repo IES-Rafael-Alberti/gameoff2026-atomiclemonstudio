@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://bqkcdngamp8yw"]
+
+[ext_resource type="Script" uid="uid://c2xti6n1xssx5" path="res://Scripts/pause_menu.gd" id="1_n87rw"]
+[ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="2_5d2l8"]
+[ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="3_7l7mv"]
+[ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="4_v4r4p"]
+
+[node name="Pause_Menu" type="Control" unique_id=291861861]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n87rw")
+
+[node name="Panel" type="Panel" parent="." unique_id=800891322]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=20646858]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.375
+offset_top = -196.5
+offset_right = 241.375
+offset_bottom = 196.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=646224192]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 40
+
+[node name="Continue" type="Button" parent="PanelContainer/VBoxContainer" unique_id=383328450]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_5d2l8")
+theme_override_styles/pressed = ExtResource("3_7l7mv")
+theme_override_styles/hover = ExtResource("4_v4r4p")
+text = "CONTINUE"
+
+[node name="ResetLevel" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1750589622]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_5d2l8")
+theme_override_styles/pressed = ExtResource("3_7l7mv")
+theme_override_styles/hover = ExtResource("4_v4r4p")
+text = "RESET LEVEL"
+
+[node name="MainMenu" type="Button" parent="PanelContainer/VBoxContainer" unique_id=552890129]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_5d2l8")
+theme_override_styles/pressed = ExtResource("3_7l7mv")
+theme_override_styles/hover = ExtResource("4_v4r4p")
+text = "MAIN MENU"
+
+[node name="QuitGame" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1141699458]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_5d2l8")
+theme_override_styles/pressed = ExtResource("3_7l7mv")
+theme_override_styles/hover = ExtResource("4_v4r4p")
+text = "QUIT GAME"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ResetLevel" to="." method="_on_reset_level_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/QuitGame" to="." method="_on_quit_game_pressed"]

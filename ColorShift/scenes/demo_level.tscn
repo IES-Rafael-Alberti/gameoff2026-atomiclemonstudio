@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://vnvm6i130m4y" path="res://assets/sprites/scenary/platform_blue.png" id="14_qii72"]
 [ext_resource type="Texture2D" uid="uid://cfadig3iuqluv" path="res://assets/sprites/scenary/platform_grey.png" id="15_du7la"]
 [ext_resource type="Texture2D" uid="uid://b8a1rp80rvvy1" path="res://assets/sprites/scenary/platform_red.png" id="16_x8j88"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="22_cgsjm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d7k28"]
 texture = ExtResource("2_i2ok4")
@@ -836,3 +837,7 @@ script = ExtResource("6_6wx8f")
 
 [node name="LevelInteractables" type="Node2D" parent="." unique_id=888328275]
 script = ExtResource("7_interact")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2043876984]
+
+[node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("22_cgsjm")]
