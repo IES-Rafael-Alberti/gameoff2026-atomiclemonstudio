@@ -9,6 +9,7 @@ const FADE_TIME := 0.5
 const SCENES := {
 	"main_menu": "res://scenes/main_menu.tscn",
 	"pause_menu": "res://scenes/pause_menu.tscn",
+	"options_menu": "res://scenes/options_menu.tscn",
 	"demo_level": "res://scenes/demo_level.tscn",
 	"level_1": "res://scenes/level_1.tscn",
 	"level_2": "res://scenes/level_2.tscn",

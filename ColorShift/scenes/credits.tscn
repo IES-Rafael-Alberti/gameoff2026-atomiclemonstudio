@@ -66,7 +66,7 @@ text = "~Atomic Lemon Studios~"
 horizontal_alignment = 1
 
 [node name="CreditsTimer" type="Timer" parent="." unique_id=156453621]
-wait_time = 3.0
+wait_time = 2.0
 one_shot = true
 
 [connection signal="timeout" from="CreditsTimer" to="." method="_on_credits_timer_timeout"]

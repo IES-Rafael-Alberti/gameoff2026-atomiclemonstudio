@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://dcxhere4tpmn4"]
 
-[ext_resource type="Script" uid="uid://dlvmfvypu8xj8" path="res://Scripts/menu.gd" id="1_wu84c"]
+[ext_resource type="Script" uid="uid://dlvmfvypu8xj8" path="res://scripts/menu.gd" id="1_wu84c"]
 [ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="2_8ln24"]
 [ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="3_rtw2f"]
 [ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="4_oa1go"]
+[ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4h3mk"]
 load_path = "res://.godot/imported/menu_background.jpg-819745cadd0ee8ec4027dcf3a57a9d63.ctex"
@@ -36,6 +37,18 @@ grow_vertical = 2
 texture = SubResource("CompressedTexture2D_4h3mk")
 expand_mode = 1
 
+[node name="OptionsMenu" parent="." unique_id=2056824226 instance=ExtResource("5_8ln24")]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -203.5
+offset_right = 203.5
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=178074880]
 layout_mode = 1
 anchors_preset = 8
@@ -66,6 +79,14 @@ theme_override_styles/pressed = ExtResource("3_rtw2f")
 theme_override_styles/hover = ExtResource("4_oa1go")
 text = "PLAY"
 
+[node name="OptionsMenu" type="Button" parent="VBoxContainer" unique_id=1603076282]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_8ln24")
+theme_override_styles/pressed = ExtResource("3_rtw2f")
+theme_override_styles/hover = ExtResource("4_oa1go")
+text = "OPTIONS"
+
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=859579674]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -75,4 +96,5 @@ theme_override_styles/hover = ExtResource("4_oa1go")
 text = "QUIT GAME"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/OptionsMenu" to="." method="_on_options_menu_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
