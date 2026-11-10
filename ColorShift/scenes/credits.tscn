@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://tstff5bhvbx0"]
 
-[ext_resource type="Script" uid="uid://crb7aeorjdouf" path="res://Scripts/credits.gd" id="1_credits"]
-[ext_resource type="StyleBox" uid="uid://bacbyx8jqo8k7" path="res://scenes/Credits_style.tres" id="2_2ckv8"]
+[ext_resource type="Script" uid="uid://crb7aeorjdouf" path="res://scripts/credits.gd" id="1_credits"]
+[ext_resource type="StyleBox" uid="uid://bacbyx8jqo8k7" path="res://shader/Credits_style.tres" id="2_2ckv8"]
 
 [node name="Credits" type="Control" unique_id=1516133583]
 layout_mode = 3
