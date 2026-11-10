@@ -90,13 +90,13 @@ Plan de 4 sprints (2 → 30 nov) con Scrum, en el Project 293. Los issues están
 - [ ] Duración objetivo por nivel (2–4 minutos).
 - [ ] Plantilla de nivel con inicio, salida y objetos listos para colocar.
 - [ ] Checklist de revisión de un nivel (solución única, que es lo óptimo para la jam; sin callejones sin salida).
-- [ ] Proponer niveles con varias soluciones (propuesta).
+- [x] Soluciones: una única por nivel; los niveles 9 y 10 pueden tener varias.
 
 ### DIS-5 · Progresión de discos y reglas por nivel
 **Prio 2 · S2 · Design, Producer · @sdurutr436, @JoelDevHub · 3 h · Fase: producción** · *Se escribe en la wiki (Levels)*
 - [ ] Tabla nivel → reglas y objetos nuevos.
 - [ ] En qué nivel se introduce cada habilidad y cada peligro.
-- [ ] Dónde y cómo se consigue el disco 2 (nivel 4).
+- [ ] Dónde y cómo se consigue el disco 2 (nivel 4): al principio del nivel.
 - [ ] Qué mezclas se necesitan en cada nivel.
 
 ### DIS-6 · Niveles 1–3 (un disco)
@@ -253,9 +253,9 @@ Plan de 4 sprints (2 → 30 nov) con Scrum, en el Project 293. Los issues están
 ### ART-4 · Arte de entornos y objetos
 **Prio 1 · S3 · Artist · @Gloriaa177, @lorenagl-1402 · 12 h · Fase: producción**
 - [ ] Tileset del entorno. → @Gloriaa177
-- [ ] Sprites de puerta, muro, plataforma, interruptor, llave, cerradura y salida. → @lorenagl-1402, @Gloriaa177
+- [ ] Sprites de puerta, muro, plataforma, interruptor, pincel (con versión de contorno punteado), cerradura y salida. → @lorenagl-1402, @Gloriaa177
 - [ ] Variantes de color de cada objeto. → @lorenagl-1402, @Gloriaa177
-- [ ] Objetos de habilidad: suelo agrietado, bloque empujable, zona de agua y pared de salto. → @lorenagl-1402, @Gloriaa177
+- [ ] Objetos de habilidad: suelo agrietado, bloque empujable y pared de salto. → @lorenagl-1402, @Gloriaa177
 - [ ] Fondo de nivel. → @Gloriaa177
 - [ ] Integración de los assets en el motor. → @lorenagl-1402, @Gloriaa177
 
@@ -313,7 +313,7 @@ Plan de 4 sprints (2 → 30 nov) con Scrum, en el Project 293. Los issues están
 **Prio 2 · S3 · Sound, Programmer · @trueantonio, @GunterMagno · 4 h · Fase: producción**
 - [ ] Salto y aterrizaje.
 - [ ] Muerte.
-- [ ] Recoger llave o disco.
+- [ ] Recoger pincel o disco.
 - [ ] Objeto oculto que aparece.
 - [ ] Navegar y confirmar en los menús.
 - [ ] Integración en Godot (apoyo de programación).
@@ -402,7 +402,7 @@ Marketing hace la promoción: página del juego, plan y publicidad en redes y ma
 - [ ] Enum o recurso de colores (ninguno, rojo, amarillo, azul): cambiar `GREEN` por `YELLOW` en `game_manager.gd`. Propuesta: colores como bits (página Programming de la wiki).
 - [ ] Registrar `GameManager` y `SceneManager` como autoload.
 - [ ] Señal global `filter_changed(color)`.
-- [ ] Input para girar el disco derecho con Shift derecho (`InputEventKey.location`).
+- [ ] Input para girar los discos: Q (izquierdo) y E (derecho), y 1–4 / 5–8 para ir directo a un color.
 - [ ] Objeto de prueba que reacciona al cambio.
 
 ### PRG-3 · Objeto `ColoredObject`
@@ -423,7 +423,7 @@ Marketing hace la promoción: página del juego, plan y publicidad en redes y ma
 **Prio 1 · S2 · Programmer, Producer · @sdurutr436, @JoelDevHub · 10 h · Fase: producción**
 - [ ] Ampliar `ColorState` a los colores compuestos. → @sdurutr436
 - [ ] Segundo disco superpuesto al primero. → @JoelDevHub
-- [ ] Input para girar cada disco por separado (Shift izquierdo / derecho, L1 / R1). → @sdurutr436
+- [ ] Input para girar cada disco por separado (Q / E, L1 / R1). → @sdurutr436
 - [ ] Probar los 6 colores con sus objetos. → @JoelDevHub
 
 ### PRG-6 · Inventario de discos y guardado
@@ -436,9 +436,10 @@ Marketing hace la promoción: página del juego, plan y publicidad en redes y ma
 - [ ] Puerta de color. → @GunterMagno
 - [ ] Muro tintado. → @GunterMagno
 - [ ] Plataforma que solo existe con cierto filtro. → @GunterMagno
-- [ ] Interruptor / placa de presión (decidir qué activan). → @JoelDevHub, @trueantonio
-- [ ] Llave y cerradura. → @JoelDevHub
-- [ ] Llave oculta (solo aparece con su filtro). → @JoelDevHub
+- [ ] Interruptor / placa de presión (abren puertas y mueven plataformas). → @JoelDevHub, @trueantonio
+- [ ] Pincel (se recoge al tocarlo) y cerradura (se abre con F). → @JoelDevHub
+- [ ] Pincel oculto (sin su filtro solo se ve el contorno punteado del color que hay que elegir). → @JoelDevHub
+- [ ] Vibración única del tileset cuando el filtro no coincide con el color de la pared o plataforma. → @GunterMagno
 - [ ] Salida del nivel. → @GunterMagno
 
 ### PRG-8 · Gestor de niveles y flujo de juego
@@ -446,7 +447,7 @@ Marketing hace la promoción: página del juego, plan y publicidad en redes y ma
 - [ ] Carga de niveles por orden. → @sdurutr436
 - [ ] Pantalla de "pulsa para empezar" (desbloquea el audio en web). → @sdurutr436
 - [ ] Menú principal. → @sdurutr436
-- [ ] Pausa (Esc / Start). → @sdurutr436
+- [ ] Menú con Tabulador (hace de pausa) y selección de nivel. → @sdurutr436
 - [ ] Reinicio de nivel con R / Y. → @sdurutr436
 - [ ] Pantalla final. → @sdurutr436
 
@@ -454,9 +455,9 @@ Marketing hace la promoción: página del juego, plan y publicidad en redes y ma
 **Prio 5 · S2 · Programmer, Design, Producer · @JoelDevHub, @GunterMagno, @trueantonio, @sdurutr436 · 10 h · Fase: producción** · *Propuesta: si no encaja, se cierra como "Descartado"*
 - [ ] Habilidad activa mientras su filtro está puesto. → @JoelDevHub
 - [ ] Rojo, peso: cae más rápido, rompe suelos agrietados y empuja bloques. → @JoelDevHub
-- [ ] Azul, flotar: gravedad reducida y nadar en zonas de agua. → @GunterMagno
+- [ ] Azul, flotar: gravedad reducida. → @GunterMagno
 - [ ] Amarillo: supersalto y salto en pared. → @GunterMagno
-- [ ] Objetos de habilidad: suelo agrietado, bloque empujable, zona de agua y pared de salto. → @GunterMagno
+- [ ] Objetos de habilidad: suelo agrietado, bloque empujable y pared de salto. → @GunterMagno
 - [ ] Ajustar los parámetros de las habilidades en el blockout. → @trueantonio
 
 ### PRG-10 · Peligros y condiciones de derrota
@@ -473,7 +474,6 @@ Marketing hace la promoción: página del juego, plan y publicidad en redes y ma
 - [ ] Soporte de mando: stick o cruceta, A / X / Y y L1 / R1.
 - [ ] Volúmenes de música y efectos por separado.
 - [ ] Pantalla completa.
-- [ ] Aviso de las *Teclas especiales* de Windows (Shift ×5).
 
 ### PRG-13 · VFX: transiciones y feedback
 **Prio 2 · S3 · Programmer · @GunterMagno · 8 h · Fase: producción**
