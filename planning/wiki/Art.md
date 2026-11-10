@@ -11,11 +11,17 @@ Art direction ([ART-1](https://github.com/IES-Rafael-Alberti/gameoff2026-atomicl
 - **References:** *Hollow Knight* (atmosphere, 2D knight) and *Hue* (color as a mechanic). Moodboard: [ART-1](https://github.com/IES-Rafael-Alberti/gameoff2026-atomiclemonstudio/issues/86).
 
 ## Palette
-| Use | Colors |
-|---|---|
-| Neutral world | Greyscale: _(pending)_ |
-| Primaries | Red, yellow and blue: _(pending, hex values)_ |
-| Mixes | Orange, green and violet: _(pending, hex values)_ |
+Each color has a ramp of shades, from lightest to darkest.
+
+| Use | Color | Shades (light → dark) |
+|---|---|---|
+| Neutral world | Grey | `#d0d0d0` `#bababa` `#aaaaaa` `#838383` `#4f4f4f` |
+| Primaries | Red | `#d07676` `#b94949` `#a92c2c` `#801d1d` `#561010` `#340808` |
+| Primaries | Yellow | `#F7EAA9` `#ebd980` `#DBC558` `#b49d29` `#80721D` `#332d08` |
+| Primaries | Blue | `#76a9d0` `#4989ba` `#2c72a8` `#1d5580` `#103857` `#082033` |
+| Mixes | Orange | `#f7d1a9` `#ebc17f` `#dba958` `#b5802a` `#805a1d` `#332308` |
+| Mixes | Green | `#76d089` `#49b85f` `#2da846` `#1d8031` `#10541e` `#083310` |
+| Mixes | Violet | `#af76d0` `#8f49b8` `#7b2da8` `#5c1d80` `#3b1054` `#230833` |
 
 - **Contrast in grey:** each color has a distinct grey by luminance (yellow the lightest, blue the darkest).
 - **Color blindness:** the palette is tested with colorblind simulators from sprint 1. If time allows, an icon or pattern per color ([ART-7](https://github.com/IES-Rafael-Alberti/gameoff2026-atomiclemonstudio/issues/98)) is added for colorblind mode.
