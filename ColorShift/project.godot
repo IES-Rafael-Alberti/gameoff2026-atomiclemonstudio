@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ColorShift"
-run/main_scene="uid://bf6lpmmbemfg1"
+run/main_scene="uid://bels3j0o343vc"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
