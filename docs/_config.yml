@@ -22,7 +22,7 @@ title: Atomic Lemon Studio
 description: >-
   Atomic Lemon Studio, a six-person team making ColorShift, a 2D puzzle
   platformer about mixing colored discs, for GitHub Game Off 2026.
-baseurl: "/gameoff2026-lemonpiestudio" # the subpath of the site (repository name)
+baseurl: "/gameoff2026-atomiclemonstudio" # the subpath of the site (repository name)
 url: "https://ies-rafael-alberti.github.io" # the base hostname & protocol
 github_username: IES-Rafael-Alberti
 

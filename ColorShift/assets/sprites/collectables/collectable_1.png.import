@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brj8pfusmjfdq"
-path="res://.godot/imported/barrier gate.png-526c8a4907ae64a42f56121774742e56.ctex"
+uid="uid://cpvk4uug24a7o"
+path="res://.godot/imported/collectable_1.png-5b3b6ac4a516f2125a4b93cc8887cb27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/scenary/barrier gate.png"
-dest_files=["res://.godot/imported/barrier gate.png-526c8a4907ae64a42f56121774742e56.ctex"]
+source_file="res://assets/sprites/collectables/collectable_1.png"
+dest_files=["res://.godot/imported/collectable_1.png-5b3b6ac4a516f2125a4b93cc8887cb27.ctex"]
 
 [params]
 

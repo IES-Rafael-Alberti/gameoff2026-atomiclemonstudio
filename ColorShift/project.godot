@@ -23,6 +23,7 @@ buses/default_bus_layout="uid://dpcww2cc37oc7"
 
 GameManager="*uid://dsuv8jem30rdd"
 SceneManager="*uid://cb7tpueudw615"
+UIManager="*uid://ca3hqyqwix01u"
 ColorBlindMode="*uid://beruxe0eoluh6"
 
 [display]
@@ -31,7 +32,6 @@ window/size/viewport_width=1024
 window/size/viewport_height=768
 window/size/mode=2
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [input]
 

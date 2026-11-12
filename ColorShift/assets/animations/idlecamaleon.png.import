@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfljj1x4uj8cp"
-path="res://.godot/imported/Ground_red.png-3f4ada14fe17c83f22303d1726d5c916.ctex"
+uid="uid://be8dlbfn8lopf"
+path="res://.godot/imported/idlecamaleon.png-dd9514d40abfdcfcc56e11f5aa426b3d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/scenary/Ground_red.png"
-dest_files=["res://.godot/imported/Ground_red.png-3f4ada14fe17c83f22303d1726d5c916.ctex"]
+source_file="res://assets/animations/idlecamaleon.png"
+dest_files=["res://.godot/imported/idlecamaleon.png-dd9514d40abfdcfcc56e11f5aa426b3d.ctex"]
 
 [params]
 

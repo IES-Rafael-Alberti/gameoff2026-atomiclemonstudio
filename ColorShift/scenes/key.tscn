@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cgyb2deie6erh"]
+
+[ext_resource type="Script" uid="uid://b2txfo257sx57" path="res://scripts/key.gd" id="1_fttkb"]
+[ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="2_wy8tx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4v7s"]
+atlas = ExtResource("2_wy8tx")
+region = Rect2(159.87111, 170.03976, 31.259232, 13.080643)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fttkb"]
+atlas = ExtResource("2_wy8tx")
+region = Rect2(352.02316, 169.94337, 31.003937, 13.297562)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wy8tx"]
+atlas = ExtResource("2_wy8tx")
+region = Rect2(160.23376, 393.79398, 30.925018, 13.295532)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brs3p"]
+atlas = ExtResource("2_wy8tx")
+region = Rect2(352.03888, 393.7856, 30.983215, 13.295624)
+
+[node name="Key" type="Node2D" unique_id=2020584789]
+script = ExtResource("1_fttkb")
+
+[node name="GreySkin" type="Sprite2D" parent="." unique_id=55809454]
+visible = false
+texture = SubResource("AtlasTexture_g4v7s")
+
+[node name="RedSkin" type="Sprite2D" parent="." unique_id=1883124699]
+visible = false
+texture = SubResource("AtlasTexture_fttkb")
+
+[node name="BlueSkin" type="Sprite2D" parent="." unique_id=1352107637]
+visible = false
+texture = SubResource("AtlasTexture_wy8tx")
+
+[node name="YellowSkin" type="Sprite2D" parent="." unique_id=1562473592]
+visible = false
+texture = SubResource("AtlasTexture_brs3p")

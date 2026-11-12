@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n20r4b2h5wdv"
-path="res://.godot/imported/platform_yellow.png-afebeddecc2e72aea18aca39d1407d65.ctex"
+uid="uid://7mbsd1vlmnxv"
+path="res://.godot/imported/DEATH.png-9e4b8da1912fbd48559f4379f3c641eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/scenary/platform_yellow.png"
-dest_files=["res://.godot/imported/platform_yellow.png-afebeddecc2e72aea18aca39d1407d65.ctex"]
+source_file="res://assets/animations/DEATH.png"
+dest_files=["res://.godot/imported/DEATH.png-9e4b8da1912fbd48559f4379f3c641eb.ctex"]
 
 [params]
 
