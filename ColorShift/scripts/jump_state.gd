@@ -5,7 +5,7 @@ class_name JumpState
 @onready var animated_sprite = %PlayerSkin
 
 func enter():
-	print("Entering jump state")
+	#print("Entering jump state")
 	var character = state_machine.get_parent()
 	character.velocity.y = -450
 	animated_sprite.play("jump")

@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://tstff5bhvbx0"]
+
+[ext_resource type="Script" uid="uid://crb7aeorjdouf" path="res://scripts/credits.gd" id="1_credits"]
+[ext_resource type="StyleBox" uid="uid://bacbyx8jqo8k7" path="res://shader/Credits_style.tres" id="2_2ckv8"]
+
+[node name="Credits" type="Control" unique_id=1516133583]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_credits")
+
+[node name="Panel" type="Panel" parent="." unique_id=1190506987]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_2ckv8")
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel" unique_id=1715334624]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.5
+offset_top = -206.0
+offset_right = 382.5
+offset_bottom = 206.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_2ckv8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer" unique_id=2106079333]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer" unique_id=1735715953]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Thanks for playing"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel/PanelContainer/VBoxContainer" unique_id=1827204669]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Hope you enjoyed"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="Panel/PanelContainer/VBoxContainer" unique_id=1295593691]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "<3"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="Panel/PanelContainer/VBoxContainer" unique_id=4953447]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "~Atomic Lemon Studios~"
+horizontal_alignment = 1
+
+[node name="CreditsTimer" type="Timer" parent="." unique_id=156453621]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="CreditsTimer" to="." method="_on_credits_timer_timeout"]

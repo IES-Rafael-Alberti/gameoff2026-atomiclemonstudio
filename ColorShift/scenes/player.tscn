@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://denqhds1nueep" path="res://Scripts/run_state.gd" id="5_3smsa"]
 [ext_resource type="Script" uid="uid://dhi7v3luv2gu6" path="res://Scripts/fall_state.gd" id="6_x3wgy"]
 [ext_resource type="Script" uid="uid://ctgtfd3xs0omp" path="res://Scripts/shifting_state.gd" id="7_3smsa"]
-[ext_resource type="Script" uid="uid://bdvhuub0yklm6" path="res://scripts/death_state.gd" id="8_death"]
+[ext_resource type="Script" uid="uid://bdvhuub0yklm6" path="res://Scripts/death_state.gd" id="8_death"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
 atlas = ExtResource("2_f1ek2")
