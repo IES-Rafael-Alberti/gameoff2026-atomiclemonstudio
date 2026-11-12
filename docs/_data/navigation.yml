@@ -1,0 +1,25 @@
+# Source list of the sidebar. `color` is one of the game's palette colors.
+- title: Studio
+  color: red
+  items:
+    - title: Home
+      url: /
+    - title: About
+      url: /about/
+    - title: Meet the team
+      url: /meet-the-team/
+    - title: Dev log
+      url: /dev-log/
+
+- title: Game
+  color: yellow
+  items:
+    - title: Play on itch.io
+      url: https://atomic-lemon-studio.itch.io/
+      external: true
+    - title: Source code
+      url: https://github.com/IES-Rafael-Alberti/gameoff2026-lemonpiestudio
+      external: true
+    - title: Design wiki
+      url: https://github.com/IES-Rafael-Alberti/gameoff2026-atomiclemonstudio/wiki
+      external: true

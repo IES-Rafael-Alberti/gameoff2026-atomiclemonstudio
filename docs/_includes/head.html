@@ -1,0 +1,28 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  {%- seo -%}
+  {%- comment -%}
+    Runs before the first paint so the page never flashes the wrong theme.
+    It also marks the document as "js".
+  {%- endcomment -%}
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') { root.dataset.theme = saved; }
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { root.dataset.theme = 'dark'; }
+        else { root.dataset.theme = 'light'; }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preload" href="{{ '/assets/fonts/PressStart2P-Regular.ttf' | relative_url }}" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="{{ '/assets/fonts/VT323-Regular.ttf' | relative_url }}" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/studio.css' | relative_url }}">
+  {%- feed_meta -%}
+</head>

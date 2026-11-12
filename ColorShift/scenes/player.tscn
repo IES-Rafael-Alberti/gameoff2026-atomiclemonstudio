@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://dvyi7y4b1e4jd"]
 
-[ext_resource type="PackedScene" uid="uid://c46yhtbcast2j" path="res://scenes/color_glasses.tscn" id="1_8erm5"]
 [ext_resource type="Texture2D" uid="uid://b5x6mx10tgnpp" path="res://assets/sprites/player/death_02_byn.png" id="2_3v2ag"]
 [ext_resource type="Script" uid="uid://b2ou8mwcyl5um" path="res://scripts/state_machine.gd" id="2_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://b0yw3rv8dexgj" path="res://assets/sprites/player/Larry.Idle.png" id="2_f1ek2"]
@@ -12,6 +11,8 @@
 [ext_resource type="Script" uid="uid://dhi7v3luv2gu6" path="res://scripts/fall_state.gd" id="6_x3wgy"]
 [ext_resource type="Script" uid="uid://ctgtfd3xs0omp" path="res://scripts/shifting_state.gd" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://bdvhuub0yklm6" path="res://scripts/death_state.gd" id="8_death"]
+[ext_resource type="Script" uid="uid://imb0evqmb1pa" path="res://scripts/player_safety.gd" id="9_safety"]
+[ext_resource type="Script" uid="uid://csdqvth57ttsr" path="res://scripts/color_shift_controller.gd" id="10_colorshift"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fulsm"]
 atlas = ExtResource("2_3v2ag")
@@ -370,16 +371,6 @@ size = Vector2(20, 47)
 
 [node name="Player" type="CharacterBody2D" unique_id=889365973]
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=967696184]
-zoom = Vector2(3, 3)
-
-[node name="ColorGlasses" parent="Camera2D" unique_id=1534257056 instance=ExtResource("1_8erm5")]
-offset_left = -171.0
-offset_top = 128.0
-offset_right = -171.0
-offset_bottom = 128.0
-scale = Vector2(11, 11)
-
 [node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=1560109266]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_g4v7s")
@@ -413,3 +404,9 @@ metadata/_custom_type_script = "uid://ctgtfd3xs0omp"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=1004646457]
 script = ExtResource("8_death")
+
+[node name="PlayerSafety" type="Node" parent="." unique_id=1339728958]
+script = ExtResource("9_safety")
+
+[node name="ColorShiftController" type="Node" parent="." unique_id=258499427]
+script = ExtResource("10_colorshift")
