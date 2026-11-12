@@ -5,12 +5,15 @@ signal scene_changed(scene_name: String)
 
 const FADE_TIME := 0.5
 
-# Un único sitio donde registrar escenas: nombre -> ruta
+# A single place to register scenes: name -> path
 const SCENES := {
-	"menu": "res://scenes/menu.tscn",
+	"main_menu": "res://scenes/main_menu.tscn",
+	"pause_menu": "res://scenes/pause_menu.tscn",
+	"options_menu": "res://scenes/options_menu.tscn",
 	"demo_level": "res://scenes/demo_level.tscn",
 	"level_1": "res://scenes/level_1.tscn",
 	"level_2": "res://scenes/level_2.tscn",
+	"credits": "res://scenes/credits.tscn",
 }
 
 var current_scene_name: String = ""
@@ -21,11 +24,11 @@ var _fade_rect: ColorRect
 
 
 func _ready() -> void:
-	# Que el fundido funcione aunque el juego esté en pausa
+	# Ensure the fade effect works even while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	_fade_layer = CanvasLayer.new()
-	_fade_layer.layer = 100 # por encima de cualquier HUD
+	_fade_layer.layer = 100 # above any HUD
 	add_child(_fade_layer)
 
 	_fade_rect = ColorRect.new()
@@ -56,7 +59,7 @@ func change_scene(scene_name: String) -> void:
 	else:
 		current_scene_name = key
 
-	# change_scene_to_file es diferido: esperamos a que la nueva escena esté lista
+	# change_scene_to_file is deferred: we wait for the new scene to be ready
 	await get_tree().process_frame
 	await get_tree().process_frame
 
@@ -72,7 +75,7 @@ func reload_scene() -> void:
 		return
 	is_transitioning = true
 
-	# Reiniciar el nivel también resetea el filtro de color
+	# Reset level also reset the color filter
 	GameManager.reset_color()
 
 	await _fade_to(1.0)
@@ -89,7 +92,7 @@ func get_current_scene() -> String:
 
 
 func _fade_to(target_alpha: float) -> void:
-	# Mientras haya fundido, se bloquea el input del ratón
+	# While a fade is in progress, mouse input is blocked
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
 	var tween := create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", target_alpha, FADE_TIME)

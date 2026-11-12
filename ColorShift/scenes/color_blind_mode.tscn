@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://beruxe0eoluh6"]
+
+[ext_resource type="Shader" uid="uid://dvfcxbo55r525" path="res://shader/color_blind_mode.gdshader" id="1_wd5bv"]
+[ext_resource type="Script" uid="uid://bxgyq7hyt22g8" path="res://scripts/color_blind_control.gd" id="2_hcosc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4v7s"]
+shader = ExtResource("1_wd5bv")
+shader_parameter/mode = 0
+
+[node name="ColorBlindMode" type="CanvasLayer" unique_id=1320839200]
+layer = 100
+script = ExtResource("2_hcosc")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2058372102]
+material = SubResource("ShaderMaterial_g4v7s")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

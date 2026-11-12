@@ -7,6 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="6_vlhjm"]
 [ext_resource type="PackedScene" path="res://scenes/game_camera.tscn" id="7_camera"]
 [ext_resource type="Script" uid="uid://nflvscwe5tkr" path="res://scripts/collectable_spawner.gd" id="9_spawner"]
+[ext_resource type="Texture2D" uid="uid://dldl7ja812qq3" path="res://assets/sprites/scenary/spike_blue.png" id="7_cgsjm"]
+[ext_resource type="Texture2D" uid="uid://yhpihisbecsu" path="res://assets/sprites/scenary/spike_grey.png" id="8_nrjfr"]
+[ext_resource type="Texture2D" uid="uid://dg6thktuq38dp" path="res://assets/sprites/scenary/spike_red.png" id="9_siyaw"]
+[ext_resource type="Texture2D" uid="uid://binq0lf0lfqnq" path="res://assets/sprites/scenary/spike_yellow.png" id="10_yhpex"]
+[ext_resource type="Texture2D" uid="uid://d3ui4njldpf6h" path="res://assets/sprites/scenary/interior.png" id="11_6ls7d"]
+[ext_resource type="Texture2D" uid="uid://cpn6xcxmd7yh8" path="res://assets/sprites/scenary/Tileset1.png" id="11_w36n2"]
+[ext_resource type="Texture2D" uid="uid://cagfmihc1ybor" path="res://assets/sprites/scenary/interior_border.png" id="12_2v5tb"]
+[ext_resource type="Texture2D" uid="uid://cmjx1cg4wxtxn" path="res://assets/sprites/scenary/key.png" id="13_rdeo8"]
+[ext_resource type="Texture2D" uid="uid://vnvm6i130m4y" path="res://assets/sprites/scenary/platform_blue.png" id="14_qii72"]
+[ext_resource type="Texture2D" uid="uid://cfadig3iuqluv" path="res://assets/sprites/scenary/platform_grey.png" id="15_du7la"]
+[ext_resource type="Texture2D" uid="uid://b8a1rp80rvvy1" path="res://assets/sprites/scenary/platform_red.png" id="16_x8j88"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="22_cgsjm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
@@ -559,3 +571,7 @@ layer_type = 3
 
 [node name="LevelInteractables" type="Node2D" parent="." unique_id=888328275]
 script = ExtResource("9_spawner")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2043876984]
+
+[node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("22_cgsjm")]
