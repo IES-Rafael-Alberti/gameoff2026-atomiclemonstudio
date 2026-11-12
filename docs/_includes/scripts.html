@@ -1,0 +1,4 @@
+{%- assign studio_scripts = 'drawer,theme,search,tabs,scrollspy,breadcrumb' | split: ',' -%}
+{%- for name in studio_scripts -%}
+<script src="{{ '/assets/js/' | append: name | append: '.js' | relative_url }}" defer></script>
+{%- endfor -%}

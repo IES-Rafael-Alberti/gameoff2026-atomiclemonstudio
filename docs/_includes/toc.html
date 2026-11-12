@@ -1,0 +1,18 @@
+{%- comment -%}
+  "On this page" rail. It is built from the h2 headings that kramdown has already rendered
+  (<h2 id="...">Title</h2>), so every link points to a real anchor target of the article.
+  Usage: {% include toc.html html=content %}
+{%- endcomment -%}
+{%- assign toc_parts = include.html | split: '<h2 id="' -%}
+{%- if toc_parts.size > 1 -%}
+<nav class="toc pixel" id="toc" aria-labelledby="toc-title">
+  <p class="toc__title" id="toc-title">On this page</p>
+  <ol class="toc__list">
+    {%- for part in toc_parts offset: 1 -%}
+      {%- assign toc_id = part | split: '"' | first -%}
+      {%- assign toc_label = part | split: '</h2>' | first | split: '">' | last | strip_html -%}
+    <li class="toc__item"><a class="toc__link" href="#{{ toc_id }}">{{ toc_label }}</a></li>
+    {%- endfor -%}
+  </ol>
+</nav>
+{%- endif -%}

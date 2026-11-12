@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+description: About ColorShift, the 2D puzzle platformer of Atomic Lemon Studio for GitHub Game Off 2026. Design pillars, colors and the Chromoscope.
 ---
 
 **ColorShift** is a 2D puzzle platformer made by **Atomic Lemon Studio** for GitHub Game Off 2026 (theme: *Shift*).

@@ -2,11 +2,31 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   {%- seo -%}
-  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
-  <link rel="stylesheet" href="{{ "/assets/css/studio.css" | relative_url }}">
+  {%- comment -%}
+    Runs before the first paint so the page never flashes the wrong theme.
+    It also marks the document as "js", so the drawer is only hidden when it can be opened.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') { root.dataset.theme = saved; }
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { root.dataset.theme = 'dark'; }
+        else { root.dataset.theme = 'light'; }
+      } catch (e) {}
+      // Sidebar: docked and open on wide screens (unless the user collapsed it), a closed drawer on narrow ones.
+      var open = false;
+      try { open = window.matchMedia('(min-width: 60em)').matches && localStorage.getItem('sidebar') !== 'closed'; } catch (e) {}
+      root.dataset.nav = open ? 'open' : 'closed';
+    })();
+  </script>
+  <link rel="preload" href="{{ '/assets/fonts/PressStart2P-Regular.ttf' | relative_url }}" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="{{ '/assets/fonts/VT323-Regular.ttf' | relative_url }}" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/studio.css' | relative_url }}">
   {%- feed_meta -%}
-  {%- if jekyll.environment == 'production' and site.google_analytics -%}
-    {%- include google-analytics.html -%}
-  {%- endif -%}
 </head>

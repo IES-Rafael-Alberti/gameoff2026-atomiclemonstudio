@@ -1,0 +1,20 @@
+<header class="topbar" id="topbar">
+  <button class="menu-button pixel" id="menu-button" type="button"
+          aria-expanded="true" aria-controls="site-nav" aria-label="Main menu">
+    <span class="menu-button__bar"></span>
+    <span class="menu-button__bar"></span>
+    <span class="menu-button__bar"></span>
+  </button>
+
+  <a class="brand" href="{{ '/' | relative_url }}">
+    <span class="brand__logo">{% include icons/lemon.svg %}</span>
+    <span class="brand__name">{{ site.title }}</span>
+  </a>
+
+  {% include search.html %}
+
+  <button class="icon-button pixel" id="theme-toggle" type="button" aria-label="Switch to dark theme">
+    <span class="icon icon--moon">{% include icons/moon.svg %}</span>
+    <span class="icon icon--sun">{% include icons/sun.svg %}</span>
+  </button>
+</header>

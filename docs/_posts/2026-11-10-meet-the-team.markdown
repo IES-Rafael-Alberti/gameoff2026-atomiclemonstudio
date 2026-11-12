@@ -3,7 +3,13 @@ layout: post
 title:  "Meet the team"
 date:   2026-11-10 12:00:00 +0100
 categories: team
+description: Meet Atomic Lemon Studio, the six people making ColorShift, a 2D puzzle platformer for GitHub Game Off 2026. Team, roles, design pillars and links.
+breadcrumb:
+  - title: Team
+    url: /team/
 ---
+
+## Who we are
 
 <!-- TODO: studio logo. Suggested path: /assets/img/studio-logo.png -->
 <div class="image-placeholder">
@@ -23,48 +29,21 @@ Someone has stolen the world's color. A bunny knight explores it with the **Chro
 
 - **Genre:** 2D puzzle platformer
 - **Platform:** web (itch.io), desktop and mobile
-- **Play it:** [atomic-lemon-studio.itch.io](https://atomic-lemon-studio.itch.io/)
-- **Source code:** [GitHub repository](https://github.com/IES-Rafael-Alberti/gameoff2026-lemonpiestudio)
+
+## Design pillars
+
+1. **Puzzles:** short levels with a single solution each.
+2. **Colors:** three primaries and three mixes, from two discs.
+3. **Secrets:** hidden objects that only appear under the right filter.
 
 ## The team
 
-<!-- Avatars downloaded from GitHub (https://github.com/<user>.png) into /assets/img/team/. Swap the files to change them. -->
+<!-- Team data lives in _data/team.yml. Avatars are the GitHub pictures in /assets/img/team/. -->
 
-<table class="team-table">
-  <tr>
-    <td>
-      <img src="{{ '/assets/img/team/sdurutr436.jpg' | relative_url }}" alt="Sergio" class="team-avatar">
-    </td>
-    <td><strong>Sergio</strong> (<a href="https://github.com/sdurutr436">@sdurutr436</a>)<br>Producer, programmer</td>
-  </tr>
-  <tr>
-    <td>
-      <img src="{{ '/assets/img/team/trueantonio.png' | relative_url }}" alt="Antonio" class="team-avatar">
-    </td>
-    <td><strong>Antonio</strong> (<a href="https://github.com/trueantonio">@trueantonio</a>)<br>Level designer, sound</td>
-  </tr>
-  <tr>
-    <td>
-      <img src="{{ '/assets/img/team/GunterMagno.jpg' | relative_url }}" alt="Alejandro" class="team-avatar">
-    </td>
-    <td><strong>Alejandro</strong> (<a href="https://github.com/GunterMagno">@GunterMagno</a>)<br>Programmer, VFX</td>
-  </tr>
-  <tr>
-    <td>
-      <img src="{{ '/assets/img/team/JoelDevHub.png' | relative_url }}" alt="Joel" class="team-avatar">
-    </td>
-    <td><strong>Joel</strong> (<a href="https://github.com/JoelDevHub">@JoelDevHub</a>)<br>Lead designer, programmer</td>
-  </tr>
-  <tr>
-    <td>
-      <img src="{{ '/assets/img/team/lorenagl-1402.png' | relative_url }}" alt="Lorena" class="team-avatar">
-    </td>
-    <td><strong>Lorena</strong> (<a href="https://github.com/lorenagl-1402">@lorenagl-1402</a>)<br>Art, marketing</td>
-  </tr>
-  <tr>
-    <td>
-      <img src="{{ '/assets/img/team/Gloriaa177.png' | relative_url }}" alt="Gloria" class="team-avatar">
-    </td>
-    <td><strong>Gloria</strong> (<a href="https://github.com/Gloriaa177">@Gloriaa177</a>)<br>Lead artist</td>
-  </tr>
-</table>
+{% include team.html %}
+
+## Find us
+
+- **Play it:** [atomic-lemon-studio.itch.io](https://atomic-lemon-studio.itch.io/)
+- **Source code:** [GitHub repository](https://github.com/IES-Rafael-Alberti/gameoff2026-lemonpiestudio)
+- **Design documents:** [project wiki](https://github.com/IES-Rafael-Alberti/gameoff2026-atomiclemonstudio/wiki)
