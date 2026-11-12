@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<section class="panel hero">
+  <p class="hero__kicker">GitHub Game Off 2026</p>
+  <h1 class="hero__title">ColorShift</h1>
+  <div class="prose">
+    {{ content }}
+  </div>
+</section>
+
+{%- if site.posts.size > 0 -%}
+<section class="panel news" aria-labelledby="news-title">
+  <h2 class="news__title" id="news-title">Posts</h2>
+  <ul class="news__list">
+    {%- for post in site.posts -%}
+    <li class="news__item">
+      <a class="news__link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+      <time class="news__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+    </li>
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}

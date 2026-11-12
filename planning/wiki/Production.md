@@ -38,13 +38,11 @@ Team, schedule, deliverables and cut plan.
 ## Cut plan
 If something slips, cut from the bottom up:
 1. Levels 9 and 10.
-2. Secondary abilities (green, violet, orange).
-3. Colorblind mode with icons (the palette is still tested with simulators).
-4. Hint system.
+2. Colorblind mode with icons (the palette is still tested with simulators).
+3. Hint system.
+4. Secondary abilities (green, violet, orange).
 5. Touch controls (the game stays desktop-only).
 6. Never cut: the 8 levels with one and two discs, the 3 primary abilities and the web build.
-
-_(proposed order: confirm with the team)_
 
 ## Risks
 | Risk | Mitigation |

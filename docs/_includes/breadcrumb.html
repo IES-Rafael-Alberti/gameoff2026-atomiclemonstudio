@@ -1,0 +1,15 @@
+<nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list">
+    <li class="breadcrumb__item breadcrumb__item--first">
+      <a href="{{ '/' | relative_url }}">Home</a>
+    </li>
+    {%- for crumb in page.breadcrumb -%}
+    <li class="breadcrumb__item breadcrumb__item--middle">
+      <a href="{{ crumb.url | relative_url }}">{{ crumb.title }}</a>
+    </li>
+    {%- endfor -%}
+    <li class="breadcrumb__item breadcrumb__item--current">
+      <a href="{{ page.url | relative_url }}" aria-current="page">{{ page.title }}</a>
+    </li>
+  </ol>
+</nav>

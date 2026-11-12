@@ -2,17 +2,22 @@
 layout: page
 title: About
 permalink: /about/
+description: About ColorShift, the 2D puzzle platformer of Atomic Lemon Studio for GitHub Game Off 2026. Design pillars, colors and the Chromoscope.
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+**ColorShift** is a 2D puzzle platformer made by **Atomic Lemon Studio** for GitHub Game Off 2026 (theme: *Shift*).
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+**Color shift, puzzles and discovering secrets.** Someone has stolen the world's color. A bunny knight explores it with the **Chromoscope**, a viewer with two colored discs. Turn a disc and the world is tinted: objects of that color become passable, hidden ones appear, and each color gives you an ability.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+## Design pillars
 
+1. **Puzzles:** short levels of 2 to 4 minutes, with a single solution each.
+2. **Colors:** red, yellow and blue, plus three mixes you get by combining the two discs: orange (red + yellow), green (yellow + blue) and violet (red + blue). Without a filter, everything is shown in greyscale.
+3. **Secrets:** hidden objects that only appear under the right filter.
 
-[jekyll-organization]: https://github.com/jekyll
+## Links
+
+- Play it on [itch.io](https://atomic-lemon-studio.itch.io/)
+- Source code on [GitHub](https://github.com/IES-Rafael-Alberti/gameoff2026-lemonpiestudio)
+- Meet the [team]({{ '/meet-the-team/' | relative_url }})
+- Read the [dev log]({{ '/dev-log/' | relative_url }})
