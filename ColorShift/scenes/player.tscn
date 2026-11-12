@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://dhi7v3luv2gu6" path="res://scripts/fall_state.gd" id="6_x3wgy"]
 [ext_resource type="Script" uid="uid://ctgtfd3xs0omp" path="res://scripts/shifting_state.gd" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://bdvhuub0yklm6" path="res://scripts/death_state.gd" id="8_death"]
+[ext_resource type="Script" path="res://scripts/player_safety.gd" id="9_safety"]
+[ext_resource type="Script" path="res://scripts/color_shift_controller.gd" id="10_colorshift"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
 atlas = ExtResource("2_f1ek2")
@@ -190,8 +192,8 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_laf4w"]
-points = PackedVector2Array(7, 22.5, -5, 22.5, -6, -1.5, -10, -5.5, -9, -17.5, -5, -20.5, -6, -25.5, -1, -26.5, 12, -8.5, 6, -0.5, 8, 3.5, 8, 19.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vlhjm"]
+size = Vector2(20, 47)
 
 [node name="Player" type="CharacterBody2D" unique_id=889365973]
 
@@ -203,7 +205,7 @@ frame_progress = 0.31834957
 
 [node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1667839542]
 position = Vector2(0, 8.5)
-shape = SubResource("ConvexPolygonShape2D_laf4w")
+shape = SubResource("RectangleShape2D_vlhjm")
 metadata/_edit_group_ = true
 
 [node name="StateMachine" type="Node" parent="." unique_id=531200265 node_paths=PackedStringArray("initial_state")]
@@ -228,3 +230,9 @@ metadata/_custom_type_script = "uid://ctgtfd3xs0omp"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=1004646457]
 script = ExtResource("8_death")
+
+[node name="PlayerSafety" type="Node" parent="."]
+script = ExtResource("9_safety")
+
+[node name="ColorShiftController" type="Node" parent="."]
+script = ExtResource("10_colorshift")

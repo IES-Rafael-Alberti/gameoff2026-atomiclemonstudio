@@ -24,12 +24,8 @@ func _ready() -> void:
 	# Connect to GameManager to handle layer visibility when color changes
 	GameManager.color_changed.connect(on_change_color)
 
-	# Sync initial visibility state
-	if "current_color" in GameManager:
-		on_change_color(GameManager.current_color)
-	else:
-		visible = (layer_type == LayerType.GREY)
-		collision_enabled = (layer_type == LayerType.GREY)
+	# Sync initial visibility and collision state with the active color.
+	on_change_color(GameManager.get_color_name())
 
 	# Scan and cache special gameplay properties from the TileSet
 	for coords in get_used_cells():
