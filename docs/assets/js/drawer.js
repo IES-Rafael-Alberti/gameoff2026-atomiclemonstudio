@@ -1,92 +1,88 @@
-/* Hamburger menu + navigation drawer / docked sidebar.
+/* Hamburger menu.
  *
- * One <nav> serves both layouts:
- *  - narrow screens: off-canvas drawer over a scrim (scroll locked, Escape and scrim close it,
- *    focus is trapped inside and goes back to the button on close);
- *  - wide screens: docked, collapsible left column (the choice is remembered).
+ * The navigation panel is completely hidden until it is opened, and it opens OVER the page, so the
+ * content never moves. It opens:
+ *  - when the mouse hovers over the button (it closes again when the mouse leaves);
+ *  - with a click, a tap or Enter / Space on the button, which keeps it open ("pinned").
+ * It closes with Escape, with a click outside, or with another click on the button.
+ * aria-expanded is kept in sync, and focus goes back to the button when Escape closes it.
  */
 (function () {
   var root = document.documentElement;
   var button = document.getElementById('menu-button');
   var nav = document.getElementById('site-nav');
-  var scrim = document.getElementById('nav-scrim');
-  var detail = document.getElementById('detail');
-  if (!button || !nav || !scrim || !detail) { return; }
+  if (!button || !nav) { return; }
 
-  var wide = window.matchMedia('(min-width: 60em)');
-  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled])';
+  var CLOSE_DELAY = 250;
+  var pinned = false;
+  var timer = null;
 
-  function isDrawer() { return !wide.matches; }
   function isOpen() { return root.dataset.nav === 'open'; }
 
-  function apply(open) {
-    var modal = open && isDrawer();
+  function setOpen(open) {
     root.dataset.nav = open ? 'open' : 'closed';
     button.setAttribute('aria-expanded', String(open));
     nav.inert = !open;
-    detail.inert = modal;
-    scrim.hidden = !modal;
-    root.classList.toggle('is-locked', modal);
+    if (!open) { pinned = false; }
   }
 
-  function open() {
-    apply(true);
-    if (isDrawer()) {
-      var first = nav.querySelector(FOCUSABLE);
-      if (first) { first.focus(); }
-    } else {
-      try { localStorage.setItem('sidebar', 'open'); } catch (e) {}
-    }
+  function cancelClose() { window.clearTimeout(timer); }
+
+  function closeSoon() {
+    cancelClose();
+    timer = window.setTimeout(function () {
+      if (!pinned && !nav.contains(document.activeElement)) { setOpen(false); }
+    }, CLOSE_DELAY);
   }
 
-  function close(restoreFocus) {
-    apply(false);
-    if (!isDrawer()) {
-      try { localStorage.setItem('sidebar', 'closed'); } catch (e) {}
-    }
-    if (restoreFocus) { button.focus(); }
-  }
+  function isMouse(event) { return event.pointerType === 'mouse'; }
 
-  button.addEventListener('click', function () {
-    if (isOpen()) { close(true); } else { open(); }
+  // Hover: open while the pointer is over the button or the panel.
+  [button, nav].forEach(function (element) {
+    element.addEventListener('pointerenter', function (event) {
+      if (!isMouse(event)) { return; }
+      cancelClose();
+      setOpen(true);
+    });
+    element.addEventListener('pointerleave', function (event) {
+      if (isMouse(event)) { closeSoon(); }
+    });
   });
 
-  scrim.addEventListener('click', function () { close(true); });
-
-  document.addEventListener('keydown', function (event) {
-    if (!isOpen() || !isDrawer()) { return; }
-
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      close(true);
+  // Click, tap or keyboard: toggle and keep it open.
+  button.addEventListener('click', function (event) {
+    cancelClose();
+    if (isOpen() && pinned) {
+      setOpen(false);
       return;
     }
-
-    if (event.key === 'Tab') {
-      var items = nav.querySelectorAll(FOCUSABLE);
-      if (!items.length) { return; }
-      var first = items[0];
-      var last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      } else if (!nav.contains(document.activeElement)) {
-        event.preventDefault();
-        first.focus();
-      }
+    setOpen(true);
+    pinned = true;
+    // Opened from the keyboard (no pointer): move into the menu.
+    if (event.detail === 0) {
+      var first = nav.querySelector(FOCUSABLE);
+      if (first) { first.focus(); }
     }
   });
 
-  // Crossing the breakpoint switches between drawer and docked sidebar.
-  function sync() {
-    var stored = null;
-    try { stored = localStorage.getItem('sidebar'); } catch (e) {}
-    apply(wide.matches && stored !== 'closed');
-  }
-  if (wide.addEventListener) { wide.addEventListener('change', sync); } else { wide.addListener(sync); }
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && isOpen()) {
+      var hadFocus = nav.contains(document.activeElement);
+      setOpen(false);
+      if (hadFocus) { button.focus(); }
+    }
+  });
 
-  sync();
+  // Click or tap anywhere else closes it.
+  document.addEventListener('pointerdown', function (event) {
+    if (isOpen() && !nav.contains(event.target) && !button.contains(event.target)) { setOpen(false); }
+  });
+
+  // Moving the keyboard focus out of the open menu closes it, unless it is pinned.
+  nav.addEventListener('focusout', function (event) {
+    if (!pinned && !nav.contains(event.relatedTarget) && event.relatedTarget !== button) { closeSoon(); }
+  });
+
+  setOpen(false);
 })();
