@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bshep50s3ur4c"]
+
+[ext_resource type="Texture2D" uid="uid://be8dlbfn8lopf" path="res://assets/animations/idlecamaleon.png" id="1_cpf85"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8d1lc"]
+atlas = ExtResource("1_cpf85")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmosf"]
+atlas = ExtResource("1_cpf85")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kporq"]
+atlas = ExtResource("1_cpf85")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nb466"]
+atlas = ExtResource("1_cpf85")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jyaov"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8d1lc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmosf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kporq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nb466")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=1565266819]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1864973683]
+sprite_frames = SubResource("SpriteFrames_jyaov")
+frame = 1
+frame_progress = 0.11273445
