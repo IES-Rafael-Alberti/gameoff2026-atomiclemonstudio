@@ -1,0 +1,24 @@
+/* Atomic Lemon Studio: custom styles on top of the minima theme. */
+
+/* Placeholder box for the studio logo and the game icon (remove once the real images are in). */
+.image-placeholder {
+  width: 160px;
+  height: 160px;
+  border: 2px dashed #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+/* Team table */
+.team-table td:first-child {
+  width: 120px;
+}
+
+.team-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+}
