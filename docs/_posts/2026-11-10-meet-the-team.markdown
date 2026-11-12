@@ -23,7 +23,7 @@ Someone has stolen the world's color. A bunny knight explores it with the **Chro
 
 - **Genre:** 2D puzzle platformer
 - **Platform:** web (itch.io), desktop and mobile
-- **Play it:** _https://atomic-lemon-studio.itch.io/_
+- **Play it:** [atomic-lemon-studio.itch.io](https://atomic-lemon-studio.itch.io/)
 - **Source code:** [GitHub repository](https://github.com/IES-Rafael-Alberti/gameoff2026-lemonpiestudio)
 
 ## The team
