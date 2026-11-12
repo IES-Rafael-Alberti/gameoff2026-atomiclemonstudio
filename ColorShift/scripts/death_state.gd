@@ -10,7 +10,7 @@ func enter() -> void:
 		return
 
 	_restarting = true
-	print("Entering death state")
+	#print("Entering death state")
 
 	var character = state_machine.get_parent() as CharacterBody2D
 	if character == null:

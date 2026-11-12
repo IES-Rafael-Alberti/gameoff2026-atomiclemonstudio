@@ -25,3 +25,4 @@ Full design document for **ColorShift**, Atomic Lemon Studio's game for GitHub G
 | 0.1 | 04/11/26 | First draft from the one-page GDD and the backlog |
 | 0.1.1 | 04/11/26 | Wiki translated to English |
 | 0.1.2 | 04/11/26 | Backlog IDs updated and linked to their issues |
+| 0.2 | 10/11/26 | Open questions answered: disc order, rotation timing, controls (Q/E, F, L, Tab), level select, hints, victory screen, brushes replace keys, colored spikes, wrong-color feedback, water removed, art sizes, cut plan |

@@ -5,7 +5,8 @@ class_name FallState
 @onready var animated_sprite = %PlayerSkin
 
 func enter():
-	print("Entering fall state")
+	pass
+	#print("Entering fall state")
 
 func physics_update(delta):
 	# Get the character here, not at class level: state_machine is still
