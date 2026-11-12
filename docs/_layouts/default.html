@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+{%- include head.html -%}
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {%- include site-header.html -%}
+
+  <div class="app">
+    {%- comment -%}
+      The menu is hidden until the hamburger button opens it. It opens over the content,
+      so the page never moves.
+    {%- endcomment -%}
+    {%- include sidebar.html -%}
+
+    <div class="detail">
+      <main class="main" id="main" tabindex="-1">
+        {%- comment -%} Reserved row for the breadcrumb: it keeps its height on every page. {%- endcomment -%}
+        <div class="crumb-slot">
+          {%- unless page.url == '/' -%}{%- include breadcrumb.html -%}{%- endunless -%}
+        </div>
+        {{ content }}
+      </main>
+      {%- include site-footer.html -%}
+    </div>
+  </div>
+
+  {%- include scripts.html -%}
+</body>
+</html>
