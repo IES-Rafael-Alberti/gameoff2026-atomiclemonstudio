@@ -6,6 +6,7 @@ var actual_color_index: int = 0
 var actual_color: Colors = Colors.GREY
 signal color_changed(color: String)
 
+var player_has_key: bool = false
 var master_volume: float = 1.0
 var sfx_volume: float = 1.0
 var music_volume: float = 1.0

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsip0u3dlntjo"
-path="res://.godot/imported/Ground_grey.png-889f0c0b3335fee7bb4008c6ec03ab0d.ctex"
+uid="uid://cpvk4uug24a7o"
+path="res://.godot/imported/collectable_1.png-5b3b6ac4a516f2125a4b93cc8887cb27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/scenary/Ground_grey.png"
-dest_files=["res://.godot/imported/Ground_grey.png-889f0c0b3335fee7bb4008c6ec03ab0d.ctex"]
+source_file="res://assets/sprites/collectables/collectable_1.png"
+dest_files=["res://.godot/imported/collectable_1.png-5b3b6ac4a516f2125a4b93cc8887cb27.ctex"]
 
 [params]
 
