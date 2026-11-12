@@ -8,16 +8,17 @@ enum LayerType {
 }
 
 @export var layer_type: LayerType
-@export var player: CharacterBody2D
-var has_key: bool = false
+var player: CharacterBody2D
 
 # Dictionary to cache gameplay properties of special cells (spikes, keys, doors, etc.)
 # Structure: Vector2i (cell coordinates) -> Dictionary (custom data flags)
 var interactive_tiles: Dictionary = {}
 
 func _ready() -> void:
+	player = get_tree().get_first_node_in_group("player")
+	
 	if not player:
-		get_node_or_null("Player")
+		print("Error: Player not found in the 'player' group")
 	
 	# Connect to GameManager to handle layer visibility when color changes
 	GameManager.color_changed.connect(on_change_color)
@@ -27,6 +28,7 @@ func _ready() -> void:
 		on_change_color(GameManager.current_color)
 	else:
 		visible = (layer_type == LayerType.GREY)
+		collision_enabled = (layer_type == LayerType.GREY)
 
 	# Scan and cache special gameplay properties from the TileSet
 	for coords in get_used_cells():
@@ -48,12 +50,57 @@ func _ready() -> void:
 					"DOOR": is_door
 				}
 
+# Check every frame if the player is next to an interactive object
+func _process(_delta: float) -> void:
+	# If this layer is not visible/active, do nothing
+	if not visible:
+		return
+		
+	if not player:
+		return
+	
+	var player_pos = player.global_position
+	var local_pos = to_local(player_pos)
+	var center_cell = local_to_map(local_pos)
+	
+	# Cells to check (player cell and adjacent ones)
+	var cells_to_check = [
+		center_cell,
+		center_cell + Vector2i.UP,
+		center_cell + Vector2i.DOWN,
+		center_cell + Vector2i.LEFT,
+		center_cell + Vector2i.RIGHT
+	]
+	
+	var near_interactive_object = false
+	
+	for cell in cells_to_check:
+		var props = get_tile_properties(cell)
+		if not props.is_empty():
+			near_interactive_object = true
+			
+			# Show hint text depending on the object type
+			if props.get("KEY", false):
+				UIManager.show_hint("Press E to pick up the key")
+			elif props.get("BARRIER", false):
+				UIManager.show_hint("Press E to open the barrier")
+			elif props.get("DOOR", false):
+				UIManager.show_hint("Press E to open the door")
+			break # Found a nearby object, break inner loop
+			
+	# If the player moves away from all interactive objects on this layer, clear the hint
+	if not near_interactive_object:
+		UIManager.show_hint("")
+
 func on_change_color(actual_color: String) -> void:
 	# Convert current enum value (e.g., LayerType.RED) to String ("RED")
 	var my_color_name: String = LayerType.keys()[layer_type]
 	# Show or hide the entire layer based on the selected color
-	visible = (my_color_name == actual_color)
-	collision_enabled = (my_color_name == actual_color)
+	var is_active: bool = (my_color_name == actual_color)
+	visible = is_active	
+	collision_enabled = is_active
+		
+	print("Layer: ", my_color_name, " | Active?: ", is_active, " | Collision enabled: ", collision_enabled)
 
 func _exit_tree() -> void:
 	# Disconnect signal upon exiting the scene tree to prevent memory leaks/errors
@@ -79,45 +126,80 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_interact_nearest()
 		
 func _try_interact_nearest() -> void:
-	# Si la variable player está vacía, intentamos encontrarla automáticamente
-	if not player:
-		player = get_tree().get_first_node_in_group("player")
-		if not player:
-			print("¡Error: No se encuentra al jugador en la escena!")
-			return # Salimos para que no crashee
-
-	var player_pos = player.global_position
+	var current_player = get_tree().get_first_node_in_group("player")
+	if not current_player:
+		return
 	
-	# El resto de tu código de búsqueda...
+	var player_pos = current_player.global_position
+	
 	for layer in get_tree().get_nodes_in_group("tile_layers"):
 		if not layer.visible:
 			continue
 			
 		var local_pos = layer.to_local(player_pos)
-		var cell = layer.local_to_map(local_pos)
-		var props = layer.get_tile_properties(cell)
+		var center_cell = layer.local_to_map(local_pos)
 		
-		if not props.is_empty():
-			_handle_interaction(layer, cell, props)
-			break
+		var cells_to_check = [
+			center_cell,
+			center_cell + Vector2i.UP,
+			center_cell + Vector2i.DOWN,
+			center_cell + Vector2i.LEFT,
+			center_cell + Vector2i.RIGHT
+		]
 		
+		for cell in cells_to_check:
+			var props = layer.get_tile_properties(cell)
+			
+			if not props.is_empty():
+				_handle_interaction(layer, cell, props)
+				return
+
+
+# Recursively removes all connected barrier cells starting from an initial cell
+func _remove_connected_barrier(start_cell: Vector2i) -> void:
+	var to_check: Array[Vector2i] = [start_cell]
+	var visited: Dictionary = {}
+	var connected_cells: Array[Vector2i] = []
+	
+	# Search loop (Flood Fill)
+	while to_check.size() > 0:
+		var current = to_check.pop_back()
+		
+		if visited.has(current):
+			continue
+		visited[current] = true
+		
+		# Check if this neighboring cell is a barrier
+		var props = get_tile_properties(current)
+		if props.get("BARRIER", false):
+			connected_cells.append(current)
+			
+			# Add the 4 orthogonal neighbors (up, down, left, right) to the review list
+			for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+				var neighbor = current + dir
+				if not visited.has(neighbor):
+					to_check.append(neighbor)
+					
+	# Once all connected cells are found, remove them all at once
+	for cell in connected_cells:
+		remove_tile(cell)
+
 func _handle_interaction(layer: TileMapLayer, cell: Vector2i, props: Dictionary) -> void:
 	if props.get("KEY", false):
-		has_key = true
+		GameManager.player_has_key = true
 		layer.remove_tile(cell)
-		UIManager.show_message("¡Has cogido la llave!", 1.6)
-		# Spawn follower logic can be triggered here or on the player directly
+		UIManager.show_message("You got the key!", 1.6)
 		
 	elif props.get("BARRIER", false):
-		if has_key:
-			layer.remove_tile(cell)
-			UIManager.show_message("¡Barrera abierta!", 1.8)
+		if GameManager.player_has_key:
+			layer._remove_connected_barrier(cell)
+			UIManager.show_message("Barrier opened!", 1.8)
 		else:
-			UIManager.show_message("Necesitas la llave", 1.4)
+			UIManager.show_message("You need a key", 1.4)
 			
 	elif props.get("DOOR", false):
-		if has_key:
-			UIManager.show_message("¡Has superado el tutorial con éxito!", 4.0)
+		if GameManager.player_has_key:
+			UIManager.show_message("Tutorial completed successfully!", 4.0)
 			SceneManager.change_scene("level_1")
 		else:
-			UIManager.show_message("Necesitas la llave", 1.4)
+			UIManager.show_message("You need a key", 1.4)

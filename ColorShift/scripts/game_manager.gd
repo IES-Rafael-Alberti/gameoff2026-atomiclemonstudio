@@ -7,6 +7,8 @@ var actual_color: Colors = Colors.GREY
 
 signal color_changed(color: String)
 
+var player_has_key: bool = false
+
 func _ready() -> void:
 	update_color()
 
