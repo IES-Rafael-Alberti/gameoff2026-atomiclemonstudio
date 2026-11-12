@@ -384,8 +384,7 @@ scale = Vector2(11, 11)
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_g4v7s")
 animation = &"Death"
-frame = 16
-frame_progress = 0.5167739
+frame_progress = 0.27212468
 
 [node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=1667839542]
 position = Vector2(0, 8.5)
