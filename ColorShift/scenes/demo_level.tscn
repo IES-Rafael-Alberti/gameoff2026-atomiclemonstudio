@@ -510,8 +510,6 @@ custom_data_layer_8/type = 1
 sources/0 = SubResource("TileSetAtlasSource_i46ye")
 sources/1 = SubResource("TileSetAtlasSource_freo2")
 
-[sub_resource type="GDScript" id="GDScript_2vmhc"]
-
 [node name="DemoLevel" type="Node2D" unique_id=1284172005]
 
 [node name="Player" parent="." unique_id=1444945355 groups=["player"] instance=ExtResource("6_vlhjm")]
@@ -549,4 +547,3 @@ script = ExtResource("6_6wx8f")
 layer_type = 3
 
 [node name="LevelInteractables" type="Node2D" parent="." unique_id=888328275]
-script = SubResource("GDScript_2vmhc")
