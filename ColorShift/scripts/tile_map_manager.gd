@@ -9,6 +9,7 @@ enum LayerType {
 
 @export var layer_type: LayerType
 var player: CharacterBody2D
+@onready var key: Node2D = $"../Key"
 
 # Dictionary to cache gameplay properties of special cells (spikes, keys, doors, etc.)
 # Structure: Vector2i (cell coordinates) -> Dictionary (custom data flags)
@@ -184,6 +185,7 @@ func _handle_interaction(layer: TileMapLayer, cell: Vector2i, props: Dictionary)
 		GameManager.player_has_key = true
 		layer.remove_tile(cell)
 		UIManager.show_message("You got the key!", 1.6)
+		key.follow_player()
 		
 	elif props.get("BARRIER", false):
 		if GameManager.player_has_key:

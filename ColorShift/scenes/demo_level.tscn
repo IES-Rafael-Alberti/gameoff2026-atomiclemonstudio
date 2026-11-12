@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://scripts/tile_map_manager.gd" id="6_6wx8f"]
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="6_vlhjm"]
 [ext_resource type="PackedScene" path="res://scenes/game_camera.tscn" id="7_camera"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="8_88xa8"]
 [ext_resource type="Script" uid="uid://nflvscwe5tkr" path="res://scripts/collectable_spawner.gd" id="9_spawner"]
 [ext_resource type="Texture2D" uid="uid://dldl7ja812qq3" path="res://assets/sprites/scenary/spike_blue.png" id="7_cgsjm"]
 [ext_resource type="Texture2D" uid="uid://yhpihisbecsu" path="res://assets/sprites/scenary/spike_grey.png" id="8_nrjfr"]
@@ -571,6 +572,9 @@ layer_type = 3
 
 [node name="LevelInteractables" type="Node2D" parent="." unique_id=888328275]
 script = ExtResource("9_spawner")
+
+[node name="Key" parent="." unique_id=2020584789 instance=ExtResource("8_88xa8")]
+position = Vector2(47, -272)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2043876984]
 
