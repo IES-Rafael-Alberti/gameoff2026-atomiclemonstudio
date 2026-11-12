@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://dvyi7y4b1e4jd"]
 
-[ext_resource type="PackedScene" uid="uid://c46yhtbcast2j" path="res://scenes/color_glasses.tscn" id="1_8erm5"]
 [ext_resource type="Script" uid="uid://b2ou8mwcyl5um" path="res://Scripts/state_machine.gd" id="2_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://b0yw3rv8dexgj" path="res://assets/sprites/player/Larry.Idle.png" id="2_f1ek2"]
 [ext_resource type="Script" uid="uid://bfbmgtwnhvp20" path="res://Scripts/idle_state.gd" id="3_fkybt"]
@@ -195,16 +194,6 @@ animations = [{
 size = Vector2(20, 47)
 
 [node name="Player" type="CharacterBody2D" unique_id=889365973]
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=967696184]
-zoom = Vector2(3, 3)
-
-[node name="ColorGlasses" parent="Camera2D" unique_id=1534257056 instance=ExtResource("1_8erm5")]
-offset_left = -171.0
-offset_top = 128.0
-offset_right = -171.0
-offset_bottom = 128.0
-scale = Vector2(11, 11)
 
 [node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=1560109266]
 unique_name_in_owner = true
