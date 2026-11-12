@@ -10,8 +10,8 @@
 [ext_resource type="Script" uid="uid://dhi7v3luv2gu6" path="res://scripts/fall_state.gd" id="6_x3wgy"]
 [ext_resource type="Script" uid="uid://ctgtfd3xs0omp" path="res://scripts/shifting_state.gd" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://bdvhuub0yklm6" path="res://scripts/death_state.gd" id="8_death"]
-[ext_resource type="Script" path="res://scripts/player_safety.gd" id="9_safety"]
-[ext_resource type="Script" path="res://scripts/color_shift_controller.gd" id="10_colorshift"]
+[ext_resource type="Script" uid="uid://imb0evqmb1pa" path="res://scripts/player_safety.gd" id="9_safety"]
+[ext_resource type="Script" uid="uid://csdqvth57ttsr" path="res://scripts/color_shift_controller.gd" id="10_colorshift"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
 atlas = ExtResource("2_f1ek2")
@@ -231,8 +231,8 @@ metadata/_custom_type_script = "uid://ctgtfd3xs0omp"
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=1004646457]
 script = ExtResource("8_death")
 
-[node name="PlayerSafety" type="Node" parent="."]
+[node name="PlayerSafety" type="Node" parent="." unique_id=1339728958]
 script = ExtResource("9_safety")
 
-[node name="ColorShiftController" type="Node" parent="."]
+[node name="ColorShiftController" type="Node" parent="." unique_id=258499427]
 script = ExtResource("10_colorshift")
