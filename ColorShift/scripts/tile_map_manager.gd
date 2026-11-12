@@ -15,10 +15,8 @@ var player: CharacterBody2D
 var interactive_tiles: Dictionary = {}
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
-	
 	if not player:
-		print("Error: Player not found in the 'player' group")
+		get_node_or_null("Player")
 	
 	# Connect to GameManager to handle layer visibility when color changes
 	GameManager.color_changed.connect(on_change_color)
@@ -28,7 +26,6 @@ func _ready() -> void:
 		on_change_color(GameManager.current_color)
 	else:
 		visible = (layer_type == LayerType.GREY)
-		collision_enabled = (layer_type == LayerType.GREY)
 
 	# Scan and cache special gameplay properties from the TileSet
 	for coords in get_used_cells():
@@ -93,14 +90,11 @@ func _process(_delta: float) -> void:
 		UIManager.show_hint("")
 
 func on_change_color(actual_color: String) -> void:
-	# Convert current enum value (e.g., LayerType.RED) to String ("RED")
+	# Convert current enum value (e.g., LayerType.RED) to String ("RED").
 	var my_color_name: String = LayerType.keys()[layer_type]
 	# Show or hide the entire layer based on the selected color
-	var is_active: bool = (my_color_name == actual_color)
-	visible = is_active	
-	collision_enabled = is_active
-		
-	print("Layer: ", my_color_name, " | Active?: ", is_active, " | Collision enabled: ", collision_enabled)
+	visible = (my_color_name == actual_color)
+	collision_enabled = (my_color_name == actual_color)
 
 func _exit_tree() -> void:
 	# Disconnect signal upon exiting the scene tree to prevent memory leaks/errors
