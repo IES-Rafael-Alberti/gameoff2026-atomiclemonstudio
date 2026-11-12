@@ -19,4 +19,5 @@ description: About ColorShift, the 2D puzzle platformer of Atomic Lemon Studio f
 
 - Play it on [itch.io](https://atomic-lemon-studio.itch.io/)
 - Source code on [GitHub](https://github.com/IES-Rafael-Alberti/gameoff2026-lemonpiestudio)
-- Meet the [team]({{ '/team/2026/11/10/meet-the-team.html' | relative_url }})
+- Meet the [team]({{ '/meet-the-team/' | relative_url }})
+- Read the [dev log]({{ '/dev-log/' | relative_url }})

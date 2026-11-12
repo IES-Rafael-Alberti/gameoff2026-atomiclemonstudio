@@ -6,12 +6,14 @@
 
   {%- include site-header.html -%}
 
-  <div class="app" id="app">
-    <div class="scrim" id="nav-scrim" hidden></div>
-
+  <div class="app">
+    {%- comment -%}
+      The menu is hidden until the hamburger button opens it. It opens over the content,
+      so the page never moves.
+    {%- endcomment -%}
     {%- include sidebar.html -%}
 
-    <div class="detail" id="detail">
+    <div class="detail">
       <main class="main" id="main" tabindex="-1">
         {%- comment -%} Reserved row for the breadcrumb: it keeps its height on every page. {%- endcomment -%}
         <div class="crumb-slot">

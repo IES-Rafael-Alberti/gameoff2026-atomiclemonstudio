@@ -6,8 +6,10 @@
       url: /
     - title: About
       url: /about/
-    - title: Team
-      url: /team/
+    - title: Meet the team
+      url: /meet-the-team/
+    - title: Dev log
+      url: /dev-log/
 
 - title: Game
   color: yellow

@@ -1,12 +1,8 @@
 ---
-layout: post
-title:  "Meet the team"
-date:   2026-11-10 12:00:00 +0100
-categories: team
+layout: article
+title: "Meet the team"
+permalink: /meet-the-team/
 description: Meet Atomic Lemon Studio, the six people making ColorShift, a 2D puzzle platformer for GitHub Game Off 2026. Team, roles, design pillars and links.
-breadcrumb:
-  - title: Team
-    url: /team/
 ---
 
 ## Who we are

@@ -1,0 +1,20 @@
+---
+layout: default
+---
+{%- comment -%}
+  Long page used by posts and by pages such as "Meet the team".
+  The date is only shown when the page has one.
+{%- endcomment -%}
+<article class="panel post">
+  <header class="post__header">
+    <h1 class="post__title">{{ page.title | escape }}</h1>
+    {%- if page.date -%}
+    <p class="post__meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>
+    </p>
+    {%- endif -%}
+  </header>
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

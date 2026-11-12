@@ -1,21 +1,4 @@
 ---
-layout: default
+layout: article
 ---
-<div class="post-layout">
-  <article class="panel post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-    <header class="post__header">
-      <h1 class="post__title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-      <p class="post__meta">
-        <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>
-      </p>
-    </header>
-    <div class="prose e-content" itemprop="articleBody">
-      {{ content }}
-    </div>
-  </article>
-
-  {%- comment -%} Scrollspy rail: sits to the right of the text column and stays sticky. {%- endcomment -%}
-  <aside class="post-aside">
-    {%- include toc.html html=content -%}
-  </aside>
-</div>
+{{ content }}
