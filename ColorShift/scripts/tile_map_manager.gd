@@ -195,6 +195,6 @@ func _handle_interaction(layer: TileMapLayer, cell: Vector2i, props: Dictionary)
 	elif props.get("DOOR", false):
 		if GameManager.player_has_key:
 			UIManager.show_message("Tutorial completed successfully!", 4.0)
-			SceneManager.change_scene("level_1")
+			SceneManager.change_scene("level_select")
 		else:
 			UIManager.show_message("You need a key", 1.4)
