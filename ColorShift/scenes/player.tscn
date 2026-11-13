@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dvyi7y4b1e4jd"]
 
+[ext_resource type="Script" uid="uid://c4l6yqevdtid3" path="res://scripts/player.gd" id="1_7dp3o"]
 [ext_resource type="Texture2D" uid="uid://b5x6mx10tgnpp" path="res://assets/sprites/player/death_02_byn.png" id="2_3v2ag"]
 [ext_resource type="Script" uid="uid://b2ou8mwcyl5um" path="res://scripts/state_machine.gd" id="2_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://b0yw3rv8dexgj" path="res://assets/sprites/player/Larry.Idle.png" id="2_f1ek2"]
@@ -193,7 +194,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dt7fs")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Death",
 "speed": 8.0
 }, {
@@ -286,6 +287,7 @@ animations = [{
 size = Vector2(20, 47)
 
 [node name="Player" type="CharacterBody2D" unique_id=889365973]
+script = ExtResource("1_7dp3o")
 
 [node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=1560109266]
 unique_name_in_owner = true

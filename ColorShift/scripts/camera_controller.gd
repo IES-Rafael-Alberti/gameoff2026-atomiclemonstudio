@@ -2,23 +2,18 @@
 extends Camera2D
 
 @export_category("Room Dimensions")
-
-@export var room_width: float = 640.0
-@export var room_height: float = 360.0
+@export var room_offset: Vector2 = Vector2.ZERO
+@export var room_width: float = 1024.0
+@export var room_height: float = 768.0
 
 @export_category("Camera Settings")
-
-# 1.0 = normal zoom.
-# 0.5 = see twice as much world.
-# 2.0 = see half as much world.
 @export_range(0.1, 3.0, 0.05) var camera_zoom: float = 1.0
 
 @export_category("References")
-
 @export var player_path: NodePath = ^"../Player"
 
 var player: CharacterBody2D
-var current_room := Vector2i(999999, 999999)
+var current_room := Vector2i.ZERO
 
 
 func _ready() -> void:
@@ -30,30 +25,54 @@ func _ready() -> void:
 
 	zoom = Vector2(camera_zoom, camera_zoom)
 
-	update_room(true)
+	# Determine the starting room only once.
+	var relative_position: Vector2 = player.global_position - room_offset
+
+	current_room = Vector2i(
+		floori(relative_position.x / room_width),
+		floori(relative_position.y / room_height)
+	)
+
+	_move_to_room()
 
 
 func _physics_process(_delta: float) -> void:
-	update_room()
+	_check_room_transition()
 
 
-func update_room(force: bool = false) -> void:
+func _check_room_transition() -> void:
 	if player == null:
 		return
 
-	var room_index := Vector2i(
-		floori(player.global_position.x / room_width),
-		floori(player.global_position.y / room_height)
-	)
+	# Calculate the boundaries of the current room.
+	var room_left: float = room_offset.x + current_room.x * room_width
+	var room_right: float = room_left + room_width
 
-	if room_index == current_room and not force:
-		return
+	var room_top: float = room_offset.y + current_room.y * room_height
+	var room_bottom: float = room_top + room_height
 
-	current_room = room_index
+	var new_room: Vector2i = current_room
 
-	global_position = Vector2(
-		(room_index.x + 0.5) * room_width,
-		(room_index.y + 0.5) * room_height
+	# Only change rooms when the player crosses an actual boundary.
+	if player.global_position.x >= room_right:
+		new_room.x += 1
+	elif player.global_position.x < room_left:
+		new_room.x -= 1
+
+	if player.global_position.y >= room_bottom:
+		new_room.y += 1
+	elif player.global_position.y < room_top:
+		new_room.y -= 1
+
+	if new_room != current_room:
+		current_room = new_room
+		_move_to_room()
+
+
+func _move_to_room() -> void:
+	global_position = room_offset + Vector2(
+		(current_room.x + 0.5) * room_width,
+		(current_room.y + 0.5) * room_height
 	)
 
 	print("Current room: ", current_room)
