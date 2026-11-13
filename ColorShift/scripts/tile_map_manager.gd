@@ -8,6 +8,8 @@ enum LayerType {
 	YELLOW
 }
 
+var opened_doors: Dictionary = {}
+
 @export var layer_type: LayerType = LayerType.GREY
 
 var player: CharacterBody2D
@@ -106,7 +108,10 @@ func _process(_delta: float) -> void:
 		elif props.get("BARRIER", false):
 			UIManager.show_hint("Press E to open the barrier")
 		elif props.get("DOOR", false):
-			UIManager.show_hint("Press E to open the door")
+			if opened_doors.has(cell):
+				UIManager.show_hint("")
+			else:
+				UIManager.show_hint("Press E to open the door")
 		else:
 			UIManager.show_hint("")
 
@@ -270,6 +275,7 @@ func _handle_interaction(
 
 	elif props.get("DOOR", false):
 		if GameManager.player_has_key:
+			opened_doors[cell] = true
 			UIManager.show_hint("")
 			print("DOOR ENTERED!")
 			SceneManager.change_scene("level_select")
