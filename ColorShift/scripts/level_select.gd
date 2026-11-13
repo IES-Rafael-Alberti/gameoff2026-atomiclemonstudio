@@ -3,7 +3,9 @@ extends Control
 ## Level select shown after finishing a level. Add a level here when its
 ## scene is registered in SceneManager.SCENES; the rest stay locked.
 const LEVELS := {
-	1: "demo_level",
+	1: "level_1",
+	2: "level_2",
+	3: "level_3",
 }
 const LEVEL_COUNT := 6
 const DOOR := preload("res://assets/sprites/scenary/door.png")
