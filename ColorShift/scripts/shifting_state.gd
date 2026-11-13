@@ -24,5 +24,5 @@ func physics_update(delta):
 		return
 
 	# Released shift -> back to idle (idle moves on to walk if a direction is held)
-	if not Input.is_action_pressed("shift"):
+	if not Input.is_action_just_pressed("shift"): # Added just so you can shift while walking
 		state_machine.change_state("idlestate")
