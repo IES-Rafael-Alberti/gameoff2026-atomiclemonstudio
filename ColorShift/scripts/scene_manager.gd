@@ -13,6 +13,7 @@ const SCENES := {
 	"demo_level": "res://scenes/demo_level.tscn",
 	"level_1": "res://scenes/level_1.tscn",
 	"level_2": "res://scenes/level_2.tscn",
+	"level_3": "res://scenes/level_3.tscn",
 	"level_select": "res://scenes/level_select.tscn",
 	"credits": "res://scenes/credits.tscn",
 }
