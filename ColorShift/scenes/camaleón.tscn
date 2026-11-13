@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bshep50s3ur4c"]
 
 [ext_resource type="Texture2D" uid="uid://be8dlbfn8lopf" path="res://assets/animations/idlecamaleon.png" id="1_cpf85"]
+[ext_resource type="Texture2D" uid="uid://buyjc0scx8dqj" path="res://assets/animations/camaleon_walk (1)-Sheet.png" id="2_8d1lc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8d1lc"]
 atlas = ExtResource("1_cpf85")
@@ -38,9 +39,106 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_sq037"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5g1n"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3xmh"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqlw4"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1ak3"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjwai"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2hw3"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnflv"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up1o2"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5douo"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(512, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ap2mk"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6bdq"]
+atlas = ExtResource("2_8d1lc")
+region = Rect2(640, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ej0ox"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sq037")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5g1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3xmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uqlw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1ak3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjwai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2hw3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnflv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up1o2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5douo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ap2mk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6bdq")
+}],
+"loop": 1,
+"name": &"Walk_camaleon",
+"speed": 12.0
+}]
+
 [node name="Node2D" type="Node2D" unique_id=1565266819]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1864973683]
+visible = false
 sprite_frames = SubResource("SpriteFrames_jyaov")
 frame = 1
 frame_progress = 0.11273445
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=1032776510]
+sprite_frames = SubResource("SpriteFrames_ej0ox")
+animation = &"Walk_camaleon"
