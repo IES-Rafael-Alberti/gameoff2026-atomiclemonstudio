@@ -19,6 +19,9 @@ var facing_direction: int = 1 # 1 = right, -1 = left
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Lets tile layers find the key regardless of the scene hierarchy.
+	add_to_group("key")
+
 	# Find the player if it was not assigned in the inspector.
 	player = get_tree().get_first_node_in_group("player")
 	if not player:
@@ -55,6 +58,9 @@ func _process(delta: float) -> void:
 
 
 func follow_player() -> void:
+	# Start from the player so the key doesn't fly in from its scene position.
+	if player:
+		global_position = player.global_position
 	visible = true
 	follow = true
 	

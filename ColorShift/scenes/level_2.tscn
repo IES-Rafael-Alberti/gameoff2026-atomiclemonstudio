@@ -5,12 +5,15 @@
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_v36qu"]
 [ext_resource type="Script" uid="uid://d06nvfrb2xmcx" path="res://scripts/checkpoints_level2.gd" id="4_1q6tm"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_v36qu"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="9_key"]
 
 [node name="Level2" type="Node2D" unique_id=1576573275]
 
 [node name="Player" parent="." unique_id=889365973 groups=["player"] instance=ExtResource("1_12fag")]
 unique_name_in_owner = true
 position = Vector2(-439, 159)
+
+[node name="Key" parent="." unique_id=2020584789 instance=ExtResource("9_key")]
 
 [node name="Tilemaps" parent="." unique_id=210110623 instance=ExtResource("2_1q6tm")]
 

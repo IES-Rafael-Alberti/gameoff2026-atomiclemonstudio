@@ -266,6 +266,11 @@ func _handle_interaction(
 
 		UIManager.show_message("You got the key!", 1.6)
 
+		# The floating key is optional: not every scene instances one.
+		var key := get_tree().get_first_node_in_group("key")
+		if key and key.has_method("follow_player"):
+			key.follow_player()
+
 	elif props.get("BARRIER", false):
 		if GameManager.player_has_key:
 			layer._remove_connected_barrier(cell)
