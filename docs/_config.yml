@@ -25,6 +25,13 @@ description: >-
 baseurl: "/gameoff2026-atomiclemonstudio" # the subpath of the site (repository name)
 url: "https://ies-rafael-alberti.github.io" # the base hostname & protocol
 github_username: IES-Rafael-Alberti
+# Used by jekyll-seo-tag: the logo of the studio, and the image shown when any page is shared.
+logo: /assets/img/icons/atomic_lemon_studio_text_web.png
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/icons/og-image.png
 
 # Build settings
 theme: minima

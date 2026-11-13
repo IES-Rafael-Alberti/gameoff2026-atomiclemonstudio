@@ -7,10 +7,8 @@ description: Meet Atomic Lemon Studio, the six people making ColorShift, a 2D pu
 
 ## Who we are
 
-<!-- TODO: studio logo. Suggested path: /assets/img/studio-logo.png -->
-<div class="image-placeholder">
-  Studio logo
-</div>
+<img class="studio-logo" src="{{ '/assets/img/icons/atomic_lemon_studio_text_web.png' | relative_url }}"
+     width="512" height="512" alt="Atomic Lemon Studio logo: a lemon with a leaf and the studio name, inside an atom.">
 
 **Atomic Lemon Studio** is a six-person team making **ColorShift** for GitHub Game Off 2026 (theme: *Shift*).
 
