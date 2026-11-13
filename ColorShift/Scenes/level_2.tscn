@@ -3,12 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_12fag"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_1q6tm"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_v36qu"]
+[ext_resource type="Script" uid="uid://d06nvfrb2xmcx" path="res://scripts/checkpoints_level2.gd" id="4_1q6tm"]
 
 [node name="Level2" type="Node2D" unique_id=1576573275]
 
 [node name="Player" parent="." unique_id=889365973 instance=ExtResource("1_12fag")]
 unique_name_in_owner = true
-position = Vector2(-439, 152)
+position = Vector2(-439, 159)
 
 [node name="Tilemaps" parent="." unique_id=210110623 instance=ExtResource("2_1q6tm")]
 
@@ -27,5 +28,9 @@ tile_map_data = PackedByteArray("AADw//T/AAAJAAgAAADw//X/AAAJAAkAAADw//b/AAAJAAk
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1353569301]
 script = ExtResource("3_v36qu")
 room_offset = Vector2(-512, -384)
+
+[node name="Checkpoints" type="Node" parent="." unique_id=574375954 node_paths=PackedStringArray("player")]
+script = ExtResource("4_1q6tm")
+player = NodePath("../Player")
 
 [editable path="Tilemaps"]
