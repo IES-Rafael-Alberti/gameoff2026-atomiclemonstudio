@@ -39,13 +39,6 @@ func _ready() -> void:
 	# Cache interactive tiles.
 	_refresh_interactive_tiles()
 
-	print("Interactive tiles found: ", interactive_tiles.size())
-
-	for coords in interactive_tiles:
-		print("Interactive tile: ", coords, " Properties: ", interactive_tiles[coords])
-
-	print("==================================")
-
 	# Connect to color manager.
 	if not GameManager.color_changed.is_connected(on_change_color):
 		GameManager.color_changed.connect(on_change_color)
@@ -53,6 +46,9 @@ func _ready() -> void:
 	# Apply initial color.
 	on_change_color(GameManager.get_color_name())
 
+	# Connect to button signals
+	if not GameManager.button_pressed_signal.is_connected(_on_button_pressed):
+		GameManager.button_pressed_signal.connect(_on_button_pressed)
 
 # Read all special tiles from the TileSet.
 func _refresh_interactive_tiles() -> void:
@@ -69,6 +65,7 @@ func _refresh_interactive_tiles() -> void:
 		var is_key: bool = data.get_custom_data("KEY")
 		var is_barrier: bool = data.get_custom_data("BARRIER")
 		var is_door: bool = data.get_custom_data("DOOR")
+		var barrier_id: Variant = data.get_custom_data("BARRIER_ID")
 
 		if need_to_hide or is_spike or is_key or is_barrier or is_door:
 			interactive_tiles[coords] = {
@@ -76,7 +73,8 @@ func _refresh_interactive_tiles() -> void:
 				"SPIKE": is_spike,
 				"KEY": is_key,
 				"BARRIER": is_barrier,
-				"DOOR": is_door
+				"DOOR": is_door,
+				"BARRIER_ID": barrier_id
 			}
 
 
@@ -105,8 +103,6 @@ func _process(_delta: float) -> void:
 
 		if props.get("KEY", false):
 			UIManager.show_hint("Press E to pick up the key")
-		elif props.get("BARRIER", false):
-			UIManager.show_hint("Press E to open the barrier")
 		elif props.get("DOOR", false):
 			if opened_doors.has(cell):
 				UIManager.show_hint("")
@@ -160,10 +156,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
 		return
 
-	print("\n===== INTERACTION DEBUG =====")
-	print("E pressed in layer: ", name)
-	print("Registered tile layers: ", get_tree().get_nodes_in_group("tile_layers").size())
-
 	_try_interact_nearest()
 
 	get_viewport().set_input_as_handled()
@@ -200,23 +192,14 @@ func _try_interact_nearest() -> void:
 			center_cell + Vector2i.RIGHT
 		]
 
-		print("Checking layer: ", layer.name)
-		print("Player cell: ", center_cell)
-
 		for cell in cells_to_check:
 			var props: Dictionary = layer.get_tile_properties(cell)
 
 			if props.is_empty():
 				continue
 
-			print("INTERACTIVE TILE FOUND: ", cell)
-			print("Properties: ", props)
-
 			_handle_interaction(layer, cell, props)
 			return
-
-	print("NO INTERACTIVE TILE FOUND NEAR PLAYER")
-	print("==============================")
 
 
 # Remove all connected barrier tiles.
@@ -266,17 +249,9 @@ func _handle_interaction(
 
 		UIManager.show_message("You got the key!", 1.6)
 
-		# The floating key is optional: not every scene instances one.
 		var key := get_tree().get_first_node_in_group("key")
 		if key and key.has_method("follow_player"):
 			key.follow_player()
-
-	elif props.get("BARRIER", false):
-		if GameManager.player_has_key:
-			layer._remove_connected_barrier(cell)
-			UIManager.show_message("Barrier opened!", 1.8)
-		else:
-			UIManager.show_message("You need a key", 1.4)
 
 	elif props.get("DOOR", false):
 		if GameManager.player_has_key:
@@ -286,3 +261,19 @@ func _handle_interaction(
 			SceneManager.change_scene("level_select")
 		else:
 			UIManager.show_message("You need a key", 1.4)
+
+
+func _on_button_pressed(button_id: int) -> void:
+	# Loop through all interactive cells registered in this layer
+	for cell in interactive_tiles.keys():
+		var props: Dictionary = get_tile_properties(cell)
+		
+		# Check if the cell is a barrier
+		if props.get("BARRIER", false):
+			var barrier_id = props.get("BARRIER_ID")
+			
+			# Compare the barrier ID with the pressed button ID
+			if barrier_id == button_id:
+				_remove_connected_barrier(cell)
+				UIManager.show_message("Barrier opened!", 1.8)
+				print("Barrier opened with ID: ", button_id)
