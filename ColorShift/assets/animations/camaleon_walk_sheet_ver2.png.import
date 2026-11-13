@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://buyjc0scx8dqj"
-path="res://.godot/imported/camaleon_walk (1)-Sheet.png-feb4cfd1a79f9db1065639c17b3b70a7.ctex"
+uid="uid://hafunbxuhor8"
+path="res://.godot/imported/camaleon_walk_sheet_ver2.png-006b6c99abd1713198bb0d9f7c5c3428.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/animations/camaleon_walk (1)-Sheet.png"
-dest_files=["res://.godot/imported/camaleon_walk (1)-Sheet.png-feb4cfd1a79f9db1065639c17b3b70a7.ctex"]
+source_file="res://assets/animations/camaleon_walk_sheet_ver2.png"
+dest_files=["res://.godot/imported/camaleon_walk_sheet_ver2.png-006b6c99abd1713198bb0d9f7c5c3428.ctex"]
 
 [params]
 

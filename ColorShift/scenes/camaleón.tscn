@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bshep50s3ur4c"]
 
 [ext_resource type="Texture2D" uid="uid://be8dlbfn8lopf" path="res://assets/animations/idlecamaleon.png" id="1_cpf85"]
-[ext_resource type="Texture2D" uid="uid://buyjc0scx8dqj" path="res://assets/animations/camaleon_walk (1)-Sheet.png" id="2_8d1lc"]
+[ext_resource type="Texture2D" uid="uid://hafunbxuhor8" path="res://assets/animations/camaleon_walk_sheet_ver2.png" id="2_8d1lc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8d1lc"]
 atlas = ExtResource("1_cpf85")
@@ -142,3 +142,4 @@ frame_progress = 0.11273445
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=1032776510]
 sprite_frames = SubResource("SpriteFrames_ej0ox")
 animation = &"Walk_camaleon"
+frame_progress = 0.15865949
