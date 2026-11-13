@@ -25,6 +25,8 @@ GameManager="*uid://dsuv8jem30rdd"
 SceneManager="*uid://cb7tpueudw615"
 UIManager="*uid://ca3hqyqwix01u"
 ColorBlindMode="*uid://beruxe0eoluh6"
+BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
+BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
 
 [display]
 
@@ -32,6 +34,10 @@ window/size/viewport_width=1024
 window/size/viewport_height=768
 window/size/mode=2
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
 
 [global_group]
 

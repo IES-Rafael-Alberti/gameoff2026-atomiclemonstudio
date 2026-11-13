@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://dslcvqavbwbf8"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_vwg62"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_s8nj6"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_vwg62"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_qf6rc"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="4_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="5_vwg62"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_vwg62"]
+[ext_resource type="Texture2D" uid="uid://douglgb86c5kh" path="res://assets/sprites/scenary/Background.png" id="6_p6vls"]
 
 [node name="Level3" type="Node2D" unique_id=1939000241]
 
@@ -29,6 +30,15 @@ tile_map_data = PackedByteArray("AADw//T/AAAJAAgAAADw//X/AAAJAAkAAADw//b/AAAJAAk
 [node name="Camera2D" type="Camera2D" parent="." unique_id=640248356]
 script = ExtResource("3_qf6rc")
 room_offset = Vector2(-512, -384)
+
+[node name="Parallax2D" type="Parallax2D" parent="Camera2D" unique_id=1090309238]
+z_index = -15
+scroll_offset = Vector2(-512, -384)
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/Parallax2D" unique_id=908305400]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_p6vls")
 
 [node name="Checkpoints" type="Node" parent="." unique_id=1818447788 node_paths=PackedStringArray("player")]
 script = ExtResource("4_s8nj6")

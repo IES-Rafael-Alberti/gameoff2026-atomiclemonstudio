@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://dpkafgsi2ekjw"]
+
+[ext_resource type="Texture2D" uid="uid://drqfmxij30whd" path="res://icon.svg" id="1_t72w0"]
+[ext_resource type="Script" uid="uid://c37shq5uf4gk" path="res://addons/beehave/nodes/beehave_node.gd" id="2_4gr0y"]
+[ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="3_2b7pd"]
+[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="4_pbslg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(128, 128)
+
+[node name="Hormiga" type="Node2D" unique_id=120298513]
+
+[node name="HormigaCuerpo" type="AnimatableBody2D" parent="." unique_id=401620249]
+scale = Vector2(1, 0.64)
+
+[node name="AnimatedSprite2D" type="Sprite2D" parent="HormigaCuerpo" unique_id=181479609]
+texture = ExtResource("1_t72w0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HormigaCuerpo" unique_id=966523065]
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="HormigaCabeza" type="AnimatableBody2D" parent="." unique_id=1900081647]
+position = Vector2(-100, -33)
+scale = Vector2(0.56, 0.56)
+
+[node name="AnimatedSprite2D" type="Sprite2D" parent="HormigaCabeza" unique_id=1283069449]
+texture = ExtResource("1_t72w0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HormigaCabeza" unique_id=961109510]
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="BeehaveNode" type="Node" parent="." unique_id=1952242077]
+script = ExtResource("2_4gr0y")
+metadata/_custom_type_script = "uid://c37shq5uf4gk"
+
+[node name="SelectorComposite" type="Node" parent="BeehaveNode" unique_id=1239691308]
+script = ExtResource("3_2b7pd")
+metadata/_custom_type_script = "uid://8hn4kne15ac5"
+
+[node name="ActionLeaf" type="Node" parent="BeehaveNode/SelectorComposite" unique_id=1650610178]
+script = ExtResource("4_pbslg")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="ActionLeaf2" type="Node" parent="BeehaveNode/SelectorComposite" unique_id=1897961489]
+script = ExtResource("4_pbslg")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
