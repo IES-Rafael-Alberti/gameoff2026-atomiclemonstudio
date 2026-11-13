@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="3_fmty4"]
 [ext_resource type="Texture2D" uid="uid://cpvk4uug24a7o" path="res://assets/sprites/collectables/collectable_1.png" id="5_fmty4"]
 [ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://scripts/tile_map_manager.gd" id="6_6wx8f"]
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="6_vlhjm"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="6_vlhjm"]
 [ext_resource type="PackedScene" path="res://scenes/game_camera.tscn" id="7_camera"]
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="8_88xa8"]
 [ext_resource type="Script" uid="uid://nflvscwe5tkr" path="res://scripts/collectable_spawner.gd" id="9_spawner"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="22_cgsjm"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="22_cgsjm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"

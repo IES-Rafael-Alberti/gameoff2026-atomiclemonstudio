@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://cm4bikj82wevj"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_bswci"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_rus8k"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_bswci"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_rus8k"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_xfk5q"]
 [ext_resource type="Script" uid="uid://drxi58piaykom" path="res://scripts/checkpoints_level1.gd" id="4_7p6j4"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="5_6444e"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_6444e"]
 
 [node name="Level1" type="Node2D" unique_id=1343758649]
 
