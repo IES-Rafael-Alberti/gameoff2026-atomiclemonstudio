@@ -2,7 +2,9 @@
 extends Node
 
 ## Keeps the player out of solid tiles that appear on top of it after a color
-## change and restarts the level if the player ever leaves the fixed view.
+## change and restarts the level if the player leaves the level. With the room
+## camera the level is every room holding tiles; with a fixed camera it is the
+## view.
 
 const BODY_INSET := 1.5
 const SEARCH_STEP_FINE := 2.0
@@ -32,9 +34,6 @@ var _fine_offsets: Array[Vector2] = []
 var _medium_offsets: Array[Vector2] = []
 var _coarse_offsets: Array[Vector2] = []
 
-# Time during which outside-screen detection is disabled.
-var _ignore_camera_timer: float = 0.0
-
 
 func _ready() -> void:
 	_player = get_parent() as CharacterBody2D
@@ -60,30 +59,13 @@ func _exit_tree() -> void:
 # PHYSICS PROCESS
 # --------------------------------------------------
 
-func _physics_process(delta: float) -> void:
-	if _player == null or _is_dead():
+func _physics_process(_delta: float) -> void:
+	if _player == null or _is_dead() or not restart_when_outside:
 		return
 
-	# Ignore outside-screen checks briefly after a camera transition.
-	if _ignore_camera_timer > 0.0:
-		_ignore_camera_timer -= delta
-		return
-
-	if not restart_when_outside:
-		return
-
-	var play_rect := _get_play_rect()
-
-	if not play_rect.grow(outside_margin).has_point(_player.global_position):
+	# Only depends on the position, so it no longer races the camera.
+	if not _is_inside_level(_player.global_position):
 		_restart_level()
-
-
-# --------------------------------------------------
-# CAMERA TRANSITION PROTECTION
-# --------------------------------------------------
-
-func ignore_camera_transition() -> void:
-	_ignore_camera_timer = 0.3
 
 
 # --------------------------------------------------
@@ -138,9 +120,7 @@ func resolve_overlap() -> void:
 	if not _is_body_center_inside_solid():
 		return
 
-	var origin := _player.global_position
-	var play_rect := _get_play_rect()
-	var target = _find_nearest_free(origin, play_rect)
+	var target = _find_nearest_free(_player.global_position)
 
 	if target == null:
 		_restart_level()
@@ -154,11 +134,11 @@ func resolve_overlap() -> void:
 # SAFE POSITION SEARCH
 # --------------------------------------------------
 
-func _find_nearest_free(origin: Vector2, play_rect: Rect2):
+func _find_nearest_free(origin: Vector2):
 	if _fine_offsets.is_empty():
 		_fine_offsets = _make_search_offsets(SEARCH_STEP_FINE, SEARCH_RADIUS_FINE)
 
-	var result = _search_offsets(_fine_offsets, origin, play_rect)
+	var result = _search_offsets(_fine_offsets, origin)
 
 	if result != null:
 		return result
@@ -166,7 +146,7 @@ func _find_nearest_free(origin: Vector2, play_rect: Rect2):
 	if _medium_offsets.is_empty():
 		_medium_offsets = _make_search_offsets(SEARCH_STEP_MEDIUM, SEARCH_RADIUS_MEDIUM)
 
-	result = _search_offsets(_medium_offsets, origin, play_rect)
+	result = _search_offsets(_medium_offsets, origin)
 
 	if result != null:
 		return result
@@ -174,14 +154,16 @@ func _find_nearest_free(origin: Vector2, play_rect: Rect2):
 	if _coarse_offsets.is_empty():
 		_coarse_offsets = _make_search_offsets(SEARCH_STEP_COARSE, SEARCH_RADIUS_COARSE)
 
-	return _search_offsets(_coarse_offsets, origin, play_rect)
+	return _search_offsets(_coarse_offsets, origin)
 
 
-func _search_offsets(offsets: Array[Vector2], origin: Vector2, play_rect: Rect2):
+# Any free spot of the level is valid, even in the next room: the camera
+# follows the player there.
+func _search_offsets(offsets: Array[Vector2], origin: Vector2):
 	for offset in offsets:
 		var candidate: Vector2 = origin + offset
 
-		if not play_rect.encloses(_body_rect(candidate)):
+		if not _is_body_inside_level(candidate):
 			continue
 
 		if _is_position_free(candidate):
@@ -396,6 +378,25 @@ func _offset_is_closer(a: Vector2, b: Vector2) -> bool:
 
 func _body_rect(world_position: Vector2) -> Rect2:
 	return Rect2(world_position + _body_offset, _body_size)
+
+
+func _is_inside_level(point: Vector2) -> bool:
+	var camera := get_viewport().get_camera_2d()
+
+	if camera != null and camera.has_method("is_inside_level"):
+		return camera.is_inside_level(point)
+
+	return _get_play_rect().grow(outside_margin).has_point(point)
+
+
+# The body is smaller than a room, so checking its corners is enough.
+func _is_body_inside_level(world_position: Vector2) -> bool:
+	var body := _body_rect(world_position)
+
+	return _is_inside_level(body.position) \
+		and _is_inside_level(body.end) \
+		and _is_inside_level(Vector2(body.end.x, body.position.y)) \
+		and _is_inside_level(Vector2(body.position.x, body.end.y))
 
 
 func _get_play_rect() -> Rect2:

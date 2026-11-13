@@ -15,6 +15,10 @@ extends Camera2D
 var player: CharacterBody2D
 var current_room := Vector2i.ZERO
 
+# Rooms holding at least one tile of any color layer. The camera never moves
+# into any other room and PlayerSafety restarts the level there.
+var _rooms: Dictionary = {}
+
 
 func _ready() -> void:
 	player = get_node(player_path) as CharacterBody2D
@@ -25,48 +29,39 @@ func _ready() -> void:
 
 	zoom = Vector2(camera_zoom, camera_zoom)
 
-	# Determine the starting room only once.
-	var relative_position: Vector2 = player.global_position - room_offset
+	for node in get_tree().get_nodes_in_group("tile_layers"):
+		var layer := node as TileMapLayer
+		for cell in layer.get_used_cells():
+			_rooms[room_at(layer.to_global(layer.map_to_local(cell)))] = true
 
-	current_room = Vector2i(
-		floori(relative_position.x / room_width),
-		floori(relative_position.y / room_height)
-	)
-
+	current_room = room_at(player.global_position)
 	_move_to_room()
 
 
 func _physics_process(_delta: float) -> void:
-	_check_room_transition()
-
-
-func _check_room_transition() -> void:
 	if player == null:
 		return
 
-	# Calculate the boundaries of the current room.
-	var room_left: float = room_offset.x + current_room.x * room_width
-	var room_right: float = room_left + room_width
+	var new_room := room_at(player.global_position)
 
-	var room_top: float = room_offset.y + current_room.y * room_height
-	var room_bottom: float = room_top + room_height
-
-	var new_room: Vector2i = current_room
-
-	# Only change rooms when the player crosses an actual boundary.
-	if player.global_position.x >= room_right:
-		new_room.x += 1
-	elif player.global_position.x < room_left:
-		new_room.x -= 1
-
-	if player.global_position.y >= room_bottom:
-		new_room.y += 1
-	elif player.global_position.y < room_top:
-		new_room.y -= 1
-
-	if new_room != current_room:
+	if new_room != current_room and has_room(new_room):
 		current_room = new_room
 		_move_to_room()
+
+
+func room_at(point: Vector2) -> Vector2i:
+	var relative := point - room_offset
+	return Vector2i(floori(relative.x / room_width), floori(relative.y / room_height))
+
+
+func has_room(room: Vector2i) -> bool:
+	return _rooms.is_empty() or _rooms.has(room)
+
+
+## Used by PlayerSafety: rooms tile the world with no gaps, so moving between
+## two rooms that hold tiles never counts as leaving the level.
+func is_inside_level(point: Vector2) -> bool:
+	return has_room(room_at(point))
 
 
 func _move_to_room() -> void:
