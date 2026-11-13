@@ -260,23 +260,18 @@ func _handle_interaction(
 		layer.remove_tile(cell)
 
 		UIManager.show_message("You got the key!", 1.6)
-		print("KEY COLLECTED!")
 
 	elif props.get("BARRIER", false):
 		if GameManager.player_has_key:
 			layer._remove_connected_barrier(cell)
 			UIManager.show_message("Barrier opened!", 1.8)
-			print("BARRIER OPENED!")
 		else:
 			UIManager.show_message("You need a key", 1.4)
-			print("Player needs a key!")
 
 	elif props.get("DOOR", false):
 		if GameManager.player_has_key:
-			UIManager.show_message("Tutorial completed successfully!", 4.0)
-			print("DOOR OPENED!")
-
+			UIManager.show_hint("")
+			print("DOOR ENTERED!")
 			SceneManager.change_scene("level_select")
 		else:
 			UIManager.show_message("You need a key", 1.4)
-			print("Player needs a key!")
