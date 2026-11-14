@@ -134,12 +134,12 @@ animations = [{
 [node name="Node2D" type="Node2D" unique_id=1565266819]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1864973683]
-visible = false
 sprite_frames = SubResource("SpriteFrames_jyaov")
-frame = 1
-frame_progress = 0.11273445
+frame_progress = 0.25091493
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=1032776510]
+visible = false
 sprite_frames = SubResource("SpriteFrames_ej0ox")
 animation = &"Walk_camaleon"
-frame_progress = 0.15865949
+frame = 4
+frame_progress = 0.40792823
