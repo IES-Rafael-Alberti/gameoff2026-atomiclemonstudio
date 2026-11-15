@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://be8dlbfn8lopf" path="res://assets/animations/idlecamaleon.png" id="1_cpf85"]
 [ext_resource type="Texture2D" uid="uid://hafunbxuhor8" path="res://assets/animations/camaleon_walk_sheet_ver2.png" id="2_8d1lc"]
+[ext_resource type="Texture2D" uid="uid://ck54sdgm6t2xi" path="res://assets/animations/chameleon_jump-Sheet.png" id="3_hmosf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8d1lc"]
 atlas = ExtResource("1_cpf85")
@@ -131,9 +132,67 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_76sfs"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m48wd"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aig2p"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7ajb"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6u4sv"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bp12"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nggg7"]
+atlas = ExtResource("3_hmosf")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_guy1a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_76sfs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m48wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aig2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7ajb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6u4sv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1bp12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nggg7")
+}],
+"loop": 1,
+"name": &"chameleon_jump",
+"speed": 10.0
+}]
+
 [node name="Node2D" type="Node2D" unique_id=1565266819]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1864973683]
+visible = false
 sprite_frames = SubResource("SpriteFrames_jyaov")
 frame_progress = 0.25091493
 
@@ -143,3 +202,9 @@ sprite_frames = SubResource("SpriteFrames_ej0ox")
 animation = &"Walk_camaleon"
 frame = 4
 frame_progress = 0.40792823
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="." unique_id=1873910538]
+sprite_frames = SubResource("SpriteFrames_guy1a")
+animation = &"chameleon_jump"
+frame = 1
+frame_progress = 0.9399301
