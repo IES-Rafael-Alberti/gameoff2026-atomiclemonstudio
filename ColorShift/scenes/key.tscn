@@ -37,3 +37,12 @@ texture = SubResource("AtlasTexture_wy8tx")
 [node name="YellowSkin" type="Sprite2D" parent="." unique_id=1562473592]
 visible = false
 texture = SubResource("AtlasTexture_brs3p")
+
+[node name="OrangeSkin" type="Sprite2D" parent="."]
+visible = false
+
+[node name="PurpleSkin" type="Sprite2D" parent="."]
+visible = false
+
+[node name="GreenSkin" type="Sprite2D" parent="."]
+visible = false

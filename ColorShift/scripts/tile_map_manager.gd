@@ -5,7 +5,10 @@ enum LayerType {
 	GREY,
 	RED,
 	BLUE,
-	YELLOW
+	YELLOW,
+	ORANGE,
+	PURPLE,
+	GREEN
 }
 
 var opened_doors: Dictionary = {}
