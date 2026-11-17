@@ -51,12 +51,13 @@ func shift_color() -> void:
 
 	_set_progress(0.0)
 	sweep_started.emit(old_name, new_name)
+	# La colision cambia al empezar el barrido: el juego responde al instante.
+	GameManager.change_color()
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_method(_set_progress, 0.0, 1.0, SWEEP_TIME)
 	await _tween.finished
 	_set_progress(1.0)
 
-	GameManager.change_color()
 	sweep_finished.emit()
 	_busy = false
 
