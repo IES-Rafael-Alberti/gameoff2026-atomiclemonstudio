@@ -20,4 +20,6 @@ func _process(_delta: float) -> void:
 		if state_machine.current_state.name.to_lower() == "deathstate":
 			return
 
-	GameManager.change_color()
+	if ScreenTransition.is_busy():
+		return
+	ScreenTransition.shift_color()
