@@ -10,6 +10,9 @@ extends CanvasLayer
 signal sweep_started(old_color: String, new_color: String)
 signal sweep_finished
 
+## Sonido del barrido (asignalo en screen_transition.tscn). Vacio = sin sonido.
+@export var sweep_sound: AudioStream
+
 const SWEEP_TIME := 0.35
 const SHAKE_PX := 4.0
 const SHAKE_STEPS := 6
@@ -28,6 +31,7 @@ const COLOR_TINTS := {
 var progress: float = 1.0
 var _tween: Tween
 var _busy: bool = false
+var _sound_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -35,6 +39,10 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	$ColorRect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_set_progress(1.0)
+
+	_sound_player = AudioStreamPlayer.new()
+	_sound_player.bus = "SFX"
+	add_child(_sound_player)
 
 
 func is_busy() -> bool:
@@ -51,6 +59,7 @@ func shift_color() -> void:
 	var new_name: String = keys[(GameManager.actual_color_index + 1) % keys.size()]
 	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
 
+	_play_sweep_sound()
 	_set_progress(0.0)
 	sweep_started.emit(old_name, new_name)
 	# La colision cambia al empezar el barrido: el juego responde al instante.
@@ -80,3 +89,10 @@ func _shake() -> void:
 		var strength := SHAKE_PX * (1.0 - float(i) / SHAKE_STEPS)
 		shake.tween_property(camera, "offset", Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * strength, 0.03)
 	shake.tween_property(camera, "offset", Vector2.ZERO, 0.03)
+
+
+func _play_sweep_sound() -> void:
+	if sweep_sound == null:
+		return
+	_sound_player.stream = sweep_sound
+	_sound_player.play()
