@@ -1,19 +1,22 @@
 
 extends TileMapLayer
 
-#enum LayerType {
-	#GREY,
-	#RED,
-	#BLUE,
-	#YELLOW,
-	#ORANGE,
-	#PURPLE,
-	#GREEN
-#}
+const COLOR_PROPERTIES: Array[String] = [
+	"GREY",
+	"RED",
+	"BLUE",
+	"YELLOW",
+	"ORANGE",
+	"PURPLE",
+	"GREEN"
+]
 
 var opened_doors: Dictionary = {}
 
-#@export var layer_type: LayerType = LayerType.GREY
+# Stores the original cell data so cells can be hidden and restored.
+var cell_data: Dictionary = {}
+var cell_colors: Dictionary = {}
+var visible_cells: Dictionary = {}
 
 var player: CharacterBody2D
 
@@ -31,7 +34,6 @@ func _ready() -> void:
 
 	print("\n===== TILEMAP INITIALIZATION =====")
 	print("Layer: ", name)
-	#print("Layer type: ", LayerType.keys()[layer_type])
 	print("Registered in tile_layers: ", is_in_group("tile_layers"))
 	print("Player found: ", player != null)
 	print("Used cells: ", get_used_cells().size())
@@ -40,6 +42,7 @@ func _ready() -> void:
 		push_warning("Player not found in group 'player'")
 
 	# Cache interactive tiles.
+	_cache_cells()
 	_refresh_interactive_tiles()
 
 	# Connect to color manager.
@@ -52,6 +55,39 @@ func _ready() -> void:
 	# Connect to button signals
 	if not GameManager.button_pressed_signal.is_connected(_on_button_pressed):
 		GameManager.button_pressed_signal.connect(_on_button_pressed)
+
+
+func _cache_cells() -> void:
+	cell_data.clear()
+	cell_colors.clear()
+
+	for coords in get_used_cells():
+		var data := get_cell_tile_data(coords)
+
+		if data == null:
+			continue
+
+		cell_data[coords] = {
+			"source_id": get_cell_source_id(coords),
+			"atlas_coords": get_cell_atlas_coords(coords),
+			"alternative_tile": get_cell_alternative_tile(coords)
+		}
+		cell_colors[coords] = _get_cell_color(data)
+
+
+func _get_cell_color(data: TileData) -> Array[String]:
+	var colors: Array[String] = []
+
+	for color_name in COLOR_PROPERTIES:
+		if bool(data.get_custom_data(color_name)):
+			colors.append(color_name)
+
+	# Tiles without a color property remain part of the permanent grey layer.
+	if colors.is_empty():
+		colors.append("GREY")
+
+	return colors
+
 
 # Read all special tiles from the TileSet.
 func _refresh_interactive_tiles() -> void:
@@ -119,13 +155,35 @@ func _process(_delta: float) -> void:
 	UIManager.show_hint("")
 
 
-# Change layer visibility according to the selected color.
+# Show grey cells and cells matching the selected color.
 func on_change_color(actual_color: String) -> void:
-	var my_color_name: String = LayerType.keys()[layer_type]
-	var is_active: bool = (my_color_name == actual_color)
+	visible = true
+	collision_enabled = true
 
-	visible = is_active
-	collision_enabled = is_active
+	var selected_color := actual_color.to_upper()
+	for coords in cell_data:
+		var colors: Array[String] = cell_colors.get(coords, ["GREY"])
+		var should_be_visible: bool = "GREY" in colors or selected_color in colors
+
+		if should_be_visible:
+			_restore_cell(coords)
+			visible_cells[coords] = true
+		else:
+			erase_cell(coords)
+			visible_cells.erase(coords)
+
+
+func _restore_cell(coords: Vector2i) -> void:
+	if not cell_data.has(coords) or get_cell_source_id(coords) != -1:
+		return
+
+	var data: Dictionary = cell_data[coords]
+	set_cell(
+		coords,
+		data["source_id"],
+		data["atlas_coords"],
+		data["alternative_tile"]
+	)
 
 
 # Disconnect signal when leaving the scene.
@@ -136,7 +194,7 @@ func _exit_tree() -> void:
 
 # Return cached properties of a cell.
 func get_tile_properties(coords: Vector2i) -> Dictionary:
-	if interactive_tiles.has(coords):
+	if visible_cells.has(coords) and interactive_tiles.has(coords):
 		return interactive_tiles[coords]
 
 	return {}
@@ -145,6 +203,9 @@ func get_tile_properties(coords: Vector2i) -> Dictionary:
 # Remove a tile permanently.
 func remove_tile(coords: Vector2i) -> void:
 	interactive_tiles.erase(coords)
+	cell_data.erase(coords)
+	cell_colors.erase(coords)
+	visible_cells.erase(coords)
 	erase_cell(coords)
 
 
