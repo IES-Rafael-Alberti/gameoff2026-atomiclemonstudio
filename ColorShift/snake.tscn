@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://d0f6nxim5pt6p"]
+
+[ext_resource type="Texture2D" uid="uid://bkh106l0foh77" path="res://assets/animations/snake_walk.png" id="1_baghe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxkgb"]
+atlas = ExtResource("1_baghe")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2x2sd"]
+atlas = ExtResource("1_baghe")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olj5u"]
+atlas = ExtResource("1_baghe")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dw1s1"]
+atlas = ExtResource("1_baghe")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ej4wj"]
+atlas = ExtResource("1_baghe")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xox5r"]
+atlas = ExtResource("1_baghe")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jyaov"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxkgb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2x2sd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olj5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dw1s1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ej4wj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xox5r")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=905218061]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=534201861]
+sprite_frames = SubResource("SpriteFrames_jyaov")
+frame = 1
+frame_progress = 0.5584597
