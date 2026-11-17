@@ -5,7 +5,7 @@ const SAVE_PATH := "user://input_settings.cfg"
 # Remappable actions (they must exist in the Input Map)
 const REMAPPABLE_ACTIONS: Array[String] = [
 	"move_left", "move_right", "move_down", "jump",
-	"shift", "interact", "pause", "teleport_checkpoint",
+	"shift", "control", "interact", "pause", "teleport_checkpoint",
 ]
 
 func _ready() -> void:

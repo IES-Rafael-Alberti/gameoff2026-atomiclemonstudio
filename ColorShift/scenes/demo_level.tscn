@@ -571,19 +571,19 @@ tile_set = SubResource("TileSet_g4v7s")
 script = ExtResource("6_6wx8f")
 layer_type = 3
 
-[node name="TileMapLayer-Orange" type="TileMapLayer" parent="." groups=["tile_layers"]]
+[node name="TileMapLayer-Orange" type="TileMapLayer" parent="." unique_id=108696680 groups=["tile_layers"]]
 z_index = -5
 tile_set = SubResource("TileSet_g4v7s")
 script = ExtResource("6_6wx8f")
 layer_type = 4
 
-[node name="TileMapLayer-Purple" type="TileMapLayer" parent="." groups=["tile_layers"]]
+[node name="TileMapLayer-Purple" type="TileMapLayer" parent="." unique_id=1813522099 groups=["tile_layers"]]
 z_index = -6
 tile_set = SubResource("TileSet_g4v7s")
 script = ExtResource("6_6wx8f")
 layer_type = 5
 
-[node name="TileMapLayer-Green" type="TileMapLayer" parent="." groups=["tile_layers"]]
+[node name="TileMapLayer-Green" type="TileMapLayer" parent="." unique_id=730004963 groups=["tile_layers"]]
 z_index = -7
 tile_set = SubResource("TileSet_g4v7s")
 script = ExtResource("6_6wx8f")

@@ -9,6 +9,7 @@ const ACTION_DISPLAY_NAMES := {
 	"move_left": "Move left",
 	"move_down": "Move down",
 	"shift": "Shift",
+	"control": "Control",
 	"interact": "Interact",
 	"pause": "Pause",
 	"teleport_checkpoint": "Teleport to checkpoint",
