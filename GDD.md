@@ -1,9 +1,9 @@
 # ColorShift
 **GDD de una página** · Atomic Lemon Studio · GitHub Game Off 2026 (tema: *Shift*) · Godot 4.7
 
-**Identidad / Mantra:**
+**Identidad / Mantra: Cambio de color, puzles y descubrimiento de secretos.**
 
-**Pilares de diseño:** 1. · 2. · 3.
+**Pilares de diseño:** 1. Puzles · 2. Colores · 3. Secretos.
 
 ### Género / Historia / Mecánicas
 **Género:** plataformas 2D de puzles (puzle-plataformas de cambio de color).
@@ -90,43 +90,3 @@ Cada nivel tiene un tema de misterio y resolución, y el filtro le añade una ca
 - Distinguir Shift izquierdo y derecho (`InputEventKey.location`) y avisar de las *Teclas especiales* de Windows (Shift ×5).
 - En móvil: mando virtual táctil, orientación horizontal, botón de pantalla completa y elementos legibles en pantallas pequeñas.
 - Guardado del progreso y de los controles en el almacenamiento del navegador.
-
----
-
-## Preguntas pendientes — GDD extenso (wiki).
-
-**2. Orden de los discos.** ¿En qué orden van los colores en cada disco (por ejemplo, transparente → rojo → amarillo → azul)? ¿Cada disco gira solo en un sentido?
-> R: Disco primero (izquierdo) -> Norte rojo, sur azul, este transparente, oeste amarillo. Invertido en todos los puntos cardinales los colores para el derecho.
-
-**3. Jugador atrapado.** Si giras el disco cuando estás dentro de algo atravesable y ese objeto vuelve a ser sólido, ¿mueres, sales expulsado o no te deja girar?
-> R: Reinicias nivel.
-
-**4. Objetos ocultos.** Cuando no se ven, ¿tampoco existen (no se pueden pisar ni recoger)? ¿Las reglas cambian al empezar la animación de giro o al terminarla?
-> R: A mitad. La barra de "plástico del circulo marca cuando se "dibuja" en la pantalla los objetos. Pueden verse a mitad.
-
-**5. Habilidades.** ¿Están activas solo mientras su filtro está puesto? ¿Son pasivas (el peso o el flotar actúan solos) o usan un botón? ¿El supersalto es el salto normal pero más alto?
-> R: Solo mientras el filtro está puesto. Serán recursos de Godot.
-
-**6. Interruptores, llaves y salida.** ¿Qué activan los interruptores y las placas (puertas, plataformas móviles…)? ¿La llave se coge al tocarla o con E/X? ¿La salida necesita llave?
-> R: La llave se recoge al tocarla, pero se interactuca con el objeto que se abre con la E. Indicado más adelante en el 13. Controles.
-
-**7. Enemigos y pinchos.** ¿Qué insectos hay además de la hormiga y la oruga, y en qué se diferencian? ¿Se pueden eliminar (por ejemplo, cayéndoles encima con el peso rojo)? ¿Los pinchos tienen color?
-> R: Queda pendiente de respuesta.
-
-**8. Soluciones.** DIS-4 dice "solución única" y el issue #28 dice "múltiple solución". ¿Cuál vale?
-> R: Solución única por ahora. Niveles 9 y 10, pueden contener múltiple, ya que quedan fuera de scope si no dan tiempo.
-
-**9. Curva de dificultad.** En la página Levels propongo en qué nivel aparece cada habilidad y cada peligro. ¿Te vale?
-> R: Si.
-
-**10. Pistas y menús.** ¿Las pistas aparecen tras un tiempo o con un botón? ¿Hay selección de niveles o el juego es lineal? ¿Pausa con Esc/Start?
-> R: Son permanentes. Hay selección de niveles, hay pantalla de selección de nivel tipo supermario. Pausa con Tabulador para ver el menú. Este hace de pausa. Detallado en 13.
-
-**11. Arte.** ¿Qué resolución base tiene el pixel art? ¿Hay paleta concreta (valores hex)? ¿Qué animaciones lleva la conejita?
-> R: 32 x 32, char es 64 x 64. Paleta, por determinar.
-
-**12. Plan de recorte.** En la página Production propongo un orden de recorte (niveles 9–10 → habilidades secundarias → modo daltónico → pistas → táctil). ¿Te vale?
-> R: El plan de recorte lo propongo así: niveles 9–10 → modo daltónico → pistas -> habilidades secundarias → táctil
-
-**13. Controles del jugador.**
-> R: Los controles del jugador serán: WASD para movimiento. Barra espaciadora para el salto. Q y E para girar los discos, Q el izquierdo y E el derecho. Interactuar con objetos, la F. Del 1 al 4 en los números son para girar y buscar el color directamente: 1 transparente, 2 rojo, 3 azul y 4 amarillo. Del 5 al 9, en el mismo orden los colores pero del disco derecho. Con Q y E se hacen secuenciales. Para reiniciar el nivel en el que se encuentra el usuario, la L. Habrá pantalla para que los jugadores con algún tipo de dificultad puedan cambiarlo. Tabulador abre el menú contextual de: salir del juego, nivel, opciones. Dentro de opciones, sonido, controles y accesibilidad.

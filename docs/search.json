@@ -1,0 +1,15 @@
+---
+layout: none
+sitemap: false
+---
+{%- assign entries = site.pages | concat: site.posts -%}
+{%- assign first = true -%}
+[
+{%- for entry in entries -%}
+  {%- if entry.title and entry.url != '/404.html' -%}
+    {%- unless first -%},{%- endunless -%}
+    {%- assign first = false %}
+  {"title": {{ entry.title | jsonify }}, "url": {{ entry.url | relative_url | jsonify }}, "text": {{ entry.description | default: '' | jsonify }}}
+  {%- endif -%}
+{%- endfor %}
+]

@@ -1,0 +1,43 @@
+# Tabs of the team page. The first one shows everybody.
+tabs:
+  - id: all
+    label: All
+  - id: code
+    label: Code
+  - id: design
+    label: Design & sound
+  - id: art
+    label: Art & marketing
+
+# Avatars are the GitHub profile pictures, saved in assets/img/team/.
+members:
+  - name: Sergio
+    github: sdurutr436
+    avatar: sdurutr436.jpg
+    role: Producer, programmer
+    areas: [code]
+  - name: Antonio
+    github: trueantonio
+    avatar: trueantonio.png
+    role: Level designer, sound
+    areas: [design]
+  - name: Alejandro
+    github: GunterMagno
+    avatar: GunterMagno.jpg
+    role: Programmer, VFX
+    areas: [code]
+  - name: Joel
+    github: JoelDevHub
+    avatar: JoelDevHub.png
+    role: Lead designer, programmer
+    areas: [design, code]
+  - name: Lorena
+    github: lorenagl-1402
+    avatar: lorenagl-1402.png
+    role: Art, marketing
+    areas: [art]
+  - name: Gloria
+    github: Gloriaa177
+    avatar: Gloriaa177.png
+    role: Lead artist
+    areas: [art]

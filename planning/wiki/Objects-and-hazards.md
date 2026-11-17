@@ -9,27 +9,28 @@ How each element of the level behaves ([PRG-7](https://github.com/IES-Rafael-Alb
 | Tinted wall | Same as the door, but larger and part of the level layout | All 6 colors | Passive |
 | Colored platform | Solid; under its filter it becomes passable | All 6 colors | Passive |
 | Hidden platform | Only appears under its filter | All 6 colors | Passive |
-| Key | Opens its lock; can be hidden (a yellow key only appears under the yellow filter) | Neutral or hidden | _(pending: on touch or with E/X)_ |
-| Lock | Blocks the way until the key is used | Neutral | _(pending)_ |
-| Switch / pressure plate | Triggers: _(pending)_ | _(pending)_ | E/X (switch); step on it (plate) |
-| Exit | Ends the level on touch | Neutral | Passive. Does it need a key? _(pending)_ |
-| Left disc | Pickup in level 4; unlocks the mixes | — | On touch |
+| Brush | Collectible that replaces the key. Picked up by touching it. It can be hidden: under a filter that is not its own you only see its dotted outline, in the color you must pick | Neutral or hidden | On touch |
+| Lock | Blocks the way until you interact with it holding the brush | Neutral | F / X |
+| Switch / pressure plate | Opens doors and moves platforms | Neutral | F / X (switch); step on it (plate) |
+| Exit | Ends the level on touch and shows the victory screen | Neutral | Passive. Does it need a brush? _(pending)_ |
+| Left disc | Pickup at the start of level 4; unlocks the mixes | — | On touch |
 
 ## Ability objects
 | Object | Ability | Behavior |
 |---|---|---|
 | Cracked floor | Red (weight) | Breaks when you land on it with the red filter |
 | Pushable block | Red (weight) | Only moves with the red filter |
-| Water area | Blue (float) | With blue you swim; without blue: _(pending)_ |
 | Jump wall | Yellow | Allows wall jumps |
 | Vine | Green _(out of scope)_ | Can be climbed |
 | Thin wall | Violet _(out of scope)_ | Can be phased through |
 | Long gap | Orange _(out of scope)_ | Crossed with the dash |
 
+There are no water areas: blue (float) just lowers gravity.
+
 ## Hazards
 | Hazard | Behavior | Color |
 |---|---|---|
-| Spikes | Kill on touch | _(pending: neutral or colored)_ |
+| Spikes | Kill on touch | Colored. The color is chosen per level; the 6 colors are proposed in the tilesets |
 | Fall | Leaving through the bottom edge of the screen kills | — |
 | Ant | Patrols side to side on a platform | One of the 6 colors |
 | Caterpillar | Patrols side to side _(proposal: slower)_ | One of the 6 colors |

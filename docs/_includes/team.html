@@ -1,0 +1,31 @@
+{%- comment -%}
+  Team members with accessible tabs. The tablist is hidden until tabs.js runs; without JavaScript
+  the panel simply lists everybody. All tabs control the same panel, which is filtered in place.
+{%- endcomment -%}
+<div class="tabs" data-tabs>
+  <div class="tabs__list" role="tablist" aria-label="Filter the team by area" hidden>
+    {%- for tab in site.data.team.tabs -%}
+    <button class="tabs__tab pixel" type="button" role="tab"
+            id="team-tab-{{ tab.id }}" aria-controls="team-panel"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            data-filter="{{ tab.id }}">{{ tab.label }}</button>
+    {%- endfor -%}
+  </div>
+
+  <div class="tabs__panel" id="team-panel" role="tabpanel" aria-labelledby="team-tab-all" tabindex="0">
+    <ul class="team-list">
+      {%- for member in site.data.team.members -%}
+      <li class="team-card pixel" data-areas="{{ member.areas | join: ' ' }}">
+        <img class="team-avatar" src="{{ '/assets/img/team/' | append: member.avatar | relative_url }}"
+             alt="" width="96" height="96">
+        <div class="team-card__body">
+          <h3 class="team-card__name">{{ member.name }}</h3>
+          <p class="team-card__role">{{ member.role }}</p>
+          <p class="team-card__link"><a href="https://github.com/{{ member.github }}">@{{ member.github }}</a></p>
+        </div>
+      </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>

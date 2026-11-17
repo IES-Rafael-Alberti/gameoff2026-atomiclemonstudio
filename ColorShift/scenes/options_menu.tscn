@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://bagn5wawoecg4"]
+
+[ext_resource type="StyleBox" uid="uid://ducv3y13wxu5t" path="res://shader/slider_style.tres" id="1_ijpji"]
+[ext_resource type="StyleBox" uid="uid://dllpook14x5vm" path="res://shader/slider_grab_style.tres" id="2_hm4m4"]
+[ext_resource type="Script" uid="uid://cs42rct2k0cnt" path="res://scripts/audio_control.gd" id="3_hm4m4"]
+[ext_resource type="Script" uid="uid://c1tojyq6oe03x" path="res://scripts/full_screen_control.gd" id="4_lfjc7"]
+[ext_resource type="Script" uid="uid://c0uexlxh574ku" path="res://scripts/color_blind_control_select.gd" id="5_3xsyx"]
+[ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="5_7txom"]
+[ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="6_binsn"]
+[ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="7_2f1bn"]
+
+[node name="OptionsMenu" type="Control" unique_id=2056824226]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1890340172]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=597114617]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=1814536719]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Options"
+
+[node name="FullScreenControl" type="CheckButton" parent="Panel/VBoxContainer" unique_id=1114738510]
+layout_mode = 2
+text = "FullScreen Mode"
+script = ExtResource("4_lfjc7")
+
+[node name="MasterAudioControl" type="HSlider" parent="Panel/VBoxContainer" unique_id=1877926121]
+layout_mode = 2
+theme_override_styles/slider = ExtResource("1_ijpji")
+theme_override_styles/grabber_area = ExtResource("2_hm4m4")
+theme_override_styles/grabber_area_highlight = ExtResource("2_hm4m4")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("3_hm4m4")
+audio_bus_name = "master"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/MasterAudioControl" unique_id=293062784]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -33.0
+offset_right = 116.0
+offset_bottom = -10.0
+grow_vertical = 0
+text = "Master volume"
+
+[node name="MusicAudioControl" type="HSlider" parent="Panel/VBoxContainer" unique_id=2004167349]
+layout_mode = 2
+theme_override_styles/slider = ExtResource("1_ijpji")
+theme_override_styles/grabber_area = ExtResource("2_hm4m4")
+theme_override_styles/grabber_area_highlight = ExtResource("2_hm4m4")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("3_hm4m4")
+audio_bus_name = "music"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/MusicAudioControl" unique_id=378420535]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -33.0
+offset_right = 107.0
+offset_bottom = -10.0
+grow_vertical = 0
+text = "Music volume"
+
+[node name="SFXAudioControl" type="HSlider" parent="Panel/VBoxContainer" unique_id=1979376274]
+layout_mode = 2
+theme_override_styles/slider = ExtResource("1_ijpji")
+theme_override_styles/grabber_area = ExtResource("2_hm4m4")
+theme_override_styles/grabber_area_highlight = ExtResource("2_hm4m4")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("3_hm4m4")
+audio_bus_name = "sfx"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/SFXAudioControl" unique_id=1367256308]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -33.0
+offset_right = 114.0
+offset_bottom = -10.0
+grow_vertical = 0
+text = "Effects volume"
+
+[node name="ColorBlindControl" type="OptionButton" parent="Panel/VBoxContainer" unique_id=1580853982]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("5_7txom")
+theme_override_styles/pressed = ExtResource("6_binsn")
+theme_override_styles/hover = ExtResource("7_2f1bn")
+alignment = 1
+selected = 0
+allow_reselect = true
+item_count = 4
+popup/item_0/text = "Normal"
+popup/item_0/id = 0
+popup/item_1/text = "Protanopia"
+popup/item_1/id = 1
+popup/item_2/text = "Deuteanopia"
+popup/item_2/id = 2
+popup/item_3/text = "Titranopia"
+popup/item_3/id = 3
+script = ExtResource("5_3xsyx")
+
+[connection signal="toggled" from="Panel/VBoxContainer/FullScreenControl" to="Panel/VBoxContainer/FullScreenControl" method="_on_toggled"]
+[connection signal="value_changed" from="Panel/VBoxContainer/MasterAudioControl" to="Panel/VBoxContainer/MasterAudioControl" method="_on_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxContainer/MusicAudioControl" to="Panel/VBoxContainer/MusicAudioControl" method="_on_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxContainer/SFXAudioControl" to="Panel/VBoxContainer/SFXAudioControl" method="_on_value_changed"]
+[connection signal="item_selected" from="Panel/VBoxContainer/ColorBlindControl" to="Panel/VBoxContainer/ColorBlindControl" method="_on_item_selected"]

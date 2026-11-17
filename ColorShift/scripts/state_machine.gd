@@ -57,6 +57,10 @@ func _is_spike_at(world_position: Vector2) -> bool:
 		if layer == null:
 			continue
 
+		# If the layer is hidden or disabled, ignore its spikes completely
+		if not layer.visible or not layer.enabled:
+			continue
+
 		var cell := layer.local_to_map(layer.to_local(world_position))
 		var data := layer.get_cell_tile_data(cell)
 		if data and data.get_custom_data("SPIKE"):

@@ -1,0 +1,30 @@
+<nav class="sidebar" id="site-nav" aria-label="Site">
+  <div class="source-list">
+    {%- for group in site.data.navigation -%}
+    <section class="source-list__group">
+      <h2 class="source-list__title source-list__title--{{ group.color }}" id="nav-group-{{ forloop.index }}">{{ group.title }}</h2>
+      <ul class="source-list__items" aria-labelledby="nav-group-{{ forloop.index }}">
+        {%- for item in group.items -%}
+          {%- assign item_url = item.url -%}
+          {%- unless item.external -%}{%- assign item_url = item.url | relative_url -%}{%- endunless -%}
+          {%- assign selected = false -%}
+          {%- assign ancestor = false -%}
+          {%- unless item.external -%}
+            {%- if page.url == item.url -%}{%- assign selected = true -%}{%- endif -%}
+            {%- for crumb in page.breadcrumb -%}
+              {%- if crumb.url == item.url -%}{%- assign ancestor = true -%}{%- endif -%}
+            {%- endfor -%}
+          {%- endunless -%}
+        <li>
+          <a class="source-list__link{% if ancestor %} is-ancestor{% endif %}{% if item.external %} is-external{% endif %}"
+             href="{{ item_url }}"{% if selected %} aria-current="page"{% endif %}{% if item.external %} rel="noopener"{% endif %}>
+            {{- item.title -}}
+            {%- if item.external -%}<span class="visually-hidden"> (external site)</span>{%- endif -%}
+          </a>
+        </li>
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endfor -%}
+  </div>
+</nav>

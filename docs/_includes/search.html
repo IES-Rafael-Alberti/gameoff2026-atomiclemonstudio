@@ -1,0 +1,16 @@
+<form class="search" id="site-search-form" role="search" data-index="{{ '/search.json' | relative_url }}">
+  <label class="visually-hidden" for="site-search">Search the site</label>
+  <div class="search__field pixel">
+    <button class="search__submit" type="submit" aria-label="Search">{% include icons/search.svg %}</button>
+    <input id="site-search" class="search__input" type="search" name="q" placeholder="Search"
+           autocomplete="off" spellcheck="false"
+           role="combobox" aria-expanded="false" aria-controls="search-options" aria-autocomplete="list">
+    <button class="search__clear" type="button" aria-label="Clear search" hidden>{% include icons/clear.svg %}</button>
+  </div>
+
+  <div class="search__panel pixel" id="search-panel" hidden>
+    <ul class="search__options" id="search-options" role="listbox" aria-label="Search suggestions"></ul>
+    <button class="search__forget" type="button" hidden>Clear recent searches</button>
+  </div>
+  <p class="visually-hidden" id="search-status" role="status" aria-live="polite"></p>
+</form>

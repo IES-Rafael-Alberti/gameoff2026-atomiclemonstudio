@@ -1,0 +1,78 @@
+/* Fonts and color tokens: palette, light theme and dark theme. */
+
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("../fonts/PressStart2P-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VT323";
+  src: url("../fonts/VT323-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --font-ui: "Press Start 2P", "Courier New", monospace;
+  --font-body: "VT323", "Courier New", monospace;
+
+  /* Game palette (wiki > Art). Shades go from light (1) to dark (5 or 6). */
+  --grey-1: #d0d0d0; --grey-2: #bababa; --grey-3: #aaaaaa; --grey-4: #838383; --grey-5: #4f4f4f;
+
+  --red-1: #d07676;    --red-2: #b94949;    --red-3: #a92c2c;    --red-4: #801d1d;    --red-5: #561010;    --red-6: #340808;
+  --yellow-1: #f7eaa9; --yellow-2: #ebd980; --yellow-3: #dbc558; --yellow-4: #b49d29; --yellow-5: #80721d; --yellow-6: #332d08;
+  --blue-1: #76a9d0;   --blue-2: #4989ba;   --blue-3: #2c72a8;   --blue-4: #1d5580;   --blue-5: #103857;   --blue-6: #082033;
+  --orange-1: #f7d1a9; --orange-2: #ebc17f; --orange-3: #dba958; --orange-4: #b5802a; --orange-5: #805a1d; --orange-6: #332308;
+  --green-1: #76d089;  --green-2: #49b85f;  --green-3: #2da846;  --green-4: #1d8031;  --green-5: #10541e;  --green-6: #083310;
+  --violet-1: #af76d0; --violet-2: #8f49b8; --violet-3: #7b2da8; --violet-4: #5c1d80; --violet-5: #3b1054; --violet-6: #230833;
+
+  /* Light theme (default) */
+  --bg: #d0d0d0;
+  --dither: #c6c6c6;
+  --panel: #f2f2f2;
+  --panel-sunken: #e2e2e2;
+  --ink: #1a1a1a;
+  --muted: #4f4f4f;
+  --edge: #1a1a1a;
+  --link: #1d5580;
+  --accent: #103857;
+  --on-accent: #f2f2f2;
+  --focus: #a92c2c;
+  --shade: rgba(0, 0, 0, 0.22);
+  --scrim: #1a1a1a;
+}
+
+:root[data-theme="dark"] {
+  --bg: #141414;
+  --dither: #1b1b1b;
+  --panel: #222222;
+  --panel-sunken: #2e2e2e;
+  --ink: #ececec;
+  --muted: #bababa;
+  --edge: #aaaaaa;
+  --link: #76a9d0;
+  --accent: #f7eaa9;
+  --on-accent: #141414;
+  --focus: #f7eaa9;
+  --shade: rgba(0, 0, 0, 0.45);
+  --scrim: #000000;
+}
+
+/* Without JavaScript there is no data-theme attribute: follow the system setting. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #141414;
+    --dither: #1b1b1b;
+    --panel: #222222;
+    --panel-sunken: #2e2e2e;
+    --ink: #ececec;
+    --muted: #bababa;
+    --edge: #aaaaaa;
+    --link: #76a9d0;
+    --accent: #f7eaa9;
+    --on-accent: #141414;
+    --focus: #f7eaa9;
+    --shade: rgba(0, 0, 0, 0.45);
+    --scrim: #000000;
+  }
+}
