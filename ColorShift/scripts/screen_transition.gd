@@ -11,6 +11,8 @@ signal sweep_started(old_color: String, new_color: String)
 signal sweep_finished
 
 const SWEEP_TIME := 0.35
+const SHAKE_PX := 4.0
+const SHAKE_STEPS := 6
 
 # Tinte de la barra segun el color al que se cambia.
 const COLOR_TINTS := {
@@ -57,6 +59,7 @@ func shift_color() -> void:
 	_tween.tween_method(_set_progress, 0.0, 1.0, SWEEP_TIME)
 	await _tween.finished
 	_set_progress(1.0)
+	_shake()
 
 	sweep_finished.emit()
 	_busy = false
@@ -65,3 +68,15 @@ func shift_color() -> void:
 func _set_progress(value: float) -> void:
 	progress = value
 	RenderingServer.global_shader_parameter_set("wiper_progress", value)
+
+
+# Pequeno temblor de la camara al terminar el barrido.
+func _shake() -> void:
+	var camera := get_viewport().get_camera_2d()
+	if camera == null:
+		return
+	var shake := create_tween()
+	for i in SHAKE_STEPS:
+		var strength := SHAKE_PX * (1.0 - float(i) / SHAKE_STEPS)
+		shake.tween_property(camera, "offset", Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * strength, 0.03)
+	shake.tween_property(camera, "offset", Vector2.ZERO, 0.03)
