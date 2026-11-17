@@ -1,6 +1,6 @@
 extends Node
 
-enum Colors { GREY, RED, BLUE, YELLOW }
+enum Colors { GREY, RED, BLUE, YELLOW, ORANGE, PURPLE, GREEN }
 
 var actual_color_index: int = 0
 var actual_color: Colors = Colors.GREY
@@ -12,6 +12,8 @@ var sfx_volume: float = 1.0
 var music_volume: float = 1.0
 
 var color_blind_mode: String = "Normal"
+
+signal button_pressed_signal
 
 func _ready() -> void:
 	update_color()
@@ -40,3 +42,6 @@ func get_color_name() -> String:
 	# Name of the active color. Listeners use it to apply the initial
 	# state without waiting for the next color change.
 	return Colors.keys()[actual_color_index]
+
+func button_pressed(button_id: int) -> void:
+	button_pressed_signal.emit(button_id)

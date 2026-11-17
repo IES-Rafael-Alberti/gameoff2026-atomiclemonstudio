@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bagn5wawoecg4"]
 
+[ext_resource type="Script" uid="uid://dr66e5erexain" path="res://scripts/options_menu.gd" id="1_binsn"]
 [ext_resource type="StyleBox" uid="uid://ducv3y13wxu5t" path="res://shader/slider_style.tres" id="1_ijpji"]
 [ext_resource type="StyleBox" uid="uid://dllpook14x5vm" path="res://shader/slider_grab_style.tres" id="2_hm4m4"]
 [ext_resource type="Script" uid="uid://cs42rct2k0cnt" path="res://scripts/audio_control.gd" id="3_hm4m4"]
@@ -8,14 +9,17 @@
 [ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="5_7txom"]
 [ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="6_binsn"]
 [ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="7_2f1bn"]
+[ext_resource type="PackedScene" uid="uid://bryw5kt5cdc8h" path="res://scenes/remap_menu.tscn" id="8_remap"]
 
 [node name="OptionsMenu" type="Control" unique_id=2056824226]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_binsn")
 
 [node name="Panel" type="Panel" parent="." unique_id=1890340172]
 layout_mode = 1
@@ -116,8 +120,23 @@ offset_bottom = -10.0
 grow_vertical = 0
 text = "Effects volume"
 
-[node name="ColorBlindControl" type="OptionButton" parent="Panel/VBoxContainer" unique_id=1580853982]
+[node name="RemapMenuButton" type="Button" parent="Panel/VBoxContainer" unique_id=482737385]
 layout_mode = 2
+theme_override_styles/normal = ExtResource("5_7txom")
+theme_override_styles/pressed = ExtResource("6_binsn")
+theme_override_styles/hover_pressed = ExtResource("7_2f1bn")
+text = "Remap Menu"
+
+[node name="Label2" type="Label" parent="Panel/VBoxContainer" unique_id=1963411433]
+layout_mode = 2
+text = "Colorblind Mode"
+
+[node name="ColorBlindControl" type="OptionButton" parent="Panel/VBoxContainer/Label2" unique_id=1580853982]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 28.0
+offset_right = 245.0
+offset_bottom = 51.0
 theme_override_styles/normal = ExtResource("5_7txom")
 theme_override_styles/pressed = ExtResource("6_binsn")
 theme_override_styles/hover = ExtResource("7_2f1bn")
@@ -135,8 +154,24 @@ popup/item_3/text = "Titranopia"
 popup/item_3/id = 3
 script = ExtResource("5_3xsyx")
 
+[node name="NavigationButtons" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=2145169037]
+layout_mode = 2
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Panel/VBoxContainer/NavigationButtons" unique_id=2145169038]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+theme_override_styles/normal = ExtResource("5_7txom")
+theme_override_styles/pressed = ExtResource("6_binsn")
+theme_override_styles/hover = ExtResource("7_2f1bn")
+text = "Back"
+
+[node name="RemapMenu" parent="." unique_id=1157468083 instance=ExtResource("8_remap")]
+visible = false
+layout_mode = 1
+
 [connection signal="toggled" from="Panel/VBoxContainer/FullScreenControl" to="Panel/VBoxContainer/FullScreenControl" method="_on_toggled"]
 [connection signal="value_changed" from="Panel/VBoxContainer/MasterAudioControl" to="Panel/VBoxContainer/MasterAudioControl" method="_on_value_changed"]
 [connection signal="value_changed" from="Panel/VBoxContainer/MusicAudioControl" to="Panel/VBoxContainer/MusicAudioControl" method="_on_value_changed"]
 [connection signal="value_changed" from="Panel/VBoxContainer/SFXAudioControl" to="Panel/VBoxContainer/SFXAudioControl" method="_on_value_changed"]
-[connection signal="item_selected" from="Panel/VBoxContainer/ColorBlindControl" to="Panel/VBoxContainer/ColorBlindControl" method="_on_item_selected"]
+[connection signal="item_selected" from="Panel/VBoxContainer/Label2/ColorBlindControl" to="Panel/VBoxContainer/Label2/ColorBlindControl" method="_on_item_selected"]
