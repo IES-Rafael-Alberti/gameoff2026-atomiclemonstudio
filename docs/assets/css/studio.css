@@ -112,8 +112,7 @@ a:hover { text-decoration-style: dotted; }
   color: var(--ink); text-decoration: none;
   font-family: var(--font-ui); font-size: 16px; line-height: 1.2;
 }
-.brand__logo { flex: none; display: inline-flex; }
-.brand__logo svg { width: 36px; height: 27px; }
+.brand__logo { flex: none; display: block; width: auto; height: 36px; }
 .brand__name { display: none; white-space: nowrap; }
 
 @media (min-width: 52em) {
@@ -317,6 +316,9 @@ html:not(.js) #theme-toggle { display: none; }
 }
 
 .post__meta { margin: 0 0 1.5rem; color: var(--muted); }
+.hero { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+.hero__text { flex: 1 1 20rem; min-width: 0; }
+.hero__logo { flex: 0 1 14rem; width: 14rem; max-width: 100%; height: auto; }
 .hero__kicker { margin: 0 0 .75rem; color: var(--muted); font-family: var(--font-ui); font-size: 16px; }
 
 /* ---------- Buttons ---------- */
@@ -380,7 +382,10 @@ html:not(.js) #theme-toggle { display: none; }
 }
 .sprite-sheet figcaption { margin-top: .5rem; color: var(--muted); }
 
+.studio-logo { display: block; width: min(100%, 16rem); height: auto; margin-bottom: 1rem; }
+
 .error-page { text-align: center; }
+.error-page__logo { display: block; width: min(100%, 14rem); height: auto; margin: 0 auto; }
 .error-page__code { margin: 1rem 0; font-family: var(--font-ui); font-size: 64px; line-height: 1; }
 
 .site-footer {
@@ -388,4 +393,6 @@ html:not(.js) #theme-toggle { display: none; }
   background: var(--panel); color: var(--muted);
 }
 .site-footer p { margin: 0 auto; max-width: 60rem; }
+.site-footer__brand { display: flex; align-items: center; gap: .75rem; }
+.site-footer__logo { flex: none; width: 3rem; height: auto; }
 .site-footer__small { font-size: 1.15rem; }
