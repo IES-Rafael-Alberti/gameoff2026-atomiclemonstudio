@@ -1,11 +1,12 @@
 [gd_scene format=4 uid="uid://dslcvqavbwbf8"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_vwg62"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_s8nj6"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_vwg62"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_qf6rc"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="4_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_vwg62"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="5_vwg62"]
 [ext_resource type="Texture2D" uid="uid://douglgb86c5kh" path="res://assets/sprites/scenary/Background.png" id="6_p6vls"]
+[ext_resource type="PackedScene" uid="uid://c0qtcm2q7e840" path="res://Scenes/snake.tscn" id="7_53xsp"]
 
 [node name="Level3" type="Node2D" unique_id=1939000241]
 
@@ -47,5 +48,7 @@ player = NodePath("../Player")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=633604805]
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_vwg62")]
+
+[node name="Snake" parent="." unique_id=1656814533 instance=ExtResource("7_53xsp")]
 
 [editable path="Tilemaps"]

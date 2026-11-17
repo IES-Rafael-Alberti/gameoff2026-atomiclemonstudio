@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cljciwe2j4k75"]
+
+[ext_resource type="Script" uid="uid://dwtcj3ni8qu4t" path="res://Scenes/frog.gd" id="1_4ygq6"]
+[ext_resource type="Texture2D" uid="uid://drqfmxij30whd" path="res://icon.svg" id="2_c3muq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ygq6"]
+radius = 11.261106
+
+[node name="Frog" type="AnimatableBody2D" unique_id=520306954]
+script = ExtResource("1_4ygq6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1551042597]
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_pn6cq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1881328242]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_c3muq")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=816616183]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=265487832]
+scale = Vector2(4, 4)
+shape = SubResource("CircleShape2D_4ygq6")
+
+[node name="PlatformDetector" type="RayCast2D" parent="." unique_id=1325691391]
+target_position = Vector2(0, 35)
