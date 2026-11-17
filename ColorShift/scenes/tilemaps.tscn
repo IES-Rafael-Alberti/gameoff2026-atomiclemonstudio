@@ -1,23 +1,9 @@
 [gd_scene format=3 uid="uid://x00cpbyy8vu5"]
 
-[ext_resource type="Shader" uid="uid://bmvuro0ni3b0g" path="res://shader/color_change.gdshader" id="1_67w8y"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="1_arm6k"]
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="2_67w8y"]
 [ext_resource type="Texture2D" uid="uid://cpvk4uug24a7o" path="res://assets/sprites/collectables/collectable_1.png" id="3_2cyg6"]
 [ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://scripts/tile_map_manager.gd" id="4_3qois"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4v7s"]
-shader = ExtResource("1_67w8y")
-shader_parameter/original_0 = Color(0, 0, 0, 1)
-shader_parameter/original_1 = Color(0, 0, 0, 1)
-shader_parameter/original_2 = Color(0, 0, 0, 1)
-shader_parameter/original_3 = Color(0, 0, 0, 1)
-shader_parameter/original_4 = Color(0, 0, 0, 1)
-shader_parameter/replace_0 = Color(0, 0, 0, 1)
-shader_parameter/replace_1 = Color(0, 0, 0, 1)
-shader_parameter/replace_2 = Color(0, 0, 0, 1)
-shader_parameter/replace_3 = Color(0, 0, 0, 1)
-shader_parameter/replace_4 = Color(0, 0, 0, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j4mfq"]
 resource_name = "Tileset - 4 colors"
@@ -539,17 +525,6 @@ sources/1 = SubResource("TileSetAtlasSource_e7io7")
 sources/2 = SubResource("TileSetAtlasSource_owlnx")
 
 [node name="Tilemaps" type="Node" unique_id=210110623]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=141294905]
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=723648192]
-material = SubResource("ShaderMaterial_g4v7s")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="TileMapLayer-Grey" type="TileMapLayer" parent="." unique_id=1750349955 groups=["tile_layers"]]
 z_index = -1

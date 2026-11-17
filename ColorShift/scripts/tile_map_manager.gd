@@ -1,19 +1,19 @@
 
 extends TileMapLayer
 
-enum LayerType {
-	GREY,
-	RED,
-	BLUE,
-	YELLOW,
-	ORANGE,
-	PURPLE,
-	GREEN
-}
+#enum LayerType {
+	#GREY,
+	#RED,
+	#BLUE,
+	#YELLOW,
+	#ORANGE,
+	#PURPLE,
+	#GREEN
+#}
 
 var opened_doors: Dictionary = {}
 
-@export var layer_type: LayerType = LayerType.GREY
+#@export var layer_type: LayerType = LayerType.GREY
 
 var player: CharacterBody2D
 
@@ -31,7 +31,7 @@ func _ready() -> void:
 
 	print("\n===== TILEMAP INITIALIZATION =====")
 	print("Layer: ", name)
-	print("Layer type: ", LayerType.keys()[layer_type])
+	#print("Layer type: ", LayerType.keys()[layer_type])
 	print("Registered in tile_layers: ", is_in_group("tile_layers"))
 	print("Player found: ", player != null)
 	print("Used cells: ", get_used_cells().size())
