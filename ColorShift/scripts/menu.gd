@@ -15,14 +15,11 @@ var current_background_index := -1
 
 func _ready() -> void:
 	_change_background()
+	options_menu.back_requested.connect(_on_options_back_requested)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("shift"):
 		_change_background()
-	
-	if Input.is_action_just_pressed("pause") and options_menu.visible:
-		options_menu.visible = false
-		v_box_container.visible = true
 
 func _change_background() -> void:
 	current_background_index = (current_background_index + 1) % BACKGROUNDS.size()
@@ -38,3 +35,7 @@ func _on_options_menu_pressed() -> void:
 	if options_menu:
 		v_box_container.visible = !v_box_container.visible
 		options_menu.visible = !options_menu.visible
+
+func _on_options_back_requested() -> void:
+	options_menu.visible = false
+	v_box_container.visible = true
