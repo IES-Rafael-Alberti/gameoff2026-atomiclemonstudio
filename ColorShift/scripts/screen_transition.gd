@@ -1,18 +1,18 @@
 extends CanvasLayer
-## Capa de transicion tipo limpiaparabrisas (shader color-change.gdshader).
-## El brazo pivota en la esquina inferior derecha y barre de vertical a horizontal.
+## Barra de escobilla del cambio de color (wiper_bar.gdshader).
+## Pivota en la esquina inferior derecha y gira de vertical a horizontal.
 ##
 ## Se usa en el cambio de color con Shift (ver color_shift_controller.gd):
 ##   ScreenTransition.shift_color()
-## tapa la pantalla con el color nuevo, cambia el color en el juego mientras esta tapada
-## y destapa con otro barrido.
+## La barra solo se dibuja; el cambio de color de los tiles lo hace cada capa con
+## tile_wiper_reveal.gdshader al recibir sweep_started (ver tile_map_manager.gd).
 
-signal transition_finished
+signal sweep_started(old_color: String, new_color: String)
+signal sweep_finished
 
-const COVER_TIME := 0.2
-const REVEAL_TIME := 0.25
+const SWEEP_TIME := 0.35
 
-# Tinte del barrido segun el color al que se cambia.
+# Tinte de la barra segun el color al que se cambia.
 const COLOR_TINTS := {
 	"GREY": Color(0.5, 0.5, 0.5),
 	"RED": Color(0.9, 0.2, 0.2),
@@ -20,9 +20,10 @@ const COLOR_TINTS := {
 	"YELLOW": Color(0.97, 0.85, 0.2),
 }
 
-@onready var _rect: ColorRect = $ColorRect
-@onready var _material: ShaderMaterial = _rect.material
+@onready var _material: ShaderMaterial = $ColorRect.material
 
+# 0 = barra vertical, 1 = horizontal. 1 en reposo. Tambien es el shader global wiper_progress.
+var progress: float = 1.0
 var _tween: Tween
 var _busy: bool = false
 
@@ -30,53 +31,36 @@ var _busy: bool = false
 func _ready() -> void:
 	# Debe seguir funcionando aunque el juego este en pausa.
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# En reposo la capa esta transparente (progress 1, sin invertir) y no bloquea el raton.
-	_material.set_shader_parameter("invert", false)
-	_material.set_shader_parameter("progress", 1.0)
-	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	$ColorRect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_set_progress(1.0)
 
 
 func is_busy() -> bool:
 	return _busy
 
 
-## Cambio de color con barrido: tapa, cambia el color del juego y destapa.
+## Cambio de color: la barra barre la pantalla y los tiles se actualizan a su paso.
 func shift_color() -> void:
 	if _busy:
 		return
 	_busy = true
 	var keys := GameManager.Colors.keys()
-	var next_name: String = keys[(GameManager.actual_color_index + 1) % keys.size()]
-	_rect.color = COLOR_TINTS.get(next_name, Color.BLACK)
+	var old_name: String = GameManager.get_color_name()
+	var new_name: String = keys[(GameManager.actual_color_index + 1) % keys.size()]
+	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
 
-	await wipe_in(COVER_TIME)
+	_set_progress(0.0)
+	sweep_started.emit(old_name, new_name)
+	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_tween.tween_method(_set_progress, 0.0, 1.0, SWEEP_TIME)
+	await _tween.finished
+	_set_progress(1.0)
+
 	GameManager.change_color()
-	await wipe_out(REVEAL_TIME)
+	sweep_finished.emit()
 	_busy = false
 
 
-## La zona barrida pasa a opaca: al terminar la pantalla queda tapada.
-func wipe_in(duration: float = 0.6) -> void:
-	await _play(true, duration)
-
-
-## La zona barrida pasa a transparente: al terminar la pantalla queda visible.
-func wipe_out(duration: float = 0.6) -> void:
-	await _play(false, duration)
-
-
-func _play(cover: bool, duration: float) -> void:
-	if _tween:
-		_tween.kill()
-	# invert = true  -> progress 0 transparente, 1 opaco (tapar).
-	# invert = false -> progress 0 opaco, 1 transparente (destapar).
-	_material.set_shader_parameter("invert", cover)
-	_material.set_shader_parameter("progress", 0.0)
-	_tween = create_tween()
-	_tween.tween_method(_set_progress, 0.0, 1.0, duration)
-	await _tween.finished
-	transition_finished.emit()
-
-
 func _set_progress(value: float) -> void:
-	_material.set_shader_parameter("progress", value)
+	progress = value
+	RenderingServer.global_shader_parameter_set("wiper_progress", value)
