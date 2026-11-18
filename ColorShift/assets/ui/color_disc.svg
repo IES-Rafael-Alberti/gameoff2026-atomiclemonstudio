@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <!-- Cuadrantes en sentido horario desde arriba-derecha: GREY, RED, BLUE, YELLOW. -->
-  <path d="M8 8V0.5A7.5 7.5 0 0 1 15.5 8Z" fill="#808080"/>
-  <path d="M8 8H15.5A7.5 7.5 0 0 1 8 15.5Z" fill="#e63333"/>
-  <path d="M8 8V15.5A7.5 7.5 0 0 1 0.5 8Z" fill="#3366f2"/>
-  <path d="M8 8H0.5A7.5 7.5 0 0 1 8 0.5Z" fill="#f7d933"/>
-  <circle cx="8" cy="8" r="7.5" fill="none" stroke="#000" stroke-width="1"/>
-</svg>

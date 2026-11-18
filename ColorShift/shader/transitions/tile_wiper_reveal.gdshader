@@ -4,14 +4,20 @@ shader_type canvas_item;
 // Pinta los tiles de los atlas de color con el cuadrante de un color:
 //   Tileset - 4 colors / grass1  -> (0,0) gris, (1,0) rojo, (0,1) azul, (1,1) amarillo
 //   Tileset-2222 / grass2        -> (0,0) gris, (1,0) morado, (0,1) verde, (1,1) naranja
+// Las mezclas (combo) salen de la textura de mezclas de su familia.
 // Delante de la barra usa el color viejo y detras el nuevo.
 // Otras texturas (puerta, coleccionables) se dibujan tal cual.
 uniform vec2 atlas_size;
-// Segundo tamaño de atlas (los atlas de hierba son 512x576; los de color 384x448).
-// A 0.0 solo hay una familia de atlas, como en los niveles 1, 2 y 3.
+// Segunda familia de atlas (hierba). A 0.0 si el TileSet no la usa.
 uniform vec2 atlas_size_alt = vec2(0.0);
 uniform vec2 old_quadrant = vec2(0.0);
 uniform vec2 new_quadrant = vec2(0.0);
+uniform bool old_combo = false;
+uniform bool new_combo = false;
+// png de mezclas de cada familia, sin el relleno de 1 px que Godot anade a cada tile.
+uniform sampler2D combo_atlas : filter_nearest, repeat_disable;
+uniform sampler2D combo_atlas_alt : filter_nearest, repeat_disable;
+const float TILE_PX = 32.0;
 // false: la capa no se ve en ese lado de la barra.
 uniform bool show_old = true;
 uniform bool show_new = true;
@@ -19,20 +25,37 @@ uniform float edge_glow = 0.6;
 
 varying vec4 modulate;
 
+// Mismo pixel en el png: tile * 32 + desplazamiento dentro del tile con relleno.
+vec2 combo_uv(vec2 uv, vec2 padded_size, vec2 raw_size) {
+	vec2 cell = padded_size / (raw_size / TILE_PX);
+	vec2 p = uv * padded_size;
+	vec2 t = floor(p / cell);
+	return (t * TILE_PX + p - t * cell - (cell - TILE_PX) * 0.5) / raw_size;
+}
+
 void vertex() {
 	modulate = COLOR;
 }
 
 void fragment() {
 	float sd = wiper_distance(SCREEN_UV, 1.0 / SCREEN_PIXEL_SIZE);
-	vec2 uv = UV;
+	vec4 texel = texture(TEXTURE, UV);
 	vec2 texture_size = 1.0 / TEXTURE_PIXEL_SIZE;
-	bool is_color_atlas = distance(texture_size, atlas_size) < 0.5
-		|| (atlas_size_alt.x > 0.5 && distance(texture_size, atlas_size_alt) < 0.5);
-	if (is_color_atlas) {
-		uv = mod(UV, vec2(0.5)) + (sd > 0.0 ? old_quadrant : new_quadrant) * 0.5;
+	bool is_alt = atlas_size_alt.x > 0.5 && distance(texture_size, atlas_size_alt) < 0.5;
+	if (is_alt || distance(texture_size, atlas_size) < 0.5) {
+		bool before = sd > 0.0;
+		vec2 uv = mod(UV, vec2(0.5)) + (before ? old_quadrant : new_quadrant) * 0.5;
+		if (before ? old_combo : new_combo) {
+			if (is_alt) {
+				texel = texture(combo_atlas_alt, combo_uv(uv, atlas_size_alt, vec2(textureSize(combo_atlas_alt, 0))));
+			} else {
+				texel = texture(combo_atlas, combo_uv(uv, atlas_size, vec2(textureSize(combo_atlas, 0))));
+			}
+		} else {
+			texel = texture(TEXTURE, uv);
+		}
 	}
-	COLOR = texture(TEXTURE, uv) * modulate;
+	COLOR = texel * modulate;
 	COLOR.a *= mix(float(show_new), float(show_old), smoothstep(-1.0, 1.0, sd));
 	// Brillo en el borde de corte, solo mientras la barra barre.
 	if (wiper_progress > 0.0 && wiper_progress < 1.0) {
