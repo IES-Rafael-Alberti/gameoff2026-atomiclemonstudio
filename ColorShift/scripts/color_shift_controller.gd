@@ -6,6 +6,10 @@ var _shift_active: bool = false
 var _control_active: bool = false
 
 
+func _ready() -> void:
+	add_child(preload("res://scripts/color_disc.gd").new())
+
+
 func _process(_delta: float) -> void:
 	var shift_pressed := Input.is_action_pressed("shift")
 	var control_pressed := Input.is_action_pressed("control")
@@ -28,3 +32,6 @@ func _process(_delta: float) -> void:
 		GameManager.change_color(1)
 	if control_triggered:
 		GameManager.change_color(2)
+	if ScreenTransition.is_busy():
+		return
+	ScreenTransition.shift_color()

@@ -11,6 +11,8 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
+const WIPER_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
+
 var opened_doors: Dictionary = {}
 
 # Stores the original cell data so cells can be hidden and restored.
@@ -19,6 +21,10 @@ var cell_colors: Dictionary = {}
 var visible_cells: Dictionary = {}
 
 var player: CharacterBody2D
+
+# True mientras la barra de ScreenTransition barre esta capa (la vieja o la nueva).
+var _sweeping: bool = false
+var _base_material: Material
 
 # Stores interactive tile properties.
 # Format: Vector2i -> Dictionary
@@ -48,6 +54,9 @@ func _ready() -> void:
 	# Connect to color manager.
 	if not GameManager.color_changed.is_connected(on_change_color):
 		GameManager.color_changed.connect(on_change_color)
+
+	ScreenTransition.sweep_started.connect(_on_sweep_started)
+	ScreenTransition.sweep_finished.connect(_on_sweep_finished)
 
 	# Apply initial color.
 	on_change_color(GameManager.get_color_name())
@@ -184,6 +193,34 @@ func _restore_cell(coords: Vector2i) -> void:
 		data["atlas_coords"],
 		data["alternative_tile"]
 	)
+	collision_enabled = is_active
+	# Durante el barrido la visibilidad la gobierna la barra, no el cambio de color.
+	if not _sweeping:
+		visible = is_active
+
+
+# La capa vieja se ve delante de la barra y la nueva detras (tile_wiper_reveal.gdshader).
+func _on_sweep_started(old_color: String, new_color: String) -> void:
+	var mine: String = LayerType.keys()[layer_type]
+	if mine != old_color and mine != new_color:
+		return
+
+	_sweeping = true
+	var wiper := ShaderMaterial.new()
+	wiper.shader = WIPER_SHADER
+	wiper.set_shader_parameter("keep_before", mine == old_color)
+	_base_material = material
+	material = wiper
+	visible = true
+
+
+func _on_sweep_finished() -> void:
+	if not _sweeping:
+		return
+
+	_sweeping = false
+	material = _base_material
+	visible = LayerType.keys()[layer_type] == GameManager.get_color_name()
 
 
 # Disconnect signal when leaving the scene.
