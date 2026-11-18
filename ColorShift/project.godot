@@ -25,6 +25,7 @@ GameManager="*uid://dsuv8jem30rdd"
 SceneManager="*uid://cb7tpueudw615"
 UIManager="*uid://ca3hqyqwix01u"
 ColorBlindMode="*uid://beruxe0eoluh6"
+ScreenTransition="*res://scenes/screen_transition.tscn"
 MusicAndSounds="*res://scripts/music_and_sounds.gd"
 InputSettings="*uid://yco5xyct6yy1"
 
@@ -108,3 +109,10 @@ teleport_checkpoint={
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[shader_globals]
+
+wiper_progress={
+"type": "float",
+"value": 1.0
+}

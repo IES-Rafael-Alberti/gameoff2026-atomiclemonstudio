@@ -5,6 +5,10 @@ extends Node
 var _combo_active: bool = false
 
 
+func _ready() -> void:
+	add_child(preload("res://scripts/color_disc.gd").new())
+
+
 func _process(_delta: float) -> void:
 	var combo := Input.is_action_pressed("shift") #and Input.is_action_pressed("move_right")
 	var triggered := combo and not _combo_active
@@ -20,4 +24,6 @@ func _process(_delta: float) -> void:
 		if state_machine.current_state.name.to_lower() == "deathstate":
 			return
 
-	GameManager.change_color()
+	if ScreenTransition.is_busy():
+		return
+	ScreenTransition.shift_color()
