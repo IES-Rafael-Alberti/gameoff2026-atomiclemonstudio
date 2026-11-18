@@ -344,14 +344,16 @@ animations = [{
 
 [node name="Idle" type="AnimatedSprite2D" parent="." unique_id=1864973683]
 visible = false
+position = Vector2(2, -2)
+scale = Vector2(1.03125, 1.03125)
 sprite_frames = SubResource("SpriteFrames_jyaov")
-frame_progress = 0.25091493
+frame_progress = 0.6992204
 
 [node name="Walk left" type="AnimatedSprite2D" parent="." unique_id=1032776510]
 visible = false
 sprite_frames = SubResource("SpriteFrames_ej0ox")
 animation = &"Walk_camaleon"
-frame_progress = 0.27274817
+frame_progress = 0.11688824
 
 [node name="jump" type="AnimatedSprite2D" parent="." unique_id=1873910538]
 visible = false
@@ -367,6 +369,7 @@ frame = 3
 frame_progress = 0.07757641
 
 [node name="jump right" type="AnimatedSprite2D" parent="." unique_id=1146708310]
+visible = false
 sprite_frames = SubResource("SpriteFrames_uci1u")
 frame = 5
 frame_progress = 0.72218317
