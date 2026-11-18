@@ -56,6 +56,11 @@ func is_busy() -> bool:
 
 ## Cambio de color: la barra barre la pantalla y los tiles se actualizan a su paso.
 func shift_color(wheel: int) -> void:
+	sweep(GameManager.change_color.bind(wheel))
+
+
+## Barrido que aplica `change` (un cambio de color en GameManager) al empezar.
+func sweep(change: Callable) -> void:
 	if _busy:
 		return
 	_busy = true
@@ -64,7 +69,7 @@ func shift_color(wheel: int) -> void:
 	_play_sweep_sound()
 	_set_progress(0.0)
 	# El barrido dispara el cambio: la colision cambia ya y el shader revela los tiles.
-	GameManager.change_color(wheel)
+	change.call()
 	var new_name: String = GameManager.get_color_name()
 	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
 	sweep_started.emit(old_name, new_name)
@@ -74,8 +79,9 @@ func shift_color(wheel: int) -> void:
 	_set_progress(1.0)
 	_shake()
 
-	sweep_finished.emit()
+	# Free first, so whoever waits for sweep_finished can sweep again.
 	_busy = false
+	sweep_finished.emit()
 
 
 func _set_progress(value: float) -> void:
