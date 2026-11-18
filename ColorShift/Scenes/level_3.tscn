@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_s8nj6"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_vwg62"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_qf6rc"]
+[ext_resource type="PackedScene" uid="uid://bvf7pu26w4ch8" path="res://Scenes/BackgroundParallax.tscn" id="4_53xsp"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="4_s8nj6"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="5_vwg62"]
-[ext_resource type="Texture2D" uid="uid://douglgb86c5kh" path="res://assets/sprites/scenary/Background.png" id="6_p6vls"]
 [ext_resource type="PackedScene" uid="uid://bplvxvjtyj0el" path="res://Scenes/frog.tscn" id="7_53xsp"]
 
 [node name="Level3" type="Node2D" unique_id=1939000241]
@@ -32,14 +32,12 @@ tile_map_data = PackedByteArray("AADw//T/AAAJAAgAAADw//X/AAAJAAkAAADw//b/AAAJAAk
 script = ExtResource("3_qf6rc")
 room_offset = Vector2(-512, -384)
 
-[node name="Parallax2D" type="Parallax2D" parent="Camera2D" unique_id=1090309238]
-z_index = -15
-scroll_offset = Vector2(-512, -384)
-
-[node name="TextureRect" type="TextureRect" parent="Camera2D/Parallax2D" unique_id=908305400]
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("6_p6vls")
+[node name="Parallax2D" parent="." unique_id=342001939 node_paths=PackedStringArray("player", "camera") instance=ExtResource("4_53xsp")]
+z_index = -10
+position = Vector2(-263, -206)
+scale = Vector2(1.1, 1.1)
+player = NodePath("../Player")
+camera = NodePath("../Camera2D")
 
 [node name="Checkpoints" type="Node" parent="." unique_id=1818447788 node_paths=PackedStringArray("player")]
 script = ExtResource("4_s8nj6")
@@ -69,10 +67,10 @@ chase_speed = 80.0
 [node name="FrogLimits" type="Node" parent="." unique_id=1581935325]
 
 [node name="LeftFrogLimit" type="Marker2D" parent="FrogLimits" unique_id=1780705111]
-position = Vector2(-298, 298)
+position = Vector2(-323, 297)
 
 [node name="RightFrogLimit" type="Marker2D" parent="FrogLimits" unique_id=2110670754]
-position = Vector2(424, 298)
+position = Vector2(450, 301)
 
 [editable path="Tilemaps"]
 [editable path="Frog"]

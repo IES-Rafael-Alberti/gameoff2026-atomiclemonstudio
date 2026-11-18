@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cljciwe2j4k75"]
+[gd_scene format=3 uid="uid://bplvxvjtyj0el"]
 
 [ext_resource type="Script" uid="uid://dcdj7dabe2j0y" path="res://scripts/frog_state_machine.gd" id="1_hdff1"]
 [ext_resource type="Texture2D" uid="uid://8d8ean5iua6s" path="res://assets/sprites/test/frogjumps.png" id="2_4ygq6"]
