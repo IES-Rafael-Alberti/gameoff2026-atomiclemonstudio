@@ -18,15 +18,20 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
-# Quadrant of "Tileset - 4 colors.png" for each color (grey is (0, 0)).
-# ponytail: mixed colors have no art in the atlas, so they use the grey quadrant.
+# Quadrant of each color in "Tileset - 4 colors.png" (grey is (0, 0)) or, for
+# the mixes, in "Tileset-2222.png", which has the same layout.
 const COLOR_QUADRANTS: Dictionary = {
 	"RED": Vector2(1, 0),
 	"BLUE": Vector2(0, 1),
-	"YELLOW": Vector2(1, 1)
+	"YELLOW": Vector2(1, 1),
+	"PURPLE": Vector2(1, 0),
+	"GREEN": Vector2(0, 1),
+	"ORANGE": Vector2(1, 1)
 }
+const COMBO_COLORS: Array[String] = ["ORANGE", "PURPLE", "GREEN"]
 
 const TILE_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
+const COMBO_ATLAS := preload("res://assets/sprites/scenary/Tileset-2222.png")
 
 var opened_doors: Dictionary = {}
 
@@ -133,6 +138,7 @@ func _make_material(color_name: String) -> ShaderMaterial:
 	var tile_material := ShaderMaterial.new()
 	tile_material.shader = TILE_SHADER
 	tile_material.set_shader_parameter("atlas_size", _atlas_size)
+	tile_material.set_shader_parameter("combo_atlas", COMBO_ATLAS)
 	_set_quadrants(tile_material, color_name, color_name)
 	return tile_material
 
@@ -140,6 +146,8 @@ func _make_material(color_name: String) -> ShaderMaterial:
 func _set_quadrants(tile_material: ShaderMaterial, old_color: String, new_color: String) -> void:
 	tile_material.set_shader_parameter("old_quadrant", COLOR_QUADRANTS.get(old_color, Vector2.ZERO))
 	tile_material.set_shader_parameter("new_quadrant", COLOR_QUADRANTS.get(new_color, Vector2.ZERO))
+	tile_material.set_shader_parameter("old_combo", old_color in COMBO_COLORS)
+	tile_material.set_shader_parameter("new_combo", new_color in COMBO_COLORS)
 
 
 func _set_visible_sides(layer: TileMapLayer, show_old: bool, show_new: bool) -> void:
