@@ -1,8 +1,9 @@
 extends Node
 
-## Cycles the active color with Shift + Right, without any screen filter.
+## Cycles the two color wheels with Shift and Control.
 
-var _combo_active: bool = false
+var _shift_active: bool = false
+var _control_active: bool = false
 
 
 func _ready() -> void:
@@ -10,11 +11,14 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	var combo := Input.is_action_pressed("shift") #and Input.is_action_pressed("move_right")
-	var triggered := combo and not _combo_active
-	_combo_active = combo
+	var shift_pressed := Input.is_action_pressed("shift")
+	var control_pressed := Input.is_action_pressed("control")
+	var shift_triggered := shift_pressed and not _shift_active
+	var control_triggered := control_pressed and not _control_active
+	_shift_active = shift_pressed
+	_control_active = control_pressed
 
-	if not triggered:
+	if not shift_triggered and not control_triggered:
 		return
 	if SceneManager.is_transitioning:
 		return
@@ -24,6 +28,10 @@ func _process(_delta: float) -> void:
 		if state_machine.current_state.name.to_lower() == "deathstate":
 			return
 
+	if shift_triggered:
+		GameManager.change_color(1)
+	if control_triggered:
+		GameManager.change_color(2)
 	if ScreenTransition.is_busy():
 		return
 	ScreenTransition.shift_color()
