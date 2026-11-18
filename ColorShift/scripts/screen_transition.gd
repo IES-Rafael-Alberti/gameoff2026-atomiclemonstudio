@@ -3,9 +3,10 @@ extends CanvasLayer
 ## Pivota en la esquina inferior derecha y gira de vertical a horizontal.
 ##
 ## Se usa en el cambio de color con Shift (ver color_shift_controller.gd):
-##   ScreenTransition.shift_color()
-## La barra solo se dibuja; el cambio de color de los tiles lo hace cada capa con
-## tile_wiper_reveal.gdshader al recibir sweep_started (ver tile_map_manager.gd).
+##   ScreenTransition.shift_color(1)  # Rueda principal
+##   ScreenTransition.shift_color(2)  # Rueda secundaria
+## La barra se dibuja mientras GameManager cambia el color y los TileMapLayer
+## reciben sweep_started/sweep_finished para ocultar y restaurar celdas.
 
 signal sweep_started(old_color: String, new_color: String)
 signal sweep_finished
@@ -23,6 +24,9 @@ const COLOR_TINTS := {
 	"RED": Color(0.9, 0.2, 0.2),
 	"BLUE": Color(0.2, 0.4, 0.95),
 	"YELLOW": Color(0.97, 0.85, 0.2),
+	"ORANGE": Color(1.0, 0.55, 0.1),
+	"PURPLE": Color(0.65, 0.25, 0.85),
+	"GREEN": Color(0.25, 0.75, 0.35),
 }
 
 @onready var _material: ShaderMaterial = $ColorRect.material
@@ -50,20 +54,18 @@ func is_busy() -> bool:
 
 
 ## Cambio de color: la barra barre la pantalla y los tiles se actualizan a su paso.
-func shift_color() -> void:
+func shift_color(wheel: int) -> void:
 	if _busy:
 		return
 	_busy = true
-	var keys := GameManager.Colors.keys()
 	var old_name: String = GameManager.get_color_name()
-	var new_name: String = keys[(GameManager.actual_color_index + 1) % keys.size()]
-	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
 
 	_play_sweep_sound()
 	_set_progress(0.0)
+	var new_name: String = GameManager.preview_color(wheel)
 	sweep_started.emit(old_name, new_name)
-	# La colision cambia al empezar el barrido: el juego responde al instante.
-	GameManager.change_color()
+	GameManager.change_color(wheel)
+	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_method(_set_progress, 0.0, 1.0, SWEEP_TIME)
 	await _tween.finished

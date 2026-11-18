@@ -11,8 +11,6 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
-const WIPER_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
-
 var opened_doors: Dictionary = {}
 
 # Stores the original cell data so cells can be hidden and restored.
@@ -22,9 +20,10 @@ var visible_cells: Dictionary = {}
 
 var player: CharacterBody2D
 
-# True mientras la barra de ScreenTransition barre esta capa (la vieja o la nueva).
+# True while ScreenTransition is sweeping.
 var _sweeping: bool = false
-var _base_material: Material
+var _old_sweep_color: String = "GREY"
+var _new_sweep_color: String = "GREY"
 
 # Stores interactive tile properties.
 # Format: Vector2i -> Dictionary
@@ -128,6 +127,9 @@ func _refresh_interactive_tiles() -> void:
 
 # Check for nearby interactive objects.
 func _process(_delta: float) -> void:
+	if _sweeping:
+		_update_sweep_cells()
+
 	if not visible or player == null:
 		return
 
@@ -169,6 +171,10 @@ func on_change_color(actual_color: String) -> void:
 	visible = true
 	collision_enabled = true
 
+	if _sweeping:
+		# The sweep is still showing the old color. Do not switch tile visibility here.
+		return
+
 	var selected_color := actual_color.to_upper()
 	for coords in cell_data:
 		var colors: Array[String] = cell_colors.get(coords, ["GREY"])
@@ -193,25 +199,64 @@ func _restore_cell(coords: Vector2i) -> void:
 		data["atlas_coords"],
 		data["alternative_tile"]
 	)
-	collision_enabled = is_active
-	# Durante el barrido la visibilidad la gobierna la barra, no el cambio de color.
-	if not _sweeping:
-		visible = is_active
+	collision_enabled = true
+	visible = true
 
 
-# La capa vieja se ve delante de la barra y la nueva detras (tile_wiper_reveal.gdshader).
+# Keep every tile available while the screen wiper is in progress.
 func _on_sweep_started(old_color: String, new_color: String) -> void:
-	var mine: String = LayerType.keys()[layer_type]
-	if mine != old_color and mine != new_color:
+	_sweeping = true
+	_old_sweep_color = old_color
+	_new_sweep_color = new_color
+	_update_sweep_cells()
+
+
+func _update_sweep_cells() -> void:
+	var viewport := get_viewport()
+	if viewport == null:
 		return
 
-	_sweeping = true
-	var wiper := ShaderMaterial.new()
-	wiper.shader = WIPER_SHADER
-	wiper.set_shader_parameter("keep_before", mine == old_color)
-	_base_material = material
-	material = wiper
-	visible = true
+	# Convert the tile position from world coordinates to screen coordinates.
+	var viewport_size: Vector2 = viewport.get_visible_rect().size
+	var canvas_transform: Transform2D = viewport.get_canvas_transform()
+
+	# Progress goes from 0.0 to 1.0 and moves the sweep line across the screen.
+	var progress: float = ScreenTransition.progress
+	var angle: float = lerp(-0.12, PI * 0.5 + 0.12, progress)
+
+	for coords in cell_data:
+		var world_position: Vector2 = to_global(map_to_local(coords))
+		var screen_position: Vector2 = canvas_transform * world_position
+		var screen_uv: Vector2 = screen_position / viewport_size
+
+		# Mirror the UV coordinates and measure from the bottom-right corner,
+		# matching the pivot used by the screen wiper.
+		var v: Vector2 = (Vector2.ONE - screen_uv) * viewport_size
+
+		# sd is the signed distance to the sweep line:
+		# positive is in front of the line and negative is behind it.
+		var sd: float = v.length() * sin(atan2(v.x, v.y) - angle)
+
+		var is_before_bar: bool = sd > 0.0
+
+		# In front of the line keep the old color; behind it use the new color.
+		var target_color: String = (
+			_old_sweep_color if is_before_bar else _new_sweep_color
+		)
+		var colors: Array[String] = cell_colors.get(coords, ["GREY"])
+
+		# Grey is permanent, so its cells are never controlled by the sweep.
+		var should_be_visible: bool = (
+			"GREY" in colors
+			or target_color in colors
+		)
+
+		if should_be_visible:
+			_restore_cell(coords)
+			visible_cells[coords] = true
+		else:
+			erase_cell(coords)
+			visible_cells.erase(coords)
 
 
 func _on_sweep_finished() -> void:
@@ -219,14 +264,19 @@ func _on_sweep_finished() -> void:
 		return
 
 	_sweeping = false
-	material = _base_material
-	visible = LayerType.keys()[layer_type] == GameManager.get_color_name()
+	on_change_color(GameManager.get_color_name())
 
 
 # Disconnect signal when leaving the scene.
 func _exit_tree() -> void:
 	if GameManager.color_changed.is_connected(on_change_color):
 		GameManager.color_changed.disconnect(on_change_color)
+	if GameManager.button_pressed_signal.is_connected(_on_button_pressed):
+		GameManager.button_pressed_signal.disconnect(_on_button_pressed)
+	if ScreenTransition.sweep_started.is_connected(_on_sweep_started):
+		ScreenTransition.sweep_started.disconnect(_on_sweep_started)
+	if ScreenTransition.sweep_finished.is_connected(_on_sweep_finished):
+		ScreenTransition.sweep_finished.disconnect(_on_sweep_finished)
 
 
 # Return cached properties of a cell.

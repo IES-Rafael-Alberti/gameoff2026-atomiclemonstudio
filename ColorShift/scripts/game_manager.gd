@@ -6,6 +6,7 @@ enum Colors2 { ORANGE, PURPLE, GREEN }
 var wheel_1_color: Colors = Colors.GREY
 var wheel_2_color: Colors = Colors.GREY
 var actual_color: String = "GREY"
+var actual_color_index: int = 0
 signal color_changed(color: String)
 
 var player_has_key: bool = false
@@ -32,8 +33,49 @@ func change_color(wheel: int) -> void:
 	update_color()
 
 
+func preview_color(wheel: int) -> String:
+	var preview_wheel_1: Colors = wheel_1_color
+	var preview_wheel_2: Colors = wheel_2_color
+
+	match wheel:
+		1:
+			preview_wheel_1 = ((preview_wheel_1 + 1) % Colors.size()) as Colors
+		2:
+			preview_wheel_2 = ((preview_wheel_2 + 1) % Colors.size()) as Colors
+		_:
+			return get_color_name()
+
+	if preview_wheel_1 == preview_wheel_2:
+		return Colors.keys()[preview_wheel_1]
+	if preview_wheel_1 == Colors.GREY:
+		return Colors.keys()[preview_wheel_2]
+	if preview_wheel_2 == Colors.GREY:
+		return Colors.keys()[preview_wheel_1]
+
+	if (preview_wheel_1 == Colors.RED and preview_wheel_2 == Colors.YELLOW) or \
+			(preview_wheel_1 == Colors.YELLOW and preview_wheel_2 == Colors.RED):
+		return "ORANGE"
+	if (preview_wheel_1 == Colors.RED and preview_wheel_2 == Colors.BLUE) or \
+			(preview_wheel_1 == Colors.BLUE and preview_wheel_2 == Colors.RED):
+		return "PURPLE"
+	if (preview_wheel_1 == Colors.YELLOW and preview_wheel_2 == Colors.BLUE) or \
+			(preview_wheel_1 == Colors.BLUE and preview_wheel_2 == Colors.YELLOW):
+		return "GREEN"
+
+	return Colors.keys()[preview_wheel_1]
+
+
 func update_color() -> void:
 	actual_color = get_color_name()
+	match actual_color:
+		"GREY":
+			actual_color_index = 0
+		"RED", "ORANGE":
+			actual_color_index = 1
+		"BLUE", "PURPLE":
+			actual_color_index = 2
+		"YELLOW", "GREEN":
+			actual_color_index = 3
 	print("Color changed: ", actual_color)
 	color_changed.emit(actual_color)
 

@@ -29,9 +29,6 @@ func _process(_delta: float) -> void:
 			return
 
 	if shift_triggered:
-		GameManager.change_color(1)
-	if control_triggered:
-		GameManager.change_color(2)
-	if ScreenTransition.is_busy():
-		return
-	ScreenTransition.shift_color()
+		ScreenTransition.shift_color(1)
+	elif control_triggered:
+		ScreenTransition.shift_color(2)
