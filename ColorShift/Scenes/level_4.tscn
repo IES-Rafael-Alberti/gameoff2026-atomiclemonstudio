@@ -590,6 +590,9 @@ tile_set = SubResource("TileSet_g4v7s")
 script = ExtResource("6_6wx8f")
 layer_type = 6
 
+[node name="TileMapLayerDefinitive" type="TileMapLayer" parent="Tilemaps" unique_id=1234567890]
+tile_set = SubResource("TileSet_g4v7s")
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=485681226]
 script = ExtResource("3_xfk5q")
 room_offset = Vector2(-512, -384)
