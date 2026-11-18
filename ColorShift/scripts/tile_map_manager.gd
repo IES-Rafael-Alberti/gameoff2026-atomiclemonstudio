@@ -18,8 +18,10 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
-# Quadrant of each color in "Tileset - 4 colors.png" (grey is (0, 0)) or, for
-# the mixes, in "Tileset-2222.png", which has the same layout.
+# Quadrant of the color atlas for each color (grey is (0, 0)).
+# Both atlas families share the same quadrant layout:
+#   Tileset - 4 colors / grass1  -> RED, BLUE, YELLOW
+#   Tileset-2222 / grass2        -> PURPLE, GREEN, ORANGE
 const COLOR_QUADRANTS: Dictionary = {
 	"RED": Vector2(1, 0),
 	"BLUE": Vector2(0, 1),
@@ -31,7 +33,13 @@ const COLOR_QUADRANTS: Dictionary = {
 const COMBO_COLORS: Array[String] = ["ORANGE", "PURPLE", "GREEN"]
 
 const TILE_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
-const COMBO_ATLAS := preload("res://assets/sprites/scenary/Tileset-2222.png")
+# Atlas families: [grey/red/blue/yellow atlas, atlas with the same layout for
+# the mixes]. The first one goes to the shader's atlas_size/combo_atlas and the
+# second one to atlas_size_alt/combo_atlas_alt.
+const ATLAS_FAMILIES: Array = [
+	[preload("res://assets/sprites/scenary/Tileset - 4 colors.png"), preload("res://assets/sprites/scenary/Tileset-2222.png")],
+	[preload("res://assets/sprites/scenary/grass1.png"), preload("res://assets/sprites/scenary/grass2.png")],
+]
 
 var opened_doors: Dictionary = {}
 
@@ -43,7 +51,9 @@ var color_layers: Dictionary = {}
 var cell_colors: Dictionary = {}
 
 var _sweeping: bool = false
-var _atlas_size: Vector2
+# Sizes of every color atlas in the TileSet (the shader needs them to know
+# which textures it is allowed to recolor by quadrant).
+var _atlas_sizes: Array[Vector2] = []
 
 # Stores interactive tile properties.
 # Format: Vector2i -> Dictionary
@@ -62,7 +72,7 @@ func _ready() -> void:
 
 	# Cache interactive tiles before colored cells leave this layer.
 	_refresh_interactive_tiles()
-	_atlas_size = _get_atlas_size()
+	_collect_atlas_sizes()
 	material = _make_material("GREY")
 	_split_color_cells()
 
@@ -124,21 +134,32 @@ func _get_color_layer(color_name: String) -> TileMapLayer:
 	return color_layers[color_name]
 
 
-# The shader only recolors the 4-color atlas (source 0). With texture padding
-# it samples a copy where every tile has a 1 px border.
-func _get_atlas_size() -> Vector2:
-	var source := tile_set.get_source(0) as TileSetAtlasSource
-	if source.use_texture_padding:
-		return Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+# Runtime size of each atlas family in this TileSet (Vector2.ZERO if unused).
+# The shader only recolors textures of these sizes; door, collectables... are
+# drawn as they are. With texture padding Godot adds 1 px around every tile.
+func _collect_atlas_sizes() -> void:
+	_atlas_sizes.clear()
+	for family in ATLAS_FAMILIES:
+		var size := Vector2.ZERO
+		for i in tile_set.get_source_count():
+			var source := tile_set.get_source(tile_set.get_source_id(i)) as TileSetAtlasSource
+			if source == null or not source.texture in family:
+				continue
 
-	return source.texture.get_size()
+			size = source.texture.get_size()
+			if source.use_texture_padding:
+				size = Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+			break
+		_atlas_sizes.append(size)
 
 
 func _make_material(color_name: String) -> ShaderMaterial:
 	var tile_material := ShaderMaterial.new()
 	tile_material.shader = TILE_SHADER
-	tile_material.set_shader_parameter("atlas_size", _atlas_size)
-	tile_material.set_shader_parameter("combo_atlas", COMBO_ATLAS)
+	tile_material.set_shader_parameter("atlas_size", _atlas_sizes[0])
+	tile_material.set_shader_parameter("combo_atlas", ATLAS_FAMILIES[0][1])
+	tile_material.set_shader_parameter("atlas_size_alt", _atlas_sizes[1])
+	tile_material.set_shader_parameter("combo_atlas_alt", ATLAS_FAMILIES[1][1])
 	_set_quadrants(tile_material, color_name, color_name)
 	return tile_material
 
@@ -171,7 +192,9 @@ func _refresh_interactive_tiles() -> void:
 		var is_key: bool = data.get_custom_data("KEY")
 		var is_barrier: bool = data.get_custom_data("BARRIER")
 		var is_door: bool = data.get_custom_data("DOOR")
-		var barrier_id: Variant = data.get_custom_data("BARRIER_ID")
+		var barrier_id: Variant = null
+		if tile_set.has_custom_data_layer_by_name("BARRIER_ID"):
+			barrier_id = data.get_custom_data("BARRIER_ID")
 
 		if need_to_hide or is_spike or is_key or is_barrier or is_door:
 			interactive_tiles[coords] = {

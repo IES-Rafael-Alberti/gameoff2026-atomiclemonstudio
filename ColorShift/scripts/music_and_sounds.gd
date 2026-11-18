@@ -17,7 +17,7 @@ const MENU_SELECT_SOUND := preload("res://bso_colorshift/menu select/Menu Select
 const AMULET_SOUND := preload("res://bso_colorshift/menu select/amulet/133008__cosmicd__annulet-of-absorption.wav")
 
 ## Scenes that use the level theme. Everything else uses the menu theme.
-const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3"]
+const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4"]
 
 const MUSIC_FADE_TIME := 0.6
 const MUSIC_FADE_FROM_DB := -30.0
