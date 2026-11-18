@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cig2g6uvsg4hp"
-path="res://.godot/imported/Tileset shaders 2.png-6e962607fc6a23b8d86221442e8e80e4.ctex"
+uid="uid://b5r6exegbqhr2"
+path="res://.godot/imported/grass2.png-b59956e9843a8d5badc801636cb0b742.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/scenary/Tileset shaders 2.png"
-dest_files=["res://.godot/imported/Tileset shaders 2.png-6e962607fc6a23b8d86221442e8e80e4.ctex"]
+source_file="res://assets/sprites/scenary/grass2.png"
+dest_files=["res://.godot/imported/grass2.png-b59956e9843a8d5badc801636cb0b742.ctex"]
 
 [params]
 
