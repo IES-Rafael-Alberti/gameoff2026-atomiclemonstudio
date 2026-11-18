@@ -1,11 +1,15 @@
 shader_type canvas_item;
 #include "res://shader/transitions/wiper.gdshaderinc"
 
-// Pinta los tiles del atlas de 4 colores con el cuadrante de un color:
-// (0,0) gris, (1,0) rojo, (0,1) azul, (1,1) amarillo.
+// Pinta los tiles de los atlas de color con el cuadrante de un color:
+//   Tileset - 4 colors / grass1  -> (0,0) gris, (1,0) rojo, (0,1) azul, (1,1) amarillo
+//   Tileset-2222 / grass2        -> (0,0) gris, (1,0) morado, (0,1) verde, (1,1) naranja
 // Delante de la barra usa el color viejo y detras el nuevo.
 // Otras texturas (puerta, coleccionables) se dibujan tal cual.
 uniform vec2 atlas_size;
+// Segundo tamaño de atlas (los atlas de hierba son 512x576; los de color 384x448).
+// A 0.0 solo hay una familia de atlas, como en los niveles 1, 2 y 3.
+uniform vec2 atlas_size_alt = vec2(0.0);
 uniform vec2 old_quadrant = vec2(0.0);
 uniform vec2 new_quadrant = vec2(0.0);
 // false: la capa no se ve en ese lado de la barra.
@@ -22,7 +26,10 @@ void vertex() {
 void fragment() {
 	float sd = wiper_distance(SCREEN_UV, 1.0 / SCREEN_PIXEL_SIZE);
 	vec2 uv = UV;
-	if (distance(1.0 / TEXTURE_PIXEL_SIZE, atlas_size) < 0.5) {
+	vec2 texture_size = 1.0 / TEXTURE_PIXEL_SIZE;
+	bool is_color_atlas = distance(texture_size, atlas_size) < 0.5
+		|| (atlas_size_alt.x > 0.5 && distance(texture_size, atlas_size_alt) < 0.5);
+	if (is_color_atlas) {
 		uv = mod(UV, vec2(0.5)) + (sd > 0.0 ? old_quadrant : new_quadrant) * 0.5;
 	}
 	COLOR = texture(TEXTURE, uv) * modulate;

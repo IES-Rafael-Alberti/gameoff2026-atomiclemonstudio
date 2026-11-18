@@ -18,12 +18,17 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
-# Quadrant of "Tileset - 4 colors.png" for each color (grey is (0, 0)).
-# ponytail: mixed colors have no art in the atlas, so they use the grey quadrant.
+# Quadrant of the color atlas for each color (grey is (0, 0)).
+# Both atlas families share the same quadrant layout:
+#   Tileset - 4 colors / grass1  -> RED, BLUE, YELLOW
+#   Tileset-2222 / grass2        -> PURPLE, GREEN, ORANGE
 const COLOR_QUADRANTS: Dictionary = {
 	"RED": Vector2(1, 0),
 	"BLUE": Vector2(0, 1),
-	"YELLOW": Vector2(1, 1)
+	"YELLOW": Vector2(1, 1),
+	"PURPLE": Vector2(1, 0),
+	"GREEN": Vector2(0, 1),
+	"ORANGE": Vector2(1, 1)
 }
 
 const TILE_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
@@ -38,7 +43,9 @@ var color_layers: Dictionary = {}
 var cell_colors: Dictionary = {}
 
 var _sweeping: bool = false
-var _atlas_size: Vector2
+# Sizes of every color atlas in the TileSet (the shader needs them to know
+# which textures it is allowed to recolor by quadrant).
+var _atlas_sizes: Array[Vector2] = []
 
 # Stores interactive tile properties.
 # Format: Vector2i -> Dictionary
@@ -57,7 +64,7 @@ func _ready() -> void:
 
 	# Cache interactive tiles before colored cells leave this layer.
 	_refresh_interactive_tiles()
-	_atlas_size = _get_atlas_size()
+	_collect_atlas_sizes()
 	material = _make_material("GREY")
 	_split_color_cells()
 
@@ -119,20 +126,37 @@ func _get_color_layer(color_name: String) -> TileMapLayer:
 	return color_layers[color_name]
 
 
-# The shader only recolors the 4-color atlas (source 0). With texture padding
-# it samples a copy where every tile has a 1 px border.
-func _get_atlas_size() -> Vector2:
-	var source := tile_set.get_source(0) as TileSetAtlasSource
-	if source.use_texture_padding:
-		return Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+# Collect the texture sizes of all color atlases. Small helper textures (door,
+# collectables) are ignored: the shader draws those as they are.
+func _collect_atlas_sizes() -> void:
+	_atlas_sizes.clear()
+	for i in tile_set.get_source_count():
+		var source := tile_set.get_source(tile_set.get_source_id(i)) as TileSetAtlasSource
+		if source == null or source.texture == null:
+			continue
 
-	return source.texture.get_size()
+		var size: Vector2
+		if source.use_texture_padding:
+			size = Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+		else:
+			size = source.texture.get_size()
+
+		if size.x < 256.0 or size.y < 256.0:
+			continue
+		if not _atlas_sizes.has(size):
+			_atlas_sizes.append(size)
+
+	if _atlas_sizes.is_empty():
+		_atlas_sizes.append(Vector2.ZERO)
 
 
 func _make_material(color_name: String) -> ShaderMaterial:
 	var tile_material := ShaderMaterial.new()
 	tile_material.shader = TILE_SHADER
-	tile_material.set_shader_parameter("atlas_size", _atlas_size)
+	tile_material.set_shader_parameter("atlas_size", _atlas_sizes[0])
+	tile_material.set_shader_parameter(
+		"atlas_size_alt", _atlas_sizes[1] if _atlas_sizes.size() > 1 else Vector2.ZERO
+	)
 	_set_quadrants(tile_material, color_name, color_name)
 	return tile_material
 
@@ -163,7 +187,9 @@ func _refresh_interactive_tiles() -> void:
 		var is_key: bool = data.get_custom_data("KEY")
 		var is_barrier: bool = data.get_custom_data("BARRIER")
 		var is_door: bool = data.get_custom_data("DOOR")
-		var barrier_id: Variant = data.get_custom_data("BARRIER_ID")
+		var barrier_id: Variant = null
+		if tile_set.has_custom_data_layer_by_name("BARRIER_ID"):
+			barrier_id = data.get_custom_data("BARRIER_ID")
 
 		if need_to_hide or is_spike or is_key or is_barrier or is_door:
 			interactive_tiles[coords] = {
