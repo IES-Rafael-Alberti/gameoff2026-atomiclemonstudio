@@ -5,8 +5,9 @@ extends CanvasLayer
 ## Se usa en el cambio de color con Shift (ver color_shift_controller.gd):
 ##   ScreenTransition.shift_color(1)  # Rueda principal
 ##   ScreenTransition.shift_color(2)  # Rueda secundaria
-## La barra se dibuja mientras GameManager cambia el color y los TileMapLayer
-## reciben sweep_started/sweep_finished para ocultar y restaurar celdas.
+## Cambia el color en GameManager al empezar y los TileMapLayer reciben
+## sweep_started/sweep_finished para revelar sus capas de color con
+## tile_wiper_reveal.gdshader (ver tile_map_manager.gd).
 
 signal sweep_started(old_color: String, new_color: String)
 signal sweep_finished
@@ -62,10 +63,11 @@ func shift_color(wheel: int) -> void:
 
 	_play_sweep_sound()
 	_set_progress(0.0)
-	var new_name: String = GameManager.preview_color(wheel)
-	sweep_started.emit(old_name, new_name)
+	# El barrido dispara el cambio: la colision cambia ya y el shader revela los tiles.
 	GameManager.change_color(wheel)
+	var new_name: String = GameManager.get_color_name()
 	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
+	sweep_started.emit(old_name, new_name)
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_method(_set_progress, 0.0, 1.0, SWEEP_TIME)
 	await _tween.finished
