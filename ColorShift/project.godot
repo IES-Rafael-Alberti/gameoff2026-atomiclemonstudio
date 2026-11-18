@@ -124,3 +124,7 @@ wiper_progress={
 "type": "float",
 "value": 1.0
 }
+wiper_mirror={
+"type": "bool",
+"value": false
+}

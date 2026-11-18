@@ -1,10 +1,12 @@
 extends CanvasLayer
 ## Barra de escobilla del cambio de color (wiper_bar.gdshader).
 ## Pivota en la esquina inferior derecha y gira de vertical a horizontal.
+## La rueda izquierda usa otra barra, reflejada (pivote abajo a la izquierda)
+## y con el color de esa rueda.
 ##
 ## Se usa en el cambio de color con Shift (ver color_shift_controller.gd):
-##   ScreenTransition.shift_color(1)  # Rueda principal
-##   ScreenTransition.shift_color(2)  # Rueda secundaria
+##   ScreenTransition.shift_color(1)  # Rueda derecha
+##   ScreenTransition.shift_color(2)  # Rueda izquierda
 ## Cambia el color en GameManager al empezar y los TileMapLayer reciben
 ## sweep_started/sweep_finished para revelar sus capas de color con
 ## tile_wiper_reveal.gdshader (ver tile_map_manager.gd).
@@ -56,11 +58,13 @@ func is_busy() -> bool:
 
 ## Cambio de color: la barra barre la pantalla y los tiles se actualizan a su paso.
 func shift_color(wheel: int) -> void:
-	sweep(GameManager.change_color.bind(wheel))
+	sweep(GameManager.change_color.bind(wheel), wheel)
 
 
 ## Barrido que aplica `change` (un cambio de color en GameManager) al empezar.
-func sweep(change: Callable) -> void:
+## `wheel` 2 usa la barra reflejada con el color de la rueda izquierda; detras
+## de cualquiera de las dos barras sale el color resultante de la mezcla.
+func sweep(change: Callable, wheel: int = 1) -> void:
 	if _busy:
 		return
 	_busy = true
@@ -71,7 +75,9 @@ func sweep(change: Callable) -> void:
 	# El barrido dispara el cambio: la colision cambia ya y el shader revela los tiles.
 	change.call()
 	var new_name: String = GameManager.get_color_name()
-	_material.set_shader_parameter("tint", COLOR_TINTS.get(new_name, Color.WHITE))
+	var bar_color: String = new_name if wheel == 1 else GameManager.Colors.keys()[GameManager.wheel_2_color]
+	_material.set_shader_parameter("tint", COLOR_TINTS.get(bar_color, Color.WHITE))
+	RenderingServer.global_shader_parameter_set("wiper_mirror", wheel == 2)
 	sweep_started.emit(old_name, new_name)
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_method(_set_progress, 0.0, 1.0, SWEEP_TIME)

@@ -33,6 +33,6 @@ func _on_body_entered(body: Node2D) -> void:
 	while ScreenTransition.is_busy():
 		await ScreenTransition.sweep_finished
 
-	ScreenTransition.sweep(GameManager.obtain_second_wheel)
+	ScreenTransition.sweep(GameManager.obtain_second_wheel, 2)
 	UIManager.show_message("New color wheel! Turn it with Left Shift", 2.5)
 	queue_free()
