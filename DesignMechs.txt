@@ -1,0 +1,25 @@
+Mecánicas simples:
+
+cambio de color
+plataformas de colores
+obstáculos de colores
+obstáculos letales de colores
+puertas secretas
+pinceles
+pinceles de colores
+saltos con cambio de color
+enemigos
+enemigos de colores
+poderes CTRL (bossfight)
+
+
+Mecánicas complejas:
+
+segunda rueda
+mezclas complejas (rojo a morado a azul)
+obstáculos complejos (azul y rojo, también aparecería en morado)
+saltos con mezcla complejos (rojo a morado a azul)
+
+Mecánicas muy complejas:
+
+cambios secuenciales de distinta rueda (rojo a ultra-rojo, a naranja a amarillo)

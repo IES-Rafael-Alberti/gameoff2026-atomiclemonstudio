@@ -29,7 +29,7 @@ func _change_background() -> void:
 	background.texture = BACKGROUNDS[current_background_index]
 
 func _on_play_pressed() -> void:
-	SceneManager.change_scene("demo_level")
+	SceneManager.change_scene("level_select")
 
 func _on_quit_pressed() -> void:
 	SceneManager.change_scene("credits")
