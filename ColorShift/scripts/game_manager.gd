@@ -7,6 +7,8 @@ var wheel_1_color: Colors = Colors.GREY
 var wheel_2_color: Colors = Colors.GREY
 var actual_color: String = "GREY"
 var actual_color_index: int = 0
+# The left wheel (wheel 2) is collected in level 4.
+var has_second_wheel: bool = false
 signal color_changed(color: String)
 
 var player_has_key: bool = false

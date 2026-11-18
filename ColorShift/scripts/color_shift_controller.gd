@@ -1,6 +1,7 @@
 extends Node
 
-## Cycles the two color wheels with Shift and Control.
+## Cycles the right color wheel with Right Shift and, once the second wheel is
+## collected (level 4), the left one with Left Shift.
 
 var _shift_active: bool = false
 var _control_active: bool = false
@@ -12,7 +13,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var shift_pressed := Input.is_action_pressed("shift")
-	var control_pressed := Input.is_action_pressed("control")
+	var control_pressed := GameManager.has_second_wheel and Input.is_action_pressed("shift_2")
 	var shift_triggered := shift_pressed and not _shift_active
 	var control_triggered := control_pressed and not _control_active
 	_shift_active = shift_pressed

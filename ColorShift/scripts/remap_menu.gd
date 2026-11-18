@@ -8,8 +8,8 @@ const ACTION_DISPLAY_NAMES := {
 	"move_right": "Move right",
 	"move_left": "Move left",
 	"move_down": "Move down",
-	"shift": "Shift",
-	"control": "Control",
+	"shift": "Right color wheel",
+	"shift_2": "Left color wheel",
 	"interact": "Interact",
 	"pause": "Pause",
 	"teleport_checkpoint": "Teleport to checkpoint",
@@ -88,7 +88,13 @@ func _get_keyboard_text(action: String) -> String:
 	if physical_keycode == KEY_NONE:
 		return "—"
 	var keycode := DisplayServer.keyboard_get_keycode_from_physical(physical_keycode as Key)
-	return OS.get_keycode_string(keycode)
+	var text := OS.get_keycode_string(keycode)
+	match InputSettings.get_key_location(action):
+		KEY_LOCATION_LEFT:
+			text = "Left " + text
+		KEY_LOCATION_RIGHT:
+			text = "Right " + text
+	return text
 
 func _get_controller_text(action: String) -> String:
 	var controller_event := InputSettings.get_controller_event(action)
@@ -144,7 +150,7 @@ func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 	if _listening_device == "keyboard":
-		_assign_keyboard(_listening_action, event.physical_keycode)
+		_assign_keyboard(_listening_action, event.physical_keycode, event.location)
 	else:
 		_assign_controller(_listening_action, event)
 	_listening_action = ""
@@ -157,15 +163,18 @@ func _is_valid_binding_event(event: InputEvent) -> bool:
 		return event.pressed
 	return event is InputEventJoypadMotion and abs(event.axis_value) > 0.5
 
-func _assign_keyboard(action: String, new_keycode: int) -> void:
+func _assign_keyboard(action: String, new_keycode: int, new_location: int) -> void:
 	var old_keycode := InputSettings.get_physical_keycode(action)
+	var old_location := InputSettings.get_key_location(action)
 
 	for other_action in InputSettings.REMAPPABLE_ACTIONS:
-		if other_action != action and InputSettings.get_physical_keycode(other_action) == new_keycode:
-			InputSettings.set_key(other_action, old_keycode)
+		if other_action != action \
+				and InputSettings.get_physical_keycode(other_action) == new_keycode \
+				and InputSettings.get_key_location(other_action) == new_location:
+			InputSettings.set_key(other_action, old_keycode, old_location)
 			_update_action_buttons(other_action)
 
-	InputSettings.set_key(action, new_keycode)
+	InputSettings.set_key(action, new_keycode, new_location)
 	_update_action_buttons(action)
 	InputSettings.save_bindings()
 
