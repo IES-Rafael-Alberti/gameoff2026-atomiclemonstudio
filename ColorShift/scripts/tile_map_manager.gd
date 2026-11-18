@@ -2,11 +2,12 @@
 extends TileMapLayer
 
 ## The level is painted once in this layer.
-## Tiles tagged GREY (or untagged) are permanent. Colored tiles (RED, BLUE...,
-## several tags = visible in each of those colors) are moved in _ready to one
-## generated child layer per color, which is only visible and solid while its
-## color is active. The ScreenTransition sweep reveals them with
-## tile_wiper_reveal.gdshader; collision switches when the sweep starts.
+## Tiles tagged GREY (or untagged) are permanent and are drawn with the atlas
+## quadrant of the active color. Colored tiles (RED, BLUE..., several tags =
+## visible in each of those colors) are moved in _ready to one generated child
+## layer per color, which is only visible and solid while its color is active.
+## tile_wiper_reveal.gdshader recolors and reveals everything as the
+## ScreenTransition bar passes; collision switches when the sweep starts.
 
 const COLOR_PROPERTIES: Array[String] = [
 	"RED",
@@ -17,7 +18,15 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
-const WIPER_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
+# Quadrant of "Tileset - 4 colors.png" for each color (grey is (0, 0)).
+# ponytail: mixed colors have no art in the atlas, so they use the grey quadrant.
+const COLOR_QUADRANTS: Dictionary = {
+	"RED": Vector2(1, 0),
+	"BLUE": Vector2(0, 1),
+	"YELLOW": Vector2(1, 1)
+}
+
+const TILE_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
 
 var opened_doors: Dictionary = {}
 
@@ -29,6 +38,7 @@ var color_layers: Dictionary = {}
 var cell_colors: Dictionary = {}
 
 var _sweeping: bool = false
+var _atlas_size: Vector2
 
 # Stores interactive tile properties.
 # Format: Vector2i -> Dictionary
@@ -47,6 +57,8 @@ func _ready() -> void:
 
 	# Cache interactive tiles before colored cells leave this layer.
 	_refresh_interactive_tiles()
+	_atlas_size = _get_atlas_size()
+	material = _make_material("GREY")
 	_split_color_cells()
 
 	# Connect to color manager.
@@ -97,12 +109,43 @@ func _get_color_layer(color_name: String) -> TileMapLayer:
 		var layer := TileMapLayer.new()
 		layer.name = "Color-" + color_name
 		layer.tile_set = tile_set
+		# Multi-color tiles are drawn in the color of the layer.
+		layer.material = _make_material(color_name)
 		# Other systems (player safety, camera, spikes) read every tile layer.
 		layer.add_to_group("tile_layers")
 		add_child(layer)
 		color_layers[color_name] = layer
 
 	return color_layers[color_name]
+
+
+# The shader only recolors the 4-color atlas (source 0). With texture padding
+# it samples a copy where every tile has a 1 px border.
+func _get_atlas_size() -> Vector2:
+	var source := tile_set.get_source(0) as TileSetAtlasSource
+	if source.use_texture_padding:
+		return Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+
+	return source.texture.get_size()
+
+
+func _make_material(color_name: String) -> ShaderMaterial:
+	var tile_material := ShaderMaterial.new()
+	tile_material.shader = TILE_SHADER
+	tile_material.set_shader_parameter("atlas_size", _atlas_size)
+	_set_quadrants(tile_material, color_name, color_name)
+	return tile_material
+
+
+func _set_quadrants(tile_material: ShaderMaterial, old_color: String, new_color: String) -> void:
+	tile_material.set_shader_parameter("old_quadrant", COLOR_QUADRANTS.get(old_color, Vector2.ZERO))
+	tile_material.set_shader_parameter("new_quadrant", COLOR_QUADRANTS.get(new_color, Vector2.ZERO))
+
+
+func _set_visible_sides(layer: TileMapLayer, show_old: bool, show_new: bool) -> void:
+	var tile_material := layer.material as ShaderMaterial
+	tile_material.set_shader_parameter("show_old", show_old)
+	tile_material.set_shader_parameter("show_new", show_new)
 
 
 # Read all special tiles from the TileSet.
@@ -181,23 +224,23 @@ func on_change_color(actual_color: String) -> void:
 		if not _sweeping:
 			layer.visible = is_active
 
+	if not _sweeping:
+		_set_quadrants(material as ShaderMaterial, actual_color, actual_color)
 
-# The old color stays in front of the bar and the new one appears behind it.
+
+# In front of the bar everything keeps the old color; behind it, the new one.
 func _on_sweep_started(old_color: String, new_color: String) -> void:
 	if old_color == new_color:
 		return
 
 	_sweeping = true
+	_set_quadrants(material as ShaderMaterial, old_color, new_color)
 	for color_name in color_layers:
 		if color_name != old_color and color_name != new_color:
 			continue
 
-		var wiper := ShaderMaterial.new()
-		wiper.shader = WIPER_SHADER
-		wiper.set_shader_parameter("keep_before", color_name == old_color)
-
 		var layer: TileMapLayer = color_layers[color_name]
-		layer.material = wiper
+		_set_visible_sides(layer, color_name == old_color, color_name == new_color)
 		layer.visible = true
 
 
@@ -207,7 +250,7 @@ func _on_sweep_finished() -> void:
 
 	_sweeping = false
 	for layer in color_layers.values():
-		layer.material = null
+		_set_visible_sides(layer, true, true)
 	on_change_color(GameManager.get_color_name())
 
 
