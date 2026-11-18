@@ -1,9 +1,117 @@
-[gd_scene format=3 uid="uid://cljciwe2j4k75"]
+[gd_scene format=3 uid="uid://bplvxvjtyj0el"]
 
 [ext_resource type="Script" uid="uid://dwtcj3ni8qu4t" path="res://scripts/frog.gd" id="1_qyo2l"]
-[ext_resource type="Texture2D" uid="uid://drqfmxij30whd" path="res://icon.svg" id="2_rq8tc"]
+[ext_resource type="Texture2D" uid="uid://bnsu76rlclkpa" path="res://assets/animations/frogjumps.png" id="1_whe2r"]
+[ext_resource type="Texture2D" uid="uid://p1k6ohbeie8o" path="res://assets/animations/frog_hit_sheet.png" id="2_qyo2l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyo2l"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq8tc"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g2vb"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybftx"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ifle"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uu7fg"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycnbg"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqhdc"]
+atlas = ExtResource("1_whe2r")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ej0ox"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qyo2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq8tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1g2vb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybftx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ifle")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uu7fg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycnbg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqhdc")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4au2m"]
+atlas = ExtResource("2_qyo2l")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wiiuq"]
+atlas = ExtResource("2_qyo2l")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p8yr8"]
+atlas = ExtResource("2_qyo2l")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mokc4"]
+atlas = ExtResource("2_qyo2l")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4pjqi"]
+atlas = ExtResource("2_qyo2l")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_guy1a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4au2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wiiuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p8yr8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mokc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4pjqi")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Frog" type="AnimatableBody2D" unique_id=520306954]
 script = ExtResource("1_qyo2l")
@@ -12,5 +120,13 @@ script = ExtResource("1_qyo2l")
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_pn6cq")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1881328242]
-texture = ExtResource("2_rq8tc")
+[node name="jump" type="AnimatedSprite2D" parent="." unique_id=1792019742]
+visible = false
+sprite_frames = SubResource("SpriteFrames_ej0ox")
+frame = 4
+frame_progress = 0.2406595
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1117815238]
+sprite_frames = SubResource("SpriteFrames_guy1a")
+frame = 4
+frame_progress = 0.8847795
