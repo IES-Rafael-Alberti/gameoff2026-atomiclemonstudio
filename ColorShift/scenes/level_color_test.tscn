@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="4_pause"]
 [ext_resource type="PackedScene" path="res://scenes/color_wheel.tscn" id="5_wheel"]
 
-[node name="Level4" type="Node2D"]
+[node name="LevelColorTest" type="Node2D"]
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_player")]
 unique_name_in_owner = true

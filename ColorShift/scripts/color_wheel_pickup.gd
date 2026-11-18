@@ -1,5 +1,5 @@
 extends Area2D
-## Left color wheel collectible (level 4). Touching it gives the second wheel:
+## Left color wheel collectible (level_color_test). Touching it gives the second wheel:
 ## it starts on the color opposite to the right wheel, turns with Left Shift
 ## and its color mixes with the right one (RED + BLUE = PURPLE...).
 

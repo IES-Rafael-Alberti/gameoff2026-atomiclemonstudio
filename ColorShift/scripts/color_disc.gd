@@ -1,7 +1,7 @@
 extends CanvasLayer
 ## Ruedas de color del HUD, como ayuda para daltonicos ademas de los filtros.
 ## Derecha: rueda 1 (Right Shift). Izquierda: rueda 2 (Left Shift), visible al
-## conseguirla en el nivel 4. El color activo es el de arriba. Cada sprite tiene
+## conseguirla en level_color_test. El color activo es el de arriba. Cada sprite tiene
 ## 8 fotogramas de 32 px: los pares son los 4 colores y los impares el giro.
 ## Se crea desde color_shift_controller.gd, asi solo existe dentro de los niveles.
 

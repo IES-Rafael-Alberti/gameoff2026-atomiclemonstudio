@@ -6,7 +6,7 @@ const LEVELS := {
 	1: "level_1",
 	2: "level_2",
 	3: "level_3",
-	4: "level_4",
+	4: "level_color_test",
 }
 const LEVEL_COUNT := 6
 const DOOR := preload("res://assets/sprites/scenary/door.png")

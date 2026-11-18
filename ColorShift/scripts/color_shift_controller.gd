@@ -1,7 +1,7 @@
 extends Node
 
 ## Cycles the right color wheel with Right Shift and, once the second wheel is
-## collected (level 4), the left one with Left Shift.
+## collected (level_color_test), the left one with Left Shift.
 
 var _shift_active: bool = false
 var _control_active: bool = false
