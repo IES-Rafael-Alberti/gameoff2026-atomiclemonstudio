@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://dbup833hs3egi"]
+
+[ext_resource type="Script" uid="uid://biuv0wxej7652" path="res://scenes/parallax_background.gd" id="1_11q5a"]
+[ext_resource type="Texture2D" uid="uid://p4ob7trq652b" path="res://assets/sprites/backgrounds/bg1.PNG" id="1_jy56r"]
+[ext_resource type="Texture2D" uid="uid://diu1oxrkosnq1" path="res://assets/sprites/backgrounds/bg2.PNG" id="2_11q5a"]
+[ext_resource type="Texture2D" uid="uid://sjt50nryuo6b" path="res://assets/sprites/backgrounds/bg3.PNG" id="3_cdfjv"]
+[ext_resource type="Texture2D" uid="uid://bpocfygmjvft8" path="res://assets/sprites/backgrounds/bg4.PNG" id="4_cs2et"]
+[ext_resource type="Texture2D" uid="uid://cgnq42unixe4b" path="res://assets/sprites/backgrounds/bg5.PNG" id="5_r0o8s"]
+[ext_resource type="Texture2D" uid="uid://co6wouyxsfq15" path="res://assets/sprites/backgrounds/bg6.PNG" id="6_khh7f"]
+[ext_resource type="Texture2D" uid="uid://i0ikx6cunn7l" path="res://assets/sprites/backgrounds/bg7.PNG" id="7_qi2qg"]
+[ext_resource type="Texture2D" uid="uid://cmk0frbxbi14q" path="res://assets/sprites/backgrounds/bg8.PNG" id="8_rrsoj"]
+
+[node name="ParallaxContainer" type="Node2D" unique_id=178089555]
+script = ExtResource("1_11q5a")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=2046271612]
+z_index = -2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1606061387]
+texture = ExtResource("1_jy56r")
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=242651404]
+z_index = -7
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=711681370]
+texture = ExtResource("2_11q5a")
+
+[node name="Parallax2D3" type="Parallax2D" parent="." unique_id=495365639]
+z_index = -5
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D3" unique_id=1349644048]
+texture = ExtResource("3_cdfjv")
+
+[node name="Parallax2D4" type="Parallax2D" parent="." unique_id=2123416259]
+z_index = -8
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D4" unique_id=119784960]
+texture = ExtResource("4_cs2et")
+
+[node name="Parallax2D5" type="Parallax2D" parent="." unique_id=1824130092]
+z_index = -7
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D5" unique_id=1038131901]
+texture = ExtResource("5_r0o8s")
+
+[node name="Parallax2D6" type="Parallax2D" parent="." unique_id=1509890664]
+z_index = -8
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D6" unique_id=228175977]
+texture = ExtResource("6_khh7f")
+
+[node name="Parallax2D7" type="Parallax2D" parent="." unique_id=1444844914]
+z_index = -9
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D7" unique_id=1432163847]
+texture = ExtResource("7_qi2qg")
+
+[node name="Parallax2D8" type="Parallax2D" parent="." unique_id=1035226350]
+z_index = -10
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D8" unique_id=632898814]
+texture = ExtResource("8_rrsoj")
