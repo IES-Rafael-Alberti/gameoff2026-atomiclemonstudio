@@ -27,9 +27,9 @@ func _ready() -> void:
 	# Keep working while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	call_deferred("_populate_action_list")
-
 	reset_button.pressed.connect(_on_reset_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	visibility_changed.connect(_on_visibility_changed)
 
 func _populate_action_list() -> void:
 	_create_column_header()
@@ -196,3 +196,7 @@ func _on_reset_pressed() -> void:
 func _on_back_pressed() -> void:
 	_cancel_listening()
 	back_pressed.emit()
+	
+func _on_visibility_changed() -> void:
+	if is_visible_in_tree():
+		_action_buttons["move_left"]["controller"].grab_focus()
