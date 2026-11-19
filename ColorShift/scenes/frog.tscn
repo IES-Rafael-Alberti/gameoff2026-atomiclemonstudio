@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://bplvxvjtyj0el"]
+
+[ext_resource type="Script" uid="uid://dcdj7dabe2j0y" path="res://scripts/frog_state_machine.gd" id="1_hdff1"]
+[ext_resource type="Texture2D" uid="uid://8d8ean5iua6s" path="res://assets/sprites/test/frogjumps.png" id="2_4ygq6"]
+[ext_resource type="Script" uid="uid://d2e5nk6g1txp7" path="res://scripts/frog_state.gd" id="2_anyvr"]
+[ext_resource type="Script" uid="uid://do3lco8xteuww" path="res://scripts/frog_walk.gd" id="3_hdff1"]
+[ext_resource type="Script" uid="uid://uuanyuj4e0r0" path="res://scripts/frog_chase.gd" id="4_kbuj8"]
+[ext_resource type="Script" uid="uid://bv2bbir446ex3" path="res://scripts/frog_death.gd" id="5_igvty"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
+size = Vector2(18.333332, 15.333334)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bqyd"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3onm"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dx6eh"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm75c"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3muq"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xvrdk"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anyvr"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdff1"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbuj8"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igvty"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_poaat"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oox6q"]
+atlas = ExtResource("2_4ygq6")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_85unm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bqyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3onm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dx6eh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm75c")
+}],
+"loop": 1,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3muq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xvrdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anyvr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdff1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kbuj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igvty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_poaat")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oox6q")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[node name="Frog" type="CharacterBody2D" unique_id=1037461664]
+script = ExtResource("2_anyvr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1551042597]
+position = Vector2(0.50000095, 7)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_pn6cq")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1107083952]
+sprite_frames = SubResource("SpriteFrames_85unm")
+animation = &"walk"
+
+[node name="FrogState" type="Node" parent="." unique_id=1987814727 node_paths=PackedStringArray("frog", "sprite")]
+script = ExtResource("1_hdff1")
+frog = NodePath("..")
+sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://d2e5nk6g1txp7"
+
+[node name="FrogWalk" type="Node" parent="FrogState" unique_id=225058873 node_paths=PackedStringArray("frog", "sprite")]
+script = ExtResource("3_hdff1")
+move_speed = 60.0
+jump_height = 10.0
+chase_range = 300.0
+max_chase_height = 80.0
+frog = NodePath("../..")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://do3lco8xteuww"
+
+[node name="FrogChase" type="Node" parent="FrogState" unique_id=16032348 node_paths=PackedStringArray("frog", "sprite")]
+script = ExtResource("4_kbuj8")
+frog = NodePath("../..")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://uuanyuj4e0r0"
+
+[node name="FrogDeath" type="Node" parent="FrogState" unique_id=1071354170 node_paths=PackedStringArray("frog", "sprite")]
+script = ExtResource("5_igvty")
+frog = NodePath("../..")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://bv2bbir446ex3"
