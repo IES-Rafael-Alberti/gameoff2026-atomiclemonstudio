@@ -15,9 +15,13 @@ const DEATH_SOUND := preload("res://bso_colorshift/larry/death/human-impact-on-g
 const WALK_SOUND := preload("res://bso_colorshift/larry/walk/wooland run step/freesound_community-180904-woodland04-run-steps-skip-jump-clip-47486.mp3")
 const MENU_SELECT_SOUND := preload("res://bso_colorshift/menu select/Menu Selection Click.wav")
 const AMULET_SOUND := preload("res://bso_colorshift/menu select/amulet/133008__cosmicd__annulet-of-absorption.wav")
+const COLOR_CHANGE_SOUND := preload("res://bso_colorshift/change colors/light switch/Light Switch Click On Sfx.wav")
+const DOOR_OPEN_SOUND := preload("res://bso_colorshift/extra SFX/dragon-studio-door-opening-397990.mp3")
+const COLLECTABLE_SOUND := preload("res://bso_colorshift/extra SFX/liecio-diamond-found-190255.mp3")
+const KEY_COLLECT_SOUND := preload("res://bso_colorshift/extra SFX/litupsubway-key-collect-sfx-522219.mp3")
 
 ## Scenes that use the level theme. Everything else uses the menu theme.
-const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3"]
+const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4"]
 
 const MUSIC_FADE_TIME := 0.6
 const MUSIC_FADE_FROM_DB := -30.0
@@ -35,11 +39,19 @@ const DEATH_VOLUME_DB := 0.0
 const WALK_VOLUME_DB := -15.0
 const MENU_SELECT_VOLUME_DB := 0.0
 const AMULET_VOLUME_DB := -3.0
+const COLOR_CHANGE_VOLUME_DB := 0.0
+const DOOR_OPEN_VOLUME_DB := 0.0
+const COLLECTABLE_VOLUME_DB := 0.0
+const KEY_COLLECT_VOLUME_DB := 0.0
 
 ## Amulet intro: only the first seconds are heard, then it fades out.
 const AMULET_PLAY_TIME := 2.0
 const AMULET_FADE_TIME := 0.5
 const SILENT_DB := -40.0
+
+## El sonido de coleccionable dura mas de 5 s; solo se escucha el inicio.
+const COLLECTABLE_PLAY_TIME := 1.0
+const COLLECTABLE_FADE_TIME := 0.12
 
 var _music: AudioStreamPlayer
 var _jump: AudioStreamPlayer
@@ -47,9 +59,14 @@ var _death: AudioStreamPlayer
 var _walk: AudioStreamPlayer
 var _menu_select: AudioStreamPlayer
 var _amulet: AudioStreamPlayer
+var _color_change: AudioStreamPlayer
+var _door_open: AudioStreamPlayer
+var _collectable: AudioStreamPlayer
+var _key_collect: AudioStreamPlayer
 
 var _music_tween: Tween
 var _amulet_tween: Tween
+var _collectable_tween: Tween
 var _current_music: AudioStream = null
 var _pending_music_scene: String = ""
 var _player: Node = null
@@ -68,6 +85,10 @@ func _ready() -> void:
 	_walk = _make_player("WalkPlayer", "SFX")
 	_menu_select = _make_player("MenuSelectPlayer", "SFX")
 	_amulet = _make_player("AmuletPlayer", "SFX")
+	_color_change = _make_player("ColorChangePlayer", "SFX")
+	_door_open = _make_player("DoorOpenPlayer", "SFX")
+	_collectable = _make_player("CollectablePlayer", "SFX")
+	_key_collect = _make_player("KeyCollectPlayer", "SFX")
 
 	_make_looping(MENU_MUSIC)
 	_make_looping(LEVEL_MUSIC)
@@ -79,12 +100,20 @@ func _ready() -> void:
 	_walk.stream = WALK_SOUND
 	_menu_select.stream = MENU_SELECT_SOUND
 	_amulet.stream = AMULET_SOUND
+	_color_change.stream = COLOR_CHANGE_SOUND
+	_door_open.stream = DOOR_OPEN_SOUND
+	_collectable.stream = COLLECTABLE_SOUND
+	_key_collect.stream = KEY_COLLECT_SOUND
 
 	_jump.volume_db = JUMP_VOLUME_DB
 	_death.volume_db = DEATH_VOLUME_DB
 	_walk.volume_db = WALK_VOLUME_DB
 	_menu_select.volume_db = MENU_SELECT_VOLUME_DB
 	_amulet.volume_db = AMULET_VOLUME_DB
+	_color_change.volume_db = COLOR_CHANGE_VOLUME_DB
+	_door_open.volume_db = DOOR_OPEN_VOLUME_DB
+	_collectable.volume_db = COLLECTABLE_VOLUME_DB
+	_key_collect.volume_db = KEY_COLLECT_VOLUME_DB
 
 	SceneManager.scene_changed.connect(_on_scene_changed)
 	SceneManager.scene_change_started.connect(_on_scene_change_started)
@@ -311,6 +340,42 @@ func _play(player: AudioStreamPlayer, from_position: float = 0.0) -> void:
 		return
 	player.stop()
 	player.play(from_position)
+
+
+# Gameplay effects. Called from the scripts that trigger each action.
+func play_color_change() -> void:
+	_play(_color_change)
+
+
+func play_door_open() -> void:
+	_play(_door_open)
+
+
+func play_collectable() -> void:
+	if _collectable == null or _collectable.stream == null:
+		return
+
+	# El archivo completo dura ~5.7 s; se corta tras el tañido inicial.
+	if _collectable_tween and _collectable_tween.is_valid():
+		_collectable_tween.kill()
+	_collectable.volume_db = COLLECTABLE_VOLUME_DB
+	_play(_collectable)
+
+	var fade := minf(COLLECTABLE_FADE_TIME, COLLECTABLE_PLAY_TIME * 0.5)
+	_collectable_tween = create_tween()
+	_collectable_tween.tween_interval(COLLECTABLE_PLAY_TIME - fade)
+	_collectable_tween.tween_property(_collectable, "volume_db", SILENT_DB, fade)
+	_collectable_tween.tween_callback(_collectable.stop)
+	_collectable_tween.finished.connect(_on_collectable_finished)
+
+
+func _on_collectable_finished() -> void:
+	_collectable_tween = null
+	_collectable.volume_db = COLLECTABLE_VOLUME_DB
+
+
+func play_key_collect() -> void:
+	_play(_key_collect)
 
 
 func _start_walking() -> void:

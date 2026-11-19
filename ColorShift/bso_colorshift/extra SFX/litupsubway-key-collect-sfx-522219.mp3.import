@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://g0lrtslgp3lf"
+path="res://.godot/imported/litupsubway-key-collect-sfx-522219.mp3-13d7d2c98209c6c6a1b570698bbf7b02.mp3str"
+
+[deps]
+
+source_file="res://bso_colorshift/extra SFX/litupsubway-key-collect-sfx-522219.mp3"
+dest_files=["res://.godot/imported/litupsubway-key-collect-sfx-522219.mp3-13d7d2c98209c6c6a1b570698bbf7b02.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

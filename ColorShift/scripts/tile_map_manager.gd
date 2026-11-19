@@ -6,6 +6,8 @@ extends TileMapLayer
 ## quadrant of the active color. Colored tiles (RED, BLUE..., several tags =
 ## visible in each of those colors) are moved in _ready to one generated child
 ## layer per color, which is only visible and solid while its color is active.
+## Colored tiles tagged HIDE work the other way round: they are there in every
+## color except their own, drawn like the scenery (walls that open with a color).
 ## tile_wiper_reveal.gdshader recolors and reveals everything as the
 ## ScreenTransition bar passes; collision switches when the sweep starts.
 
@@ -18,8 +20,10 @@ const COLOR_PROPERTIES: Array[String] = [
 	"GREEN"
 ]
 
-# Quadrant of each color in "Tileset - 4 colors.png" (grey is (0, 0)) or, for
-# the mixes, in "Tileset-2222.png", which has the same layout.
+# Quadrant of the color atlas for each color (grey is (0, 0)).
+# Both atlas families share the same quadrant layout:
+#   Tileset - 4 colors / grass1  -> RED, BLUE, YELLOW
+#   Tileset-2222 / grass2        -> PURPLE, GREEN, ORANGE
 const COLOR_QUADRANTS: Dictionary = {
 	"RED": Vector2(1, 0),
 	"BLUE": Vector2(0, 1),
@@ -31,19 +35,31 @@ const COLOR_QUADRANTS: Dictionary = {
 const COMBO_COLORS: Array[String] = ["ORANGE", "PURPLE", "GREEN"]
 
 const TILE_SHADER := preload("res://shader/transitions/tile_wiper_reveal.gdshader")
-const COMBO_ATLAS := preload("res://assets/sprites/scenary/Tileset-2222.png")
+# Atlas families: [grey/red/blue/yellow atlas, atlas with the same layout for
+# the mixes]. The first one goes to the shader's atlas_size/combo_atlas and the
+# second one to atlas_size_alt/combo_atlas_alt.
+const ATLAS_FAMILIES: Array = [
+	[preload("res://assets/sprites/scenary/Tileset - 4 colors.png"), preload("res://assets/sprites/scenary/Tileset-2222.png")],
+	[preload("res://assets/sprites/scenary/grass1.png"), preload("res://assets/sprites/scenary/grass2.png")],
+]
 
 var opened_doors: Dictionary = {}
 
 var player: CharacterBody2D
 
-# Color name -> generated TileMapLayer holding the cells of that color.
+# Layer key of HIDE tiles: "NOT_RED" is there in every color except RED.
+const HIDE_PREFIX := "NOT_"
+
+# Layer key -> generated TileMapLayer. The key is a color ("RED") or, for HIDE
+# tiles, HIDE_PREFIX + their colors ("NOT_RED", "NOT_RED+BLUE").
 var color_layers: Dictionary = {}
-# Vector2i -> Array[String] with the colors of each colored cell.
-var cell_colors: Dictionary = {}
+# Vector2i -> Array[String] with the layer keys of each colored cell.
+var cell_keys: Dictionary = {}
 
 var _sweeping: bool = false
-var _atlas_size: Vector2
+# Sizes of every color atlas in the TileSet (the shader needs them to know
+# which textures it is allowed to recolor by quadrant).
+var _atlas_sizes: Array[Vector2] = []
 
 # Stores interactive tile properties.
 # Format: Vector2i -> Dictionary
@@ -62,7 +78,7 @@ func _ready() -> void:
 
 	# Cache interactive tiles before colored cells leave this layer.
 	_refresh_interactive_tiles()
-	_atlas_size = _get_atlas_size()
+	_collect_atlas_sizes()
 	material = _make_material("GREY")
 	_split_color_cells()
 
@@ -98,9 +114,13 @@ func _split_color_cells() -> void:
 		if colors.is_empty():
 			continue
 
-		cell_colors[coords] = colors
-		for color_name in colors:
-			_get_color_layer(color_name).set_cell(
+		var keys: Array[String] = colors
+		if data.get_custom_data("HIDE"):
+			keys = [HIDE_PREFIX + "+".join(PackedStringArray(colors))]
+
+		cell_keys[coords] = keys
+		for key in keys:
+			_get_color_layer(key).set_cell(
 				coords,
 				get_cell_source_id(coords),
 				get_cell_atlas_coords(coords),
@@ -109,36 +129,56 @@ func _split_color_cells() -> void:
 		erase_cell(coords)
 
 
-func _get_color_layer(color_name: String) -> TileMapLayer:
-	if not color_layers.has(color_name):
+# Whether the layer with this key is there (visible and solid) in a color.
+func _shows_in(key: String, color: String) -> bool:
+	if key.begins_with(HIDE_PREFIX):
+		return not color in key.trim_prefix(HIDE_PREFIX).split("+")
+
+	return key == color
+
+
+func _get_color_layer(key: String) -> TileMapLayer:
+	if not color_layers.has(key):
 		var layer := TileMapLayer.new()
-		layer.name = "Color-" + color_name
+		layer.name = "Color-" + key
 		layer.tile_set = tile_set
-		# Multi-color tiles are drawn in the color of the layer.
-		layer.material = _make_material(color_name)
+		# Multi-color tiles are drawn in the color of the layer; HIDE tiles
+		# like the scenery (on_change_color sets their color).
+		layer.material = _make_material("GREY" if key.begins_with(HIDE_PREFIX) else key)
 		# Other systems (player safety, camera, spikes) read every tile layer.
 		layer.add_to_group("tile_layers")
 		add_child(layer)
-		color_layers[color_name] = layer
+		color_layers[key] = layer
 
-	return color_layers[color_name]
+	return color_layers[key]
 
 
-# The shader only recolors the 4-color atlas (source 0). With texture padding
-# it samples a copy where every tile has a 1 px border.
-func _get_atlas_size() -> Vector2:
-	var source := tile_set.get_source(0) as TileSetAtlasSource
-	if source.use_texture_padding:
-		return Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+# Runtime size of each atlas family in this TileSet (Vector2.ZERO if unused).
+# The shader only recolors textures of these sizes; door, collectables... are
+# drawn as they are. With texture padding Godot adds 1 px around every tile.
+func _collect_atlas_sizes() -> void:
+	_atlas_sizes.clear()
+	for family in ATLAS_FAMILIES:
+		var size := Vector2.ZERO
+		for i in tile_set.get_source_count():
+			var source := tile_set.get_source(tile_set.get_source_id(i)) as TileSetAtlasSource
+			if source == null or not source.texture in family:
+				continue
 
-	return source.texture.get_size()
+			size = source.texture.get_size()
+			if source.use_texture_padding:
+				size = Vector2(source.get_atlas_grid_size() * (source.texture_region_size + Vector2i(2, 2)))
+			break
+		_atlas_sizes.append(size)
 
 
 func _make_material(color_name: String) -> ShaderMaterial:
 	var tile_material := ShaderMaterial.new()
 	tile_material.shader = TILE_SHADER
-	tile_material.set_shader_parameter("atlas_size", _atlas_size)
-	tile_material.set_shader_parameter("combo_atlas", COMBO_ATLAS)
+	tile_material.set_shader_parameter("atlas_size", _atlas_sizes[0])
+	tile_material.set_shader_parameter("combo_atlas", ATLAS_FAMILIES[0][1])
+	tile_material.set_shader_parameter("atlas_size_alt", _atlas_sizes[1])
+	tile_material.set_shader_parameter("combo_atlas_alt", ATLAS_FAMILIES[1][1])
 	_set_quadrants(tile_material, color_name, color_name)
 	return tile_material
 
@@ -171,7 +211,9 @@ func _refresh_interactive_tiles() -> void:
 		var is_key: bool = data.get_custom_data("KEY")
 		var is_barrier: bool = data.get_custom_data("BARRIER")
 		var is_door: bool = data.get_custom_data("DOOR")
-		var barrier_id: Variant = data.get_custom_data("BARRIER_ID")
+		var barrier_id: Variant = null
+		if tile_set.has_custom_data_layer_by_name("BARRIER_ID"):
+			barrier_id = data.get_custom_data("BARRIER_ID")
 
 		if need_to_hide or is_spike or is_key or is_barrier or is_door:
 			interactive_tiles[coords] = {
@@ -222,15 +264,17 @@ func _process(_delta: float) -> void:
 	UIManager.show_hint("")
 
 
-# Only the layer of the active color is solid. Outside a sweep it is also the
-# only visible one; during a sweep the wiper shader decides what is drawn.
+# Only the layers that are there in the active color are solid. Outside a sweep
+# they are also the only visible ones; during a sweep the shader decides.
 func on_change_color(actual_color: String) -> void:
-	for color_name in color_layers:
-		var layer: TileMapLayer = color_layers[color_name]
-		var is_active: bool = color_name == actual_color
-		layer.collision_enabled = is_active
+	for key in color_layers:
+		var layer: TileMapLayer = color_layers[key]
+		var shown := _shows_in(key, actual_color)
+		layer.collision_enabled = shown
 		if not _sweeping:
-			layer.visible = is_active
+			layer.visible = shown
+			if key.begins_with(HIDE_PREFIX):
+				_set_quadrants(layer.material as ShaderMaterial, actual_color, actual_color)
 
 	if not _sweeping:
 		_set_quadrants(material as ShaderMaterial, actual_color, actual_color)
@@ -243,13 +287,17 @@ func _on_sweep_started(old_color: String, new_color: String) -> void:
 
 	_sweeping = true
 	_set_quadrants(material as ShaderMaterial, old_color, new_color)
-	for color_name in color_layers:
-		if color_name != old_color and color_name != new_color:
+	for key in color_layers:
+		var before := _shows_in(key, old_color)
+		var after := _shows_in(key, new_color)
+		if not before and not after:
 			continue
 
-		var layer: TileMapLayer = color_layers[color_name]
-		_set_visible_sides(layer, color_name == old_color, color_name == new_color)
+		var layer: TileMapLayer = color_layers[key]
+		_set_visible_sides(layer, before, after)
 		layer.visible = true
+		if key.begins_with(HIDE_PREFIX):
+			_set_quadrants(layer.material as ShaderMaterial, old_color, new_color)
 
 
 func _on_sweep_finished() -> void:
@@ -278,7 +326,8 @@ func _exit_tree() -> void:
 func get_tile_properties(coords: Vector2i) -> Dictionary:
 	if not interactive_tiles.has(coords):
 		return {}
-	if cell_colors.has(coords) and not GameManager.get_color_name() in cell_colors[coords]:
+	var color := GameManager.get_color_name()
+	if cell_keys.has(coords) and not cell_keys[coords].any(func(key: String) -> bool: return _shows_in(key, color)):
 		return {}
 
 	return interactive_tiles[coords]
@@ -287,7 +336,7 @@ func get_tile_properties(coords: Vector2i) -> Dictionary:
 # Remove a tile permanently.
 func remove_tile(coords: Vector2i) -> void:
 	interactive_tiles.erase(coords)
-	cell_colors.erase(coords)
+	cell_keys.erase(coords)
 	erase_cell(coords)
 	for layer in color_layers.values():
 		layer.erase_cell(coords)
@@ -395,6 +444,7 @@ func _handle_interaction(
 		GameManager.player_has_key = true
 		layer.remove_tile(cell)
 
+		MusicAndSounds.play_key_collect()
 		UIManager.show_message("You got the key!", 1.6)
 
 		var key := get_tree().get_first_node_in_group("key")
@@ -404,6 +454,7 @@ func _handle_interaction(
 	elif props.get("DOOR", false):
 		if GameManager.player_has_key:
 			opened_doors[cell] = true
+			MusicAndSounds.play_door_open()
 			UIManager.show_hint("")
 			print("DOOR ENTERED!")
 			SceneManager.change_scene("level_select")
