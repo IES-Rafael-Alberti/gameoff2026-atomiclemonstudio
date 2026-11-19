@@ -444,6 +444,7 @@ func _handle_interaction(
 		GameManager.player_has_key = true
 		layer.remove_tile(cell)
 
+		MusicAndSounds.play_key_collect()
 		UIManager.show_message("You got the key!", 1.6)
 
 		var key := get_tree().get_first_node_in_group("key")
@@ -453,6 +454,7 @@ func _handle_interaction(
 	elif props.get("DOOR", false):
 		if GameManager.player_has_key:
 			opened_doors[cell] = true
+			MusicAndSounds.play_door_open()
 			UIManager.show_hint("")
 			print("DOOR ENTERED!")
 			SceneManager.change_scene("level_select")
