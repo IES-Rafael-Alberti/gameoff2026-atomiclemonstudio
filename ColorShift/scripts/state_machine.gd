@@ -5,6 +5,8 @@ class_name StateMachine
 @export var initial_state: State
 var current_state: State
 var states: Dictionary = {}
+var drop_through_timer := 0.0
+var drop_through_collision_mask := 1
 
 func _ready() -> void:
 	#Registers child states based on the child nodes
@@ -22,6 +24,13 @@ func _process(delta: float) -> void:
 		current_state.update(delta)
 
 func _physics_process(delta: float) -> void:
+	if drop_through_timer > 0.0:
+		drop_through_timer -= delta
+		if drop_through_timer <= 0.0:
+			var character = get_parent() as CharacterBody2D
+			if character != null:
+				character.collision_mask = drop_through_collision_mask
+
 	if current_state:
 		current_state.physics_update(delta)
 		_check_spike_collisions()
@@ -84,10 +93,10 @@ func _check_drop_through() -> void:
 	if not _is_on_one_way_platform(character):
 		return
 
-	# Move the body just below the one-way band and start falling. This is
-	# enough to clear the platform without disabling any collision layer.
-	character.global_position.y += 7.0
-	character.velocity.y = 60.0
+	drop_through_collision_mask = character.collision_mask
+	character.collision_mask = 0
+	character.velocity.y = 180.0
+	drop_through_timer = 0.18
 
 func _is_on_one_way_platform(character: CharacterBody2D) -> bool:
 	var scene := get_tree().current_scene
@@ -95,12 +104,11 @@ func _is_on_one_way_platform(character: CharacterBody2D) -> bool:
 		return false
 
 	var bottom := _get_character_bottom()
-	# Sample just below the feet: that is the tile the character is standing on.
 	var feet := character.global_position + Vector2(0.0, bottom + 2.0)
 
 	for node in scene.find_children("*", "TileMapLayer", true, false):
 		var layer := node as TileMapLayer
-		if layer == null:
+		if layer == null or layer.tile_set == null:
 			continue
 
 		var cell := layer.local_to_map(layer.to_local(feet))

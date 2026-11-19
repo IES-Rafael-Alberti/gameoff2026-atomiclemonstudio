@@ -4,18 +4,18 @@ class_name ShiftingState
 
 @onready var animated_sprite = %PlayerSkin
 
-# Player stands still while shift is held, so left/right can be used
-# to rotate the color glasses instead of moving the character.
-
 func enter():
-	print("Entering shifting state")
-	var character = state_machine.get_parent()
-	character.velocity.x = 0
+	pass
 
 func physics_update(delta):
 	var character = state_machine.get_parent()
 
-	character.velocity.x = 0
+	var direction = Input.get_axis("move_left", "move_right")
+	character.velocity.x = direction * SPEED
+	if direction > 0:
+		animated_sprite.flip_h = false
+	elif direction < 0:
+		animated_sprite.flip_h = true
 	character.velocity.y += GRAVITY * delta
 	character.move_and_slide()
 
@@ -23,6 +23,5 @@ func physics_update(delta):
 		state_machine.change_state("fallstate")
 		return
 
-	# Released shift -> back to idle (idle moves on to walk if a direction is held)
-	if not Input.is_action_just_pressed("shift"): # Added just so you can shift while walking
+	if not Input.is_action_pressed("shift") and not Input.is_action_pressed("shift_2"):
 		state_machine.change_state("idlestate")

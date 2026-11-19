@@ -33,6 +33,10 @@ func physics_update(delta):
 	# Horizontal movement (air control)
 	var direction = Input.get_axis("move_left", "move_right")
 	character.velocity.x = direction * SPEED
+	if direction > 0:
+		animated_sprite.flip_h = false
+	elif direction < 0:
+		animated_sprite.flip_h = true
 	character.move_and_slide()
 
 	# Once we stop going up (or bonk a ceiling), hand over to fall.
