@@ -9,6 +9,9 @@ var follow: bool = false
 @onready var red_skin: Sprite2D = $RedSkin
 @onready var blue_skin: Sprite2D = $BlueSkin
 @onready var yellow_skin: Sprite2D = $YellowSkin
+@onready var orange_skin: Sprite2D = $OrangeSkin
+@onready var purple_skin: Sprite2D = $PurpleSkin
+@onready var green_skin: Sprite2D = $GreenSkin
 
 # Variables for make the key have more movement
 var time_passed: float = 0.0
@@ -19,6 +22,9 @@ var facing_direction: int = 1 # 1 = right, -1 = left
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Lets tile layers find the key regardless of the scene hierarchy.
+	add_to_group("key")
+
 	# Find the player if it was not assigned in the inspector.
 	player = get_tree().get_first_node_in_group("player")
 	if not player:
@@ -55,12 +61,25 @@ func _process(delta: float) -> void:
 
 
 func follow_player() -> void:
+	# Start from the player so the key doesn't fly in from its scene position.
+	if player:
+		global_position = player.global_position
 	visible = true
 	follow = true
-	
+
+	var active_skin: Sprite2D = null
+	for skin in [grey_skin, red_skin, blue_skin, yellow_skin, orange_skin, purple_skin, green_skin]:
+		skin.visible = false
+
 	match GameManager.get_color_name():
-		"GREY": grey_skin.visible = true
-		"RED": red_skin.visible = true
-		"BLUE": blue_skin.visible = true
-		"YELLOW": yellow_skin.visible = true
+		"GREY": active_skin = grey_skin
+		"RED": active_skin = red_skin
+		"BLUE": active_skin = blue_skin
+		"YELLOW": active_skin = yellow_skin
+		"ORANGE": active_skin = orange_skin
+		"PURPLE": active_skin = purple_skin
+		"GREEN": active_skin = green_skin
+
+	if active_skin:
+		active_skin.visible = true
 	
