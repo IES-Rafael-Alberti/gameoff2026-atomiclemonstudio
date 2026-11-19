@@ -39,11 +39,9 @@ func _on_remap_menu_back_pressed() -> void:
 
 func _on_back_pressed() -> void:
 	back_requested.emit()
-
+	
 func _is_back_event(event: InputEvent) -> bool:
-	if not (event is InputEventKey and event.pressed and not event.echo):
-		return false
-	return event.physical_keycode == KEY_ESCAPE or event.physical_keycode == KEY_P
+	return event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")
 	
 func _on_visibility_changed() -> void:
 	if is_visible_in_tree():

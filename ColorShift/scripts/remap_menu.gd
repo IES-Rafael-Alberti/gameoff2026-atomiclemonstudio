@@ -145,6 +145,8 @@ func _input(event: InputEvent) -> void:
 		_cancel_listening()
 		return
 	if not _is_valid_binding_event(event):
+		if event is InputEventKey or event is InputEventJoypadButton:
+			get_viewport().set_input_as_handled()
 		return
 
 	get_viewport().set_input_as_handled()

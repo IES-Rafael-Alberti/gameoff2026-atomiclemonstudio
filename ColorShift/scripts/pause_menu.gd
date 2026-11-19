@@ -12,8 +12,11 @@ func pause():
 		$PanelContainer/VBoxContainer/Continue.grab_focus()
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and !options_menu.visible:
+	if options_menu.visible:
+		return
+	if event.is_action_pressed("pause") or (visible and event.is_action_pressed("ui_cancel")):
 		pause()
+		get_viewport().set_input_as_handled()
 
 func _on_continue_pressed() -> void:
 	pause()

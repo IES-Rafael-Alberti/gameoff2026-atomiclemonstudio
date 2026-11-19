@@ -79,3 +79,7 @@ func _make_button(n: int) -> Button:
 
 func _on_back_pressed() -> void:
 	SceneManager.change_scene("main_menu")
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_on_back_pressed()
