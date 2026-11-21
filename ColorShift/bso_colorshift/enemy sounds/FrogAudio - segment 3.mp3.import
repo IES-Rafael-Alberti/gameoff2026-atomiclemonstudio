@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cicqecnhh6k14"
+path="res://.godot/imported/FrogAudio - segment 3.mp3-177c5494c5fc09abae2510bf17654351.mp3str"
+
+[deps]
+
+source_file="res://bso_colorshift/enemy sounds/FrogAudio - segment 3.mp3"
+dest_files=["res://.godot/imported/FrogAudio - segment 3.mp3-177c5494c5fc09abae2510bf17654351.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,13 +1,13 @@
 [gd_scene format=4 uid="uid://dslcvqavbwbf8"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_vwg62"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_s8nj6"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_vwg62"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_qf6rc"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="4_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_vwg62"]
-[ext_resource type="PackedScene" uid="uid://bplvxvjtyj0el" path="res://scenes/frog.tscn" id="7_53xsp"]
-[ext_resource type="PackedScene" uid="uid://dbup833hs3egi" path="res://scenes/parallax_background.tscn" id="8_wae8j"]
-[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="9_key"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="5_vwg62"]
+[ext_resource type="PackedScene" uid="uid://bplvxvjtyj0el" path="res://Scenes/frog.tscn" id="7_53xsp"]
+[ext_resource type="PackedScene" uid="uid://dbup833hs3egi" path="res://Scenes/parallax_background.tscn" id="8_wae8j"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://Scenes/key.tscn" id="9_key"]
 
 [node name="Level3" type="Node2D" unique_id=1939000241]
 
@@ -52,7 +52,7 @@ position = Vector2(-318, 323)
 [node name="LeftLimit" type="Marker2D" parent="Limits" unique_id=833675487]
 
 [node name="RightLimit" type="Marker2D" parent="Limits" unique_id=2038874192]
-position = Vector2(736, 0)
+position = Vector2(765, 0)
 
 [node name="ParallaxContainer" parent="." unique_id=1765224515 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_wae8j")]
 player = NodePath("../Player")
@@ -60,3 +60,4 @@ camera = NodePath("../Camera2D")
 
 [editable path="Tilemaps"]
 [editable path="Frog"]
+[editable path="Frog/Killzone"]
