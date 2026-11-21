@@ -2,6 +2,7 @@ extends State
 
 ## Plays the death animation and restarts the level when it finishes.
 ## The old character fade-out was removed: the animation is the death feedback.
+class_name DeathState
 
 const DEATH_ANIMATION := "death"
 

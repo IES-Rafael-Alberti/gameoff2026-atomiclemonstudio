@@ -1,11 +1,13 @@
 [gd_scene format=4 uid="uid://dslcvqavbwbf8"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="2_vwg62"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_s8nj6"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_vwg62"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_qf6rc"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="4_s8nj6"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="5_vwg62"]
-[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://Scenes/key.tscn" id="9_key"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_vwg62"]
+[ext_resource type="PackedScene" uid="uid://bplvxvjtyj0el" path="res://scenes/frog.tscn" id="7_53xsp"]
+[ext_resource type="PackedScene" uid="uid://dbup833hs3egi" path="res://scenes/parallax_background.tscn" id="8_wae8j"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="9_key"]
 
 [node name="Level3" type="Node2D" unique_id=1939000241]
 
@@ -24,6 +26,10 @@ tile_map_data = PackedByteArray("AADw//T/AAAAAAQAAADx//T/AAABAAQAAADy//T/AAABAAQ
 script = ExtResource("3_qf6rc")
 room_offset = Vector2(-512, -384)
 
+[node name="ParallaxContainer" parent="Camera2D" unique_id=1765224515 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_wae8j")]
+player = NodePath("../../Player")
+camera = NodePath("..")
+
 [node name="Checkpoints" type="Node" parent="." unique_id=1818447788 node_paths=PackedStringArray("player")]
 script = ExtResource("4_s8nj6")
 player = NodePath("../Player")
@@ -32,4 +38,26 @@ player = NodePath("../Player")
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_vwg62")]
 
+[node name="Frog" parent="." unique_id=1037461664 node_paths=PackedStringArray("frog", "sprite") instance=ExtResource("7_53xsp")]
+position = Vector2(2, 321)
+frog = NodePath(".")
+sprite = NodePath("Sprite2D")
+
+[node name="FrogState" parent="Frog" index="2" unique_id=1987814727 node_paths=PackedStringArray("initial_frogstate")]
+initial_frogstate = NodePath("FrogWalk")
+
+[node name="FrogWalk" parent="Frog/FrogState" index="0" unique_id=225058873 node_paths=PackedStringArray("left_limit", "right_limit")]
+left_limit = NodePath("../../../Limits/LeftLimit")
+right_limit = NodePath("../../../Limits/RightLimit")
+
+[node name="Limits" type="Node2D" parent="." unique_id=1352114710]
+position = Vector2(-318, 323)
+
+[node name="LeftLimit" type="Marker2D" parent="Limits" unique_id=833675487]
+
+[node name="RightLimit" type="Marker2D" parent="Limits" unique_id=2038874192]
+position = Vector2(765, 0)
+
 [editable path="Tilemaps"]
+[editable path="Frog"]
+[editable path="Frog/Killzone"]
