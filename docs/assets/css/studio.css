@@ -380,6 +380,8 @@ html:not(.js) #theme-toggle { display: none; }
   border: var(--px) solid var(--edge); background: var(--panel-sunken);
   image-rendering: pixelated;
 }
+/* Concept art is a smooth sketch, not pixel art: it is not scaled with nearest-neighbor. */
+.sprite--concept { image-rendering: auto; background: #fff; }
 .sprite-sheet figcaption { margin-top: .5rem; color: var(--muted); }
 
 .studio-logo { display: block; width: min(100%, 16rem); height: auto; margin-bottom: 1rem; }

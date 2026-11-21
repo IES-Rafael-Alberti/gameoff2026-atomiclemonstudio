@@ -16,6 +16,7 @@ var current_background_index := -1
 func _ready() -> void:
 	_change_background()
 	options_menu.back_requested.connect(_on_options_back_requested)
+	$VBoxContainer/Play.grab_focus() # Pilla el input con el que estés tocando. Hace saltos entre ellos.
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("shift"):
@@ -39,3 +40,4 @@ func _on_options_menu_pressed() -> void:
 func _on_options_back_requested() -> void:
 	options_menu.visible = false
 	v_box_container.visible = true
+	$VBoxContainer/Play.grab_focus() # Pilla el input con el que estés tocando. Hace saltos entre ellos.

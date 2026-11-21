@@ -30,5 +30,5 @@ func physics_update(delta):
 func handle_input(event):
 	if Input.is_action_just_pressed("jump"):
 		state_machine.change_state("jumpstate")
-	elif Input.is_action_just_pressed("shift"):
+	elif Input.is_action_just_pressed("shift") or (GameManager.has_second_wheel and Input.is_action_just_pressed("shift_2")):
 		state_machine.change_state("shiftingstate")

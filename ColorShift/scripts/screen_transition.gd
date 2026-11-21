@@ -109,6 +109,8 @@ func _shake() -> void:
 
 func _play_sweep_sound() -> void:
 	if sweep_sound == null:
+		# Sin sonido asignado a mano, usa el click de cambio de color del autoload.
+		MusicAndSounds.play_color_change()
 		return
 	_sound_player.stream = sweep_sound
 	_sound_player.play()
