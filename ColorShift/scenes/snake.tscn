@@ -115,3 +115,4 @@ visible = false
 sprite_frames = SubResource("SpriteFrames_guy1a")
 frame = 3
 frame_progress = 0.13162515
+
