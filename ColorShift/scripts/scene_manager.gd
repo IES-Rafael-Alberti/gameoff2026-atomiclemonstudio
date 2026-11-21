@@ -48,7 +48,7 @@ func change_scene(scene_name: String) -> void:
 	var key := scene_name.to_lower()
 
 	if not SCENES.has(key):
-		push_error("SceneManager: la escena '%s' no está registrada." % scene_name)
+		push_error("SceneManager: la escena '%s' no estÃ¡ registrada." % scene_name)
 		return
 	if is_transitioning:
 		return
@@ -60,7 +60,7 @@ func change_scene(scene_name: String) -> void:
 
 	var error := get_tree().change_scene_to_file(SCENES[key])
 	if error != OK:
-		push_error("SceneManager: error al cargar '%s' (código %d)." % [key, error])
+		push_error("SceneManager: error al cargar '%s' (cÃ³digo %d)." % [key, error])
 	else:
 		current_scene_name = key
 

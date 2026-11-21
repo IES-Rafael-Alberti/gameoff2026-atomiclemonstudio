@@ -13,10 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://b5r6exegbqhr2" path="res://assets/sprites/scenary/grass2.png" id="8_gxyip"]
 [ext_resource type="Texture2D" uid="uid://dwjp22u3d21in" path="res://assets/sprites/scenary/Tileset-2222.png" id="9_b8ytw"]
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="9_key"]
-[ext_resource type="PackedScene" path="res://Scenes/color_wheel.tscn" id="10_wheel"]
-[ext_resource type="PackedScene" path="res://Scenes/moving_platform.tscn" id="11_gxyip"]
+[ext_resource type="PackedScene" path="res://scenes/color_wheel.tscn" id="10_wheel"]
+[ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="11_gxyip"]
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="12_bee8o"]
-[ext_resource type="PackedScene" path="res://Scenes/collectable_color.tscn" id="20_a51ki"]
+[ext_resource type="PackedScene" path="res://scenes/collectable_color.tscn" id="20_a51ki"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"

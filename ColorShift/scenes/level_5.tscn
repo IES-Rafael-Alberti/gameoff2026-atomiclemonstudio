@@ -1,19 +1,20 @@
-[gd_scene format=3 uid="uid://b6ttgiarhpld3"]
+[gd_scene format=4 uid="uid://b6ttgiarhpld3"]
 
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_bswci"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="2_0bg5e"]
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="3_fmty4"]
-[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://Scripts/camera_controller.gd" id="3_xfk5q"]
-[ext_resource type="Script" uid="uid://drxi58piaykom" path="res://Scripts/checkpoints_level1.gd" id="4_7p6j4"]
+[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_xfk5q"]
+[ext_resource type="Script" uid="uid://drxi58piaykom" path="res://scripts/checkpoints_level1.gd" id="4_7p6j4"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_6444e"]
 [ext_resource type="Texture2D" uid="uid://cpvk4uug24a7o" path="res://assets/sprites/collectables/collectable_1.png" id="5_fmty4"]
 [ext_resource type="Texture2D" uid="uid://ccp5wca853nbj" path="res://assets/sprites/collectables/collectable_color.png" id="6_3v663"]
-[ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://Scripts/tile_map_manager.gd" id="6_6wx8f"]
+[ext_resource type="Script" uid="uid://bmyeafleghfgc" path="res://scripts/tile_map_manager.gd" id="6_6wx8f"]
 [ext_resource type="Texture2D" uid="uid://bftn4h5jxrruo" path="res://assets/sprites/scenary/grass1.png" id="7_w8kbg"]
 [ext_resource type="Texture2D" uid="uid://b5r6exegbqhr2" path="res://assets/sprites/scenary/grass2.png" id="8_gxyip"]
 [ext_resource type="Texture2D" uid="uid://dwjp22u3d21in" path="res://assets/sprites/scenary/Tileset-2222.png" id="9_b8ytw"]
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="9_key"]
-[ext_resource type="PackedScene" path="res://Scenes/collectable_color.tscn" id="20_a51ki"]
+[ext_resource type="PackedScene" path="res://scenes/collectable_color.tscn" id="20_a51ki"]
+[ext_resource type="Script" path="res://scripts/level_5.gd" id="21_level5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
@@ -2592,6 +2593,7 @@ sources/7 = SubResource("TileSetAtlasSource_fmsuk")
 sources/8 = SubResource("TileSetAtlasSource_3oae0")
 
 [node name="Level5" type="Node2D" unique_id=1284172005]
+script = ExtResource("21_level5")
 
 [node name="Player" parent="." unique_id=889365973 groups=["player"] instance=ExtResource("1_bswci")]
 unique_name_in_owner = true
@@ -2603,7 +2605,7 @@ position = Vector2(0, 319)
 
 [node name="TileMapLayerDefinitive" type="TileMapLayer" parent="Tilemaps" unique_id=1234567890 groups=["tile_layers"]]
 z_index = -1
-tile_map_data = PackedByteArray(0, 0, 254, 255, 11, 0, 0, 0, 1, 0, 1, 0, 0, 0, 255, 255, 11, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 11, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 11, 0, 0, 0, 1, 0, 1, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAAAAsAAAABAAEAAAD//wsAAAABAAEAAAD+/wsAAAABAAEAAAD9/wsAAAABAAEAAAD8/wsAAAABAAEAAAD7/wsAAAABAAEAAAD6/wsAAAABAAEAAAD5/wsAAAABAAEAAAD4/wsAAAABAAEAAAD3/wsAAAABAAEAAAD2/wsAAAABAAEAAAD1/wsAAAABAAEAAAD0/wsAAAABAAEAAADz/wsAAAABAAEAAADy/wsAAAABAAEAAADx/wsAAAABAAEAAAABAAsAAAABAAEAAAACAAsAAAABAAEAAAADAAsAAAABAAEAAAAEAAsAAAABAAEAAAAFAAsAAAABAAEAAAAGAAsAAAABAAEAAAAHAAsAAAABAAEAAAAIAAsAAAABAAEAAAAJAAsAAAABAAEAAAAKAAsAAAABAAEAAAALAAsAAAABAAEAAAAMAAsAAAABAAEAAAANAAsAAAABAAEAAAAOAAsAAAABAAEAAAAPAAsAAAACAAYAAADw/wsAAAAAAAYAAADw/woAAAAAAAUAAADw/wkAAAAAAAUAAAAPAAoAAAACAAUAAAAPAAkAAAACAAUAAAA=")
 tile_set = SubResource("TileSet_g4v7s")
 script = ExtResource("6_6wx8f")
 
