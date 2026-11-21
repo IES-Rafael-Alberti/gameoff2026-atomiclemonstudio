@@ -6,6 +6,7 @@ const LEVELS := {
 	1: "level_1",
 	2: "level_2",
 	3: "level_3",
+	4: "level_4",
 }
 const LEVEL_COUNT := 6
 const DOOR := preload("res://assets/sprites/scenary/door.png")
@@ -23,7 +24,7 @@ const THUMBNAILS: Array[Texture2D] = [
 func _ready() -> void:
 	for n in range(1, LEVEL_COUNT + 1):
 		grid.add_child(_make_button(n))
-
+	grid.get_child(0).grab_focus()
 
 func _make_button(n: int) -> Button:
 	var button := Button.new()
@@ -78,3 +79,7 @@ func _make_button(n: int) -> Button:
 
 func _on_back_pressed() -> void:
 	SceneManager.change_scene("main_menu")
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_on_back_pressed()

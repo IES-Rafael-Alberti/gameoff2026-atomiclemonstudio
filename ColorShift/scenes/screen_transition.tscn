@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shader/transitions/wiper_bar.gdshader" id="1_shader"]
+[ext_resource type="Script" path="res://scripts/screen_transition.gd" id="2_script"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wiper"]
+shader = ExtResource("1_shader")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/bar_width = 12.0
+shader_parameter/glow_size = 36.0
+shader_parameter/trail_size = 140.0
+
+[node name="ScreenTransition" type="CanvasLayer"]
+layer = 90
+script = ExtResource("2_script")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wiper")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

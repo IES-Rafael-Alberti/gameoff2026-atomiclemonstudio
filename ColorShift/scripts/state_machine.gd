@@ -5,6 +5,8 @@ class_name StateMachine
 @export var initial_state: State
 var current_state: State
 var states: Dictionary = {}
+var drop_through_timer := 0.0
+var drop_through_collision_mask := 1
 
 func _ready() -> void:
 	#Registers child states based on the child nodes
@@ -22,6 +24,13 @@ func _process(delta: float) -> void:
 		current_state.update(delta)
 
 func _physics_process(delta: float) -> void:
+	if drop_through_timer > 0.0:
+		drop_through_timer -= delta
+		if drop_through_timer <= 0.0:
+			var character = get_parent() as CharacterBody2D
+			if character != null:
+				character.collision_mask = drop_through_collision_mask
+
 	if current_state:
 		current_state.physics_update(delta)
 		_check_spike_collisions()
@@ -84,10 +93,10 @@ func _check_drop_through() -> void:
 	if not _is_on_one_way_platform(character):
 		return
 
-	# Move the body just below the one-way band and start falling. This is
-	# enough to clear the platform without disabling any collision layer.
-	character.global_position.y += 7.0
-	character.velocity.y = 60.0
+	drop_through_collision_mask = character.collision_mask
+	character.collision_mask = 0
+	character.velocity.y = 180.0
+	drop_through_timer = 0.18
 
 func _is_on_one_way_platform(character: CharacterBody2D) -> bool:
 	var scene := get_tree().current_scene
@@ -95,12 +104,11 @@ func _is_on_one_way_platform(character: CharacterBody2D) -> bool:
 		return false
 
 	var bottom := _get_character_bottom()
-	# Sample just below the feet: that is the tile the character is standing on.
 	var feet := character.global_position + Vector2(0.0, bottom + 2.0)
 
 	for node in scene.find_children("*", "TileMapLayer", true, false):
 		var layer := node as TileMapLayer
-		if layer == null:
+		if layer == null or layer.tile_set == null:
 			continue
 
 		var cell := layer.local_to_map(layer.to_local(feet))
@@ -112,7 +120,48 @@ func _is_on_one_way_platform(character: CharacterBody2D) -> bool:
 			if data.is_collision_polygon_one_way(0, polygon):
 				return true
 
+	# Moving one-way platforms (AnimatableBody2D inside moving_platform.tscn).
+	for node in scene.find_children("*", "CollisionShape2D", true, false):
+		var shape := node as CollisionShape2D
+		if shape == null or not shape.one_way_collision:
+			continue
+
+		var body := shape.get_parent() as CollisionObject2D
+		if body == null or not body.is_in_group("one_way_platforms"):
+			continue
+
+		var local_feet := shape.to_local(feet)
+		if shape.shape is RectangleShape2D:
+			var rect := (shape.shape as RectangleShape2D).get_rect()
+			if rect.has_point(local_feet):
+				return true
+		elif shape.shape is ConvexPolygonShape2D:
+			# Same trapezoid as the one-way tiles, scaled to the platform width.
+			if _point_in_convex(local_feet, (shape.shape as ConvexPolygonShape2D).points):
+				return true
+
 	return false
+
+
+func _point_in_convex(point: Vector2, points: PackedVector2Array) -> bool:
+	# Convex polygon: the point is inside if it stays on the same side of
+	# every edge. Returns true on the boundary too.
+	if points.size() < 3:
+		return false
+
+	var sign := 0.0
+	for i in points.size():
+		var edge := points[(i + 1) % points.size()] - points[i]
+		var side := edge.cross(point - points[i])
+		if absf(side) < 0.0001:
+			continue
+		var s := 1.0 if side > 0.0 else -1.0
+		if sign == 0.0:
+			sign = s
+		elif s != sign:
+			return false
+
+	return true
 
 func _get_character_bottom() -> float:
 	var character = get_parent()
