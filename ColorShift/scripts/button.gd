@@ -11,7 +11,8 @@ extends Node2D
 }
 @onready var area_2d: Area2D = $Area2D
 var is_pressed: bool = false
-@export var button_color: String
+## Color del boton, elegible desde la lista del inspector.
+@export_enum("GREY", "RED", "BLUE", "YELLOW", "ORANGE", "PURPLE", "GREEN") var button_color: String = "GREY"
 @export var button_id: int
 
 func _ready() -> void:
