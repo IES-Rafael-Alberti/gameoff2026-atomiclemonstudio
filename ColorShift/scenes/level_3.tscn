@@ -26,6 +26,10 @@ tile_map_data = PackedByteArray("AADw//T/AAAAAAQAAADx//T/AAABAAQAAADy//T/AAABAAQ
 script = ExtResource("3_qf6rc")
 room_offset = Vector2(-512, -384)
 
+[node name="ParallaxContainer" parent="Camera2D" unique_id=1765224515 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_wae8j")]
+player = NodePath("../../Player")
+camera = NodePath("..")
+
 [node name="Checkpoints" type="Node" parent="." unique_id=1818447788 node_paths=PackedStringArray("player")]
 script = ExtResource("4_s8nj6")
 player = NodePath("../Player")
@@ -53,10 +57,6 @@ position = Vector2(-318, 323)
 
 [node name="RightLimit" type="Marker2D" parent="Limits" unique_id=2038874192]
 position = Vector2(765, 0)
-
-[node name="ParallaxContainer" parent="." unique_id=1765224515 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_wae8j")]
-player = NodePath("../Player")
-camera = NodePath("../Camera2D")
 
 [editable path="Tilemaps"]
 [editable path="Frog"]

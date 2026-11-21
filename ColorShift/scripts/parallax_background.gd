@@ -19,10 +19,10 @@ var parallax_layers: Array[Parallax2D] = []
 var initial_positions: Array[Vector2] = []
 
 var last_player_x: float
-var camera_offset: Vector2
+var player_offset_x: float = 0.0
 
 
-func _ready():
+func _ready() -> void:
 	if player == null or camera == null:
 		push_error("Assign Player and Camera in the Inspector!")
 		return
@@ -36,35 +36,32 @@ func _ready():
 			child.follow_viewport = false
 
 	last_player_x = player.global_position.x
-	camera_offset = camera.get_screen_center_position()
 
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	if player == null or camera == null:
 		return
 
 	# Detect player horizontal movement.
-	var player_delta_x = player.global_position.x - last_player_x
+	var player_delta_x: float = player.global_position.x - last_player_x
 
-	# Detect camera movement (including room transitions).
-	var current_camera_position = camera.get_screen_center_position()
-	var camera_delta = current_camera_position - camera_offset
+	# Accumulate the parallax effect caused by player movement.
+	player_offset_x += player_delta_x
+
+	# Get the actual camera center in world coordinates.
+	var camera_center: Vector2 = camera.get_screen_center_position()
 
 	for i in range(parallax_layers.size()):
 		if i >= layer_speeds.size():
 			continue
 
-		var layer = parallax_layers[i]
-		var speed = layer_speeds[i]
+		var layer: Parallax2D = parallax_layers[i]
+		var speed: float = layer_speeds[i]
 
-		# Camera movement carries the whole parallax.
-		layer.position.x += camera_delta.x
+		# Keep the parallax centered on the camera.
+		var target_x: float = camera_center.x - player_offset_x * (1.0 - speed)
 
-		# Player movement creates the depth effect.
-		layer.position.x -= player_delta_x * (1.0 - speed)
-
-		# Never move vertically.
-		layer.position.y = initial_positions[i].y
+		layer.global_position.x = target_x
+		layer.global_position.y = camera_center.y + initial_positions[i].y
 
 	last_player_x = player.global_position.x
-	camera_offset = current_camera_position
