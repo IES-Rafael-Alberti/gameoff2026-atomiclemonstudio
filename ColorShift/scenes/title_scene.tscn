@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/title_scene.gd" id="1_title"]
+[ext_resource type="Texture2D" uid="uid://cdb5jy5na7nxa" path="res://assets/animations/studio/background.PNG" id="2_bg"]
+[ext_resource type="PackedScene" uid="uid://eq2oc04nu5ud" path="res://scenes/animated_logo.tscn" id="3_logo"]
+
+[node name="TitleScene" type="Node2D"]
+script = ExtResource("1_title")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(512, 384)
+scale = Vector2(0.2222, 0.2222)
+texture = ExtResource("2_bg")
+
+[node name="LogoAnimated" parent="." instance=ExtResource("3_logo")]
+position = Vector2(512, 384)
+scale = Vector2(0.3, 0.3)
