@@ -176,8 +176,10 @@ func _make_material(color_name: String) -> ShaderMaterial:
 	var tile_material := ShaderMaterial.new()
 	tile_material.shader = TILE_SHADER
 	tile_material.set_shader_parameter("atlas_size", _atlas_sizes[0])
+	tile_material.set_shader_parameter("base_atlas", ATLAS_FAMILIES[0][0])
 	tile_material.set_shader_parameter("combo_atlas", ATLAS_FAMILIES[0][1])
 	tile_material.set_shader_parameter("atlas_size_alt", _atlas_sizes[1])
+	tile_material.set_shader_parameter("base_atlas_alt", ATLAS_FAMILIES[1][0])
 	tile_material.set_shader_parameter("combo_atlas_alt", ATLAS_FAMILIES[1][1])
 	_set_quadrants(tile_material, color_name, color_name)
 	return tile_material
