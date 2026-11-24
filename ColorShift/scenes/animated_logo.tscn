@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://5wwhgxoq3wy2" path="res://assets/animations/studio/1bite_lemon.PNG" id="2_jceqc"]
 [ext_resource type="Texture2D" uid="uid://cscnl7g6jipsu" path="res://assets/animations/studio/2bites_lemon.PNG" id="3_g2660"]
 [ext_resource type="Script" uid="uid://8p503pkuq2wn" path="res://scripts/animated_sprite_2d.gd" id="4_t2n8u"]
+[ext_resource type="Script" uid="uid://bjv82wv5uaply" path="res://scripts/intro_crunch.gd" id="5_crunch"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_57qmd"]
 animations = [{
@@ -124,6 +125,7 @@ _data = {
 }
 
 [node name="logo_animated" type="Node2D" unique_id=981610104]
+script = ExtResource("5_crunch")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=306510813]
 modulate = Color(1, 1, 1, 0)
