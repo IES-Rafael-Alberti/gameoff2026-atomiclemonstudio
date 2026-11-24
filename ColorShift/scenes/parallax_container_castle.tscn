@@ -1,14 +1,11 @@
 [gd_scene format=3 uid="uid://csr8hkglx2m1f"]
 
 [ext_resource type="Script" uid="uid://biuv0wxej7652" path="res://scripts/parallax_background.gd" id="1_3jp15"]
-[ext_resource type="Texture2D" uid="uid://crvigd1abspay" path="res://assets/sprites/backgrounds/bg1.PNG" id="2_24ges"]
-[ext_resource type="Texture2D" uid="uid://s465ktqcpdqj" path="res://assets/sprites/backgrounds/bg2.PNG" id="3_hkgrt"]
-[ext_resource type="Texture2D" uid="uid://c1v8jmrm486ea" path="res://assets/sprites/backgrounds/bg3.PNG" id="4_3n8oo"]
-[ext_resource type="Texture2D" uid="uid://4s4ec1vvseub" path="res://assets/sprites/backgrounds/bg4.PNG" id="5_tes4i"]
-[ext_resource type="Texture2D" uid="uid://cqc1uehw8o8f6" path="res://assets/sprites/backgrounds/bg5.PNG" id="6_jwdga"]
-[ext_resource type="Texture2D" uid="uid://joqt262blf1c" path="res://assets/sprites/backgrounds/bg6.PNG" id="7_4dtnc"]
-[ext_resource type="Texture2D" uid="uid://de5s14wsyossx" path="res://assets/sprites/backgrounds/bg7.PNG" id="8_wf4ub"]
-[ext_resource type="Texture2D" uid="uid://bs818jqb0wqkk" path="res://assets/sprites/backgrounds/bg8.PNG" id="9_34otf"]
+[ext_resource type="Texture2D" uid="uid://cu6krg4jqwakq" path="res://assets/sprites/backgrounds/bg2_4.PNG" id="2_q8s6v"]
+[ext_resource type="Texture2D" uid="uid://cejc3tdduotqn" path="res://assets/sprites/backgrounds/bg2_5.PNG" id="3_wakb7"]
+[ext_resource type="Texture2D" uid="uid://canyswn8ue3jm" path="res://assets/sprites/backgrounds/bg2_3.PNG" id="4_ireg6"]
+[ext_resource type="Texture2D" uid="uid://vg2urtns2kv" path="res://assets/sprites/backgrounds/bg2_2.PNG" id="5_3jp15"]
+[ext_resource type="Texture2D" uid="uid://knqrqgpjy6f2" path="res://assets/sprites/backgrounds/bg2_1.PNG" id="6_24ges"]
 
 [node name="ParallaxContainer" type="Node2D" unique_id=178089555]
 script = ExtResource("1_3jp15")
@@ -17,46 +14,28 @@ script = ExtResource("1_3jp15")
 z_index = -2
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1606061387]
-texture = ExtResource("2_24ges")
+texture = ExtResource("2_q8s6v")
 
 [node name="Parallax2D2" type="Parallax2D" parent="." unique_id=242651404]
 z_index = -7
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=711681370]
-texture = ExtResource("3_hkgrt")
+texture = ExtResource("3_wakb7")
 
 [node name="Parallax2D3" type="Parallax2D" parent="." unique_id=495365639]
 z_index = -5
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D3" unique_id=1349644048]
-texture = ExtResource("4_3n8oo")
+texture = ExtResource("4_ireg6")
 
 [node name="Parallax2D4" type="Parallax2D" parent="." unique_id=2123416259]
 z_index = -8
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D4" unique_id=119784960]
-texture = ExtResource("5_tes4i")
+texture = ExtResource("5_3jp15")
 
 [node name="Parallax2D5" type="Parallax2D" parent="." unique_id=1824130092]
 z_index = -7
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D5" unique_id=1038131901]
-texture = ExtResource("6_jwdga")
-
-[node name="Parallax2D6" type="Parallax2D" parent="." unique_id=1509890664]
-z_index = -8
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D6" unique_id=228175977]
-texture = ExtResource("7_4dtnc")
-
-[node name="Parallax2D7" type="Parallax2D" parent="." unique_id=1444844914]
-z_index = -9
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D7" unique_id=1432163847]
-texture = ExtResource("8_wf4ub")
-
-[node name="Parallax2D8" type="Parallax2D" parent="." unique_id=1035226350]
-z_index = -10
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D8" unique_id=632898814]
-texture = ExtResource("9_34otf")
+texture = ExtResource("6_24ges")

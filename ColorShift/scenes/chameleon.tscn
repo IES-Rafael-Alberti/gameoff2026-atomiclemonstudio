@@ -494,11 +494,19 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="BeChamel" type="Node2D" unique_id=1565266819]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wj3d"]
+size = Vector2(20, 54)
+
+[node name="BeChamel" type="CharacterBody2D" unique_id=1438065320]
 
 [node name="Chameleon" type="AnimatedSprite2D" parent="." unique_id=1864973683]
 position = Vector2(2, -2)
 scale = Vector2(1.03125, 1.03125)
 sprite_frames = SubResource("SpriteFrames_jyaov")
-animation = &"cast"
-frame_progress = 0.7530512
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=8457552]
+position = Vector2(7.1054274e-15, 3.9999986)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_2wj3d")
