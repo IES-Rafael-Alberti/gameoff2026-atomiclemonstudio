@@ -1,16 +1,17 @@
 [gd_scene format=3 uid="uid://bagn5wawoecg4"]
 
 [ext_resource type="Script" uid="uid://dr66e5erexain" path="res://scripts/options_menu.gd" id="1_binsn"]
+[ext_resource type="Texture2D" uid="uid://cl7ovqbpjsqg5" path="res://assets/ui/button_toggled_on.PNG" id="2_cvq0m"]
 [ext_resource type="Script" uid="uid://cs42rct2k0cnt" path="res://scripts/audio_control.gd" id="3_hm4m4"]
 [ext_resource type="Texture2D" uid="uid://csrtf4hfcqko" path="res://assets/ui/grabber.PNG" id="3_i80p0"]
+[ext_resource type="Texture2D" uid="uid://3uawb6ib0juq" path="res://assets/ui/button_toggled_off.PNG" id="3_wxicr"]
 [ext_resource type="Script" uid="uid://c1tojyq6oe03x" path="res://scripts/full_screen_control.gd" id="4_lfjc7"]
 [ext_resource type="Texture2D" uid="uid://bg0cmbrnj4rna" path="res://assets/ui/horizontal_scroll_audio.PNG" id="4_smlwr"]
 [ext_resource type="Script" uid="uid://c0uexlxh574ku" path="res://scripts/color_blind_control_select.gd" id="5_3xsyx"]
-[ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="5_7txom"]
 [ext_resource type="Texture2D" uid="uid://dx682gps4oqxi" path="res://assets/ui/horizontal_scroll_audio_filled.PNG" id="5_cvq0m"]
-[ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="6_binsn"]
-[ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="7_2f1bn"]
 [ext_resource type="PackedScene" uid="uid://bryw5kt5cdc8h" path="res://scenes/remap_menu.tscn" id="8_remap"]
+[ext_resource type="Texture2D" uid="uid://b7oxbsodbafiw" path="res://assets/ui/button_normal.PNG" id="9_smlwr"]
+[ext_resource type="Texture2D" uid="uid://bkf1g4gksyq1u" path="res://assets/ui/button_pressed.PNG" id="10_cvq0m"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_binsn"]
 texture = ExtResource("4_smlwr")
@@ -32,6 +33,36 @@ texture_margin_left = 8.0
 texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cvq0m"]
+texture = ExtResource("9_smlwr")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nb050"]
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smlwr"]
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nffq5"]
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mun1a"]
+texture = ExtResource("9_smlwr")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tpfov"]
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8ladg"]
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cy8jg"]
+texture = ExtResource("9_smlwr")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4d3f0"]
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fvot6"]
+texture = ExtResource("10_cvq0m")
 
 [node name="OptionsMenu" type="Control" unique_id=2056824226]
 layout_mode = 3
@@ -72,6 +103,14 @@ text = "Options"
 
 [node name="FullScreenControl" type="CheckButton" parent="Panel/VBoxContainer" unique_id=1114738510]
 layout_mode = 2
+theme_override_icons/checked = ExtResource("2_cvq0m")
+theme_override_icons/unchecked = ExtResource("3_wxicr")
+theme_override_icons/checked_disabled = ExtResource("2_cvq0m")
+theme_override_icons/unchecked_disabled = ExtResource("3_wxicr")
+theme_override_icons/checked_mirrored = ExtResource("3_wxicr")
+theme_override_icons/unchecked_mirrored = ExtResource("2_cvq0m")
+theme_override_icons/checked_disabled_mirrored = ExtResource("3_wxicr")
+theme_override_icons/unchecked_disabled_mirrored = ExtResource("2_cvq0m")
 text = "FullScreen Mode"
 script = ExtResource("4_lfjc7")
 
@@ -158,9 +197,12 @@ text = "Effects volume"
 
 [node name="RemapMenuButton" type="Button" parent="Panel/VBoxContainer" unique_id=482737385]
 layout_mode = 2
-theme_override_styles/normal = ExtResource("5_7txom")
-theme_override_styles/pressed = ExtResource("6_binsn")
-theme_override_styles/hover_pressed = ExtResource("7_2f1bn")
+theme_override_colors/font_color = Color(0.10747976, 0.10747973, 0.10747973, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_cvq0m")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nb050")
+theme_override_styles/hover = SubResource("StyleBoxTexture_smlwr")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_nffq5")
 text = "Remap Menu"
 
 [node name="Label2" type="Label" parent="Panel/VBoxContainer" unique_id=1963411433]
@@ -174,9 +216,10 @@ offset_left = 55.0
 offset_top = 27.0
 offset_right = 299.0
 offset_bottom = 50.0
-theme_override_styles/normal = ExtResource("5_7txom")
-theme_override_styles/pressed = ExtResource("6_binsn")
-theme_override_styles/hover = ExtResource("7_2f1bn")
+theme_override_colors/font_color = Color(0.11858118, 0.118581496, 0.11858127, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_mun1a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tpfov")
+theme_override_styles/hover = SubResource("StyleBoxTexture_8ladg")
 alignment = 1
 selected = 0
 allow_reselect = true
@@ -198,9 +241,10 @@ alignment = 1
 [node name="BackButton" type="Button" parent="Panel/VBoxContainer/NavigationButtons" unique_id=2145169038]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-theme_override_styles/normal = ExtResource("5_7txom")
-theme_override_styles/pressed = ExtResource("6_binsn")
-theme_override_styles/hover = ExtResource("7_2f1bn")
+theme_override_colors/font_color = Color(0.11858118, 0.118581496, 0.11858127, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_cy8jg")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4d3f0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_fvot6")
 text = "Back"
 
 [node name="RemapMenu" parent="." unique_id=1157468083 instance=ExtResource("8_remap")]
