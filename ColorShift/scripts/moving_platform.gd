@@ -7,7 +7,6 @@ extends Node2D
 ## donde se coloca la plataforma en la escena.
 ##
 ## - ping_pong: va al final y vuelve al principio.
-## - loop: cuando no usa ping_pong, salta del final al principio.
 ## - pause_at_ends: segundos quieto al llegar a cada extremo.
 ## - platform_distance: distancia del recorrido en px. Siempre se trata como
 ##   un valor positivo y se aplica hacia `direction`, asi que 600 recorre 600
@@ -45,7 +44,6 @@ const PLATFORM_REGIONS := {
 ## Direccion en la que avanza la plataforma desde su punto de origen.
 @export_enum("right", "left", "up", "down") var direction: String = "right"
 @export var ping_pong: bool = true
-@export var loop: bool = false
 @export var pause_at_ends: float = 0.0
 @export_range(0.0, 1.0, 0.01) var start_progress: float = 0.0
 @export var auto_start: bool = true
@@ -62,7 +60,7 @@ var _pause_left: float = 0.0
 
 func _ready() -> void:
 	_follow.rotates = false
-	_follow.loop = loop and not ping_pong
+	_follow.loop = false
 
 	# La Curve2D del prefab es un SubResource compartido por todas las
 	# instancias. Sin duplicarla, modificar una plataforma cambiaria todas.
@@ -193,9 +191,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	_follow.progress += speed * delta
-	if loop:
-		_follow.progress = fmod(_follow.progress, length)
-	elif _follow.progress >= length:
+	if _follow.progress >= length:
 		_follow.progress = length
 		reached_end.emit()
 		set_physics_process(false)

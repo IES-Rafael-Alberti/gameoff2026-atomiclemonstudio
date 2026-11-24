@@ -58,6 +58,11 @@ func change_scene(scene_name: String) -> void:
 
 	await _fade_to(1.0)
 
+	# Every level starts with the transparent (GREY) wheel, even if the player
+	# already has the second wheel. Menus keep whatever color was active.
+	if _is_level_scene(key):
+		GameManager.reset_color()
+
 	var error := get_tree().change_scene_to_file(SCENES[key])
 	if error != OK:
 		push_error("SceneManager: error al cargar '%s' (cÃ³digo %d)." % [key, error])
@@ -94,6 +99,10 @@ func reload_scene() -> void:
 
 func get_current_scene() -> String:
 	return current_scene_name
+
+
+func _is_level_scene(key: String) -> bool:
+	return key != "level_select" and (key == "demo_level" or key.begins_with("level_"))
 
 
 func _fade_to(target_alpha: float) -> void:
