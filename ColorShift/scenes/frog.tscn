@@ -22,7 +22,7 @@
 [ext_resource type="AudioStream" uid="uid://b0prkw6ojgq6g" path="res://bso_colorshift/enemy sounds/FrogAudio - segment 12.mp3" id="20_gxks4"]
 [ext_resource type="AudioStream" uid="uid://coir2rxatp1d1" path="res://bso_colorshift/enemy sounds/FrogAudio - segment 13.mp3" id="21_64dwd"]
 [ext_resource type="AudioStream" uid="uid://cvqu184ycslj4" path="res://bso_colorshift/enemy sounds/FrogAudio - segment 14.mp3" id="22_1gnhd"]
-[ext_resource type="Script" uid="uid://b1orihkumb2ew" path="res://scenes/frog_hitzone.gd" id="23_fgm6k"]
+[ext_resource type="Script" uid="uid://b1orihkumb2ew" path="res://scripts/frog_hitzone.gd" id="23_fgm6k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
 size = Vector2(12.666667, 2.666667)
