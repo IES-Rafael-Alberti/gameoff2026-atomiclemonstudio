@@ -223,7 +223,6 @@ visible = false
 sprite_frames = SubResource("SpriteFrames_64bf4")
 
 [node name="Green_skin" type="AnimatedSprite2D" parent="." unique_id=657503799]
-visible = false
 sprite_frames = SubResource("SpriteFrames_fcgud")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=2125887549]
