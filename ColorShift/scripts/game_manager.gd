@@ -12,7 +12,8 @@ const WHEEL_ORDER := {
 var wheel_1_color: Colors = Colors.GREY
 var wheel_2_color: Colors = Colors.GREY
 var actual_color: String = "GREY"
-# The left wheel (wheel 2) is collected in level_color_test.
+# The left wheel (wheel 2) is collected in level_color_test. Both wheels start
+# on GREY (the transparent slot), so every level begins with the neutral color.
 var has_second_wheel: bool = false
 signal color_changed(color: String)
 
@@ -45,15 +46,9 @@ func get_wheel_step(wheel: int) -> int:
 	return WHEEL_ORDER[wheel].find(wheel_1_color if wheel == 1 else wheel_2_color)
 
 
-# The left wheel is the right one turned upside down: it starts on the color
-# at the bottom of the right wheel.
-func _opposite_of_right_wheel() -> Colors:
-	return WHEEL_ORDER[1][(get_wheel_step(1) + 2) % 4]
-
-
 func obtain_second_wheel() -> void:
 	has_second_wheel = true
-	wheel_2_color = _opposite_of_right_wheel()
+	wheel_2_color = Colors.GREY
 	update_color()
 
 
@@ -63,8 +58,9 @@ func update_color() -> void:
 	color_changed.emit(actual_color)
 
 func reset_color() -> void:
+	# Keep the second wheel unlocked, but put both discs on GREY again.
 	wheel_1_color = Colors.GREY
-	wheel_2_color = _opposite_of_right_wheel() if has_second_wheel else Colors.GREY
+	wheel_2_color = Colors.GREY
 	update_color()
 
 func get_color_name() -> String:

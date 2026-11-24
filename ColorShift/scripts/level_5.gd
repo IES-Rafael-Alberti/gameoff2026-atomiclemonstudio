@@ -3,8 +3,9 @@ extends Node2D
 ##
 ## _enter_tree() is called on the parent before the children enter the tree,
 ## so the second wheel is active before tile_map_manager.gd reads the initial
-## color in its _ready(). If the wheel was already collected in a previous
-## level, its current color is kept.
+## color in its _ready(). SceneManager resets both discs to GREY on level entry,
+## so the level always starts neutral whether the wheel was collected here or
+## in a previous level.
 
 func _enter_tree() -> void:
 	if not GameManager.has_second_wheel:
