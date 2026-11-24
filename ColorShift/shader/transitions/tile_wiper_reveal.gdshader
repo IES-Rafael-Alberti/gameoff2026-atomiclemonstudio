@@ -5,6 +5,9 @@ shader_type canvas_item;
 //   Tileset - 4 colors / grass1  -> (0,0) gris, (1,0) rojo, (0,1) azul, (1,1) amarillo
 //   Tileset-2222 / grass2        -> (0,0) gris, (1,0) morado, (0,1) verde, (1,1) naranja
 // Las mezclas (combo) salen de la textura de mezclas de su familia.
+// Cada familia tiene dos PNG del mismo tamano (4 colors/2222, grass1/grass2) y el
+// shader no sabe de cual vino el tile, asi que siempre muestrea de los dos PNG
+// (base para gris/rojo/azul/amarillo, mezclas para morado/verde/naranja).
 // Delante de la barra usa el color viejo y detras el nuevo.
 // Otras texturas (puerta, coleccionables) se dibujan tal cual.
 uniform vec2 atlas_size;
@@ -14,8 +17,10 @@ uniform vec2 old_quadrant = vec2(0.0);
 uniform vec2 new_quadrant = vec2(0.0);
 uniform bool old_combo = false;
 uniform bool new_combo = false;
-// png de mezclas de cada familia, sin el relleno de 1 px que Godot anade a cada tile.
+// png base y de mezclas de cada familia, sin el relleno de 1 px que Godot anade a cada tile.
+uniform sampler2D base_atlas : filter_nearest, repeat_disable;
 uniform sampler2D combo_atlas : filter_nearest, repeat_disable;
+uniform sampler2D base_atlas_alt : filter_nearest, repeat_disable;
 uniform sampler2D combo_atlas_alt : filter_nearest, repeat_disable;
 const float TILE_PX = 32.0;
 // false: la capa no se ve en ese lado de la barra.
@@ -45,14 +50,15 @@ void fragment() {
 	if (is_alt || distance(texture_size, atlas_size) < 0.5) {
 		bool before = sd > 0.0;
 		vec2 uv = mod(UV, vec2(0.5)) + (before ? old_quadrant : new_quadrant) * 0.5;
-		if (before ? old_combo : new_combo) {
-			if (is_alt) {
-				texel = texture(combo_atlas_alt, combo_uv(uv, atlas_size_alt, vec2(textureSize(combo_atlas_alt, 0))));
-			} else {
-				texel = texture(combo_atlas, combo_uv(uv, atlas_size, vec2(textureSize(combo_atlas, 0))));
-			}
+		bool combo = before ? old_combo : new_combo;
+		if (is_alt) {
+			vec2 raw = vec2(textureSize(base_atlas_alt, 0));
+			vec2 raw_uv = combo_uv(uv, atlas_size_alt, raw);
+			texel = combo ? texture(combo_atlas_alt, raw_uv) : texture(base_atlas_alt, raw_uv);
 		} else {
-			texel = texture(TEXTURE, uv);
+			vec2 raw = vec2(textureSize(base_atlas, 0));
+			vec2 raw_uv = combo_uv(uv, atlas_size, raw);
+			texel = combo ? texture(combo_atlas, raw_uv) : texture(base_atlas, raw_uv);
 		}
 	}
 	COLOR = texel * modulate;
