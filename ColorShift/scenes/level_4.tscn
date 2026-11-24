@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/color_wheel.tscn" id="10_wheel"]
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="11_gxyip"]
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="12_bee8o"]
-[ext_resource type="PackedScene" path="res://scenes/collectable_color.tscn" id="20_a51ki"]
+[ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="20_a51ki"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
@@ -2675,5 +2675,5 @@ player = NodePath("../Player")
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_6444e")]
 
-[node name="CollectableColor" parent="." unique_id=1521293210 instance=ExtResource("20_a51ki")]
+[node name="CollectableCarrot" parent="." unique_id=1521293210 instance=ExtResource("20_a51ki")]
 position = Vector2(1232, -304)

@@ -23,6 +23,10 @@ var music_volume: float = 1.0
 
 var color_blind_mode: String = "Normal"
 
+const number_of_carrots: int = 10
+var carrots_picked: int = 0
+signal carrot_collected
+
 signal button_pressed_signal
 
 func _ready() -> void:
@@ -89,3 +93,8 @@ func get_color_name() -> String:
 
 func button_pressed(button_id: int) -> void:
 	button_pressed_signal.emit(button_id)
+
+func collect_carrot() -> void:
+	carrots_picked += 1
+	carrots_picked = mini(carrots_picked, number_of_carrots)
+	carrot_collected.emit()

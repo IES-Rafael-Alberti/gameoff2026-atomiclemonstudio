@@ -4,7 +4,7 @@ extends Node2D
 ## pickups. This makes them independent from the active color and lets map
 ## authors place them using the tileset.
 
-const COLLECTABLE_SCENE := preload("res://scenes/collectable_1.tscn")
+const COLLECTABLE_SCENE := preload("res://scenes/collectable_carrot.tscn")
 
 
 func _ready() -> void:
