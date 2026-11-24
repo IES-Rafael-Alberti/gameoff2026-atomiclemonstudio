@@ -3,10 +3,7 @@ extends Control
 @onready var v_box_container: VBoxContainer = $VBoxContainer
 
 const BACKGROUNDS: Array[Texture2D] = [
-	preload("res://assets/menu_background.jpg"),
-	preload("res://assets/menu_background_2.jpg"),
-	preload("res://assets/menu_background_3.jpg"),
-	preload("res://assets/menu_background_4.jpg"),
+	preload("res://assets/general/castle-background.png"),
 ]
 
 @onready var background: TextureRect = $TextureRect
