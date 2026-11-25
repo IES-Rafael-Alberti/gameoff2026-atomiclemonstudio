@@ -38,7 +38,6 @@ texture = SubResource("CompressedTexture2D_4h3mk")
 expand_mode = 1
 
 [node name="OptionsMenu" parent="." unique_id=2056824226 instance=ExtResource("5_8ln24")]
-visible = false
 z_index = 1
 layout_mode = 1
 anchors_preset = 8

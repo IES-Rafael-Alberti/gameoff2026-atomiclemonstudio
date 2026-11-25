@@ -7,13 +7,16 @@ signal boss_defeated
 # ==========================================
 # REFERENCES
 # ==========================================
+
 @export var projectile_scene: PackedScene
 @export var barrel_throw_scene: PackedScene
-@export var platforms_scene: PackedScene
+@export var platforms_spell_scene: PackedScene
+
 @export var left_position: Marker2D
 @export var right_position: Marker2D
 
 @onready var sprite: AnimatedSprite2D = $Chameleon
+@onready var attack_point: Marker2D = $AttackPoint
 
 # ==========================================
 # MOVEMENT SETTINGS
@@ -37,6 +40,7 @@ var is_running_sequence: bool = false
 # ==========================================
 
 var boss_sequence: Array[Dictionary] = [
+
 	{"action": "cast", "spell": "projectile"},
 	{"action": "wait", "duration": 1.0},
 
@@ -49,7 +53,7 @@ var boss_sequence: Array[Dictionary] = [
 	{"action": "walk", "target": "right"},
 	{"action": "wait", "duration": 0.5},
 
-	{"action": "cast", "spell": "platforms"},
+	{"action": "cast", "spell": "platforms_spell"},
 	{"action": "wait", "duration": 2.0},
 
 	{"action": "jump", "target": "right"},
@@ -61,33 +65,28 @@ var boss_sequence: Array[Dictionary] = [
 # ==========================================
 
 func _ready() -> void:
+
 	sprite.play("idle")
+
 	spell_requested.connect(_on_spell_requested)
 
+
+
+# ==========================================
+# SPELL HANDLING
+# ==========================================
+
 func _on_spell_requested(spell_name: String) -> void:
+	print("Spell requested: ", spell_name)
 	spawn_spell(spell_name)
-	match spell_name:
 
-		"projectile":
-			print("Chameleon casts projectile!")
-
-			# Instantiate projectile scene here.
-
-		"barrel_throw":
-			print("Chameleon casts barrel throw!")
-
-			# Instantiate ground attack scene here.
-
-		"platforms":
-			print("Chameleon casts platforms!")
-
-			# Instantiate special attack scene here.
 
 func spawn_spell(spell_name: String) -> void:
 
-	var spell_scene: PackedScene
+	var spell_scene: PackedScene = null
 
 	match spell_name:
+
 		"projectile":
 			spell_scene = projectile_scene
 
@@ -95,21 +94,59 @@ func spawn_spell(spell_name: String) -> void:
 			spell_scene = barrel_throw_scene
 
 		"platforms":
-			spell_scene = platforms_scene
+			spell_scene = platforms_spell_scene
 
 		_:
 			push_warning("Unknown spell: " + spell_name)
 			return
 
 	if spell_scene == null:
-		push_warning("Spell scene not assigned: " + spell_name)
+		push_error("Spell scene not assigned: " + spell_name)
 		return
 
-	var spell = spell_scene.instantiate()
+	var spell := spell_scene.instantiate() as Node2D
+
+	if spell == null:
+		push_error("Spell scene must have a Node2D root!")
+		return
 
 	get_tree().current_scene.add_child(spell)
 
-	spell.global_position = $AttackPoint.global_position
+	spell.global_position = attack_point.global_position
+
+	print("Successfully spawned spell: ", spell_name)
+
+
+# ==========================================
+# SPELL CASTING
+# ==========================================
+
+func cast_spell(spell_name: String) -> void:
+
+	print("Preparing to cast: ", spell_name)
+
+	if not sprite.sprite_frames.has_animation("cast"):
+		push_error("The cast animation does not exist!")
+		return
+
+	if sprite.sprite_frames.get_animation_loop("cast"):
+		push_error("The cast animation must NOT loop!")
+		return
+
+	sprite.play("cast")
+
+	await sprite.animation_finished
+
+	if not is_alive:
+		return
+
+	print("Casting spell: ", spell_name)
+
+	spell_requested.emit(spell_name)
+
+	sprite.play("idle")
+
+
 # ==========================================
 # START BOSS FIGHT
 # ==========================================
@@ -138,8 +175,6 @@ func run_boss_sequence() -> void:
 				break
 
 			await execute_instruction(instruction)
-
-	# Sequence automatically repeats when it reaches the end.
 
 
 # ==========================================
@@ -173,26 +208,6 @@ func execute_instruction(instruction: Dictionary) -> void:
 
 
 # ==========================================
-# SPELL CASTING
-# ==========================================
-
-func cast_spell(spell_name: String) -> void:
-
-	sprite.play("cast")
-
-	# Wait until the casting animation finishes.
-	await sprite.animation_finished
-
-	if not is_alive:
-		return
-
-	# Tell the spell system which attack to perform.
-	spell_requested.emit(spell_name)
-
-	sprite.play("idle")
-
-
-# ==========================================
 # WALKING
 # ==========================================
 
@@ -203,7 +218,9 @@ func walk_to_position(target_name: String) -> void:
 	if target == null:
 		return
 
-	var direction: float = sign(target.global_position.x - global_position.x)
+	var direction: float = sign(
+		target.global_position.x - global_position.x
+	)
 
 	if direction == 0:
 		sprite.play("idle")
@@ -216,19 +233,24 @@ func walk_to_position(target_name: String) -> void:
 
 	while absf(global_position.x - target.global_position.x) > 5.0:
 
+		await get_tree().physics_frame
+
 		if not is_alive:
 			return
+
+		var delta: float = get_physics_process_delta_time()
 
 		velocity.x = direction * walk_speed
 
 		if not is_on_floor():
-			velocity.y += gravity * get_physics_process_delta_time()
+			velocity.y += gravity * delta
+		else:
+			velocity.y = 0.0
 
 		move_and_slide()
 
-		await get_tree().physics_frame
-
 	velocity.x = 0.0
+
 	sprite.play("idle")
 
 
@@ -246,16 +268,19 @@ func jump_to_position(target_name: String) -> void:
 	var start_position: Vector2 = global_position
 	var destination: Vector2 = target.global_position
 
-	var direction: float = sign(destination.x - start_position.x)
+	var direction: float = sign(
+		destination.x - start_position.x
+	)
 
 	if direction < 0:
 		sprite.play("jump_left")
+	elif direction > 0:
+		sprite.play("jump_right")
 	else:
 		sprite.play("jump_right")
 
 	var duration: float = maxf(jump_duration, 0.1)
 
-	# Calculate the velocity needed to reach the destination.
 	var horizontal_velocity: float = (
 		destination.x - start_position.x
 	) / duration
@@ -267,23 +292,25 @@ func jump_to_position(target_name: String) -> void:
 
 	var elapsed: float = 0.0
 
+	velocity.x = horizontal_velocity
+	velocity.y = vertical_velocity
+
 	while elapsed < duration:
+
+		await get_tree().physics_frame
 
 		if not is_alive:
 			return
 
 		var delta: float = get_physics_process_delta_time()
 
-		velocity.x = horizontal_velocity
-		velocity.y = vertical_velocity + gravity * elapsed
+		velocity.y += gravity * delta
 
 		move_and_slide()
 
 		elapsed += delta
 
-		await get_tree().physics_frame
-
-	velocity = Vector2.ZERO
+	velocity.x = 0.0
 
 	sprite.play("idle")
 
@@ -337,6 +364,9 @@ func take_damage(amount: int) -> void:
 
 
 func die() -> void:
+
+	if not is_alive:
+		return
 
 	is_alive = false
 	is_running_sequence = false

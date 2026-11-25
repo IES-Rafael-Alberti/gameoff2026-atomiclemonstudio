@@ -1,15 +1,18 @@
 [gd_scene format=4 uid="uid://01u0w8do2jrw"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_ysmsy"]
-[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://Scenes/key.tscn" id="2_gi7hc"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="3_ppfpn"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_ysmsy"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="2_gi7hc"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="3_ppfpn"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="4_3ijp0"]
-[ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://Scenes/parallax_container_castle.tscn" id="5_snfn4"]
+[ext_resource type="PackedScene" uid="uid://bnnsuqcgy6y10" path="res://scenes/platforms_spell.tscn" id="5_r51xj"]
+[ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://scenes/parallax_container_castle.tscn" id="5_snfn4"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="6_r51xj"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="7_bsx3y"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="7_bsx3y"]
 [ext_resource type="Texture2D" uid="uid://cfadig3iuqluv" path="res://assets/sprites/scenary/platform_grey.png" id="8_gi7hc"]
-[ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://Scenes/chameleon.tscn" id="9_ppfpn"]
+[ext_resource type="PackedScene" uid="uid://c1bqiljmgkhw7" path="res://scenes/projectile.tscn" id="9_iynha"]
+[ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://scenes/chameleon.tscn" id="9_ppfpn"]
 [ext_resource type="Script" uid="uid://d2r8at46b5pkl" path="res://scripts/battle_start_trigger.gd" id="10_0snvp"]
+[ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/barrel_throw.tscn" id="10_r51xj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
 size = Vector2(20, 55.63913)
@@ -20,12 +23,20 @@ size = Vector2(20, 55.63913)
 unique_name_in_owner = true
 position = Vector2(-439, 320)
 
+[node name="BeChamel" parent="." unique_id=1565266819 node_paths=PackedStringArray("left_position", "right_position") instance=ExtResource("9_ppfpn")]
+position = Vector2(380, -266)
+projectile_scene = ExtResource("9_iynha")
+barrel_throw_scene = ExtResource("10_r51xj")
+platforms_spell_scene = ExtResource("5_r51xj")
+left_position = NodePath("../Node/LeftMark")
+right_position = NodePath("../Node/RightMark")
+
 [node name="Key" parent="." unique_id=2020584789 instance=ExtResource("2_gi7hc")]
 
 [node name="Tilemaps" parent="." unique_id=210110623 instance=ExtResource("3_ppfpn")]
 
 [node name="TileMapLayer" parent="Tilemaps" index="0" unique_id=1750349955]
-tile_map_data = PackedByteArray("AADw//T/AAAAAAQAAADx//T/AAABAAQAAADy//T/AAABAAQAAADz//T/AAABAAQAAAD0//T/AAABAAQAAAD1//T/AAABAAQAAAD2//T/AAABAAQAAAD3//T/AAABAAQAAAD4//T/AAABAAQAAAD5//T/AAABAAQAAAD6//T/AAABAAQAAAD7//T/AAABAAQAAAD8//T/AAABAAQAAAD9//T/AAABAAQAAAD+//T/AAABAAQAAAD///T/AAABAAQAAAAAAPT/AAABAAQAAAABAPT/AAABAAQAAAACAPT/AAABAAQAAAADAPT/AAABAAQAAAAEAPT/AAABAAQAAAAFAPT/AAABAAQAAAAGAPT/AAABAAQAAAAHAPT/AAABAAQAAAAIAPT/AAABAAQAAAAJAPT/AAABAAQAAAAKAPT/AAABAAQAAAALAPT/AAABAAQAAAAMAPT/AAABAAQAAAANAPT/AAABAAQAAAAOAPT/AAABAAQAAAAPAPT/AAACAAQAAADw//X/AAAAAAUAAADw//b/AAAAAAUAAADw//f/AAAAAAUAAADw//j/AAAAAAUAAADw//n/AAAAAAUAAADw//r/AAAAAAUAAADw//v/AAAAAAUAAADw//z/AAAAAAUAAADw//3/AAAAAAUAAADw//7/AAAAAAUAAADw////AAAAAAUAAADw/wAAAAAAAAUAAADw/wEAAAAAAAUAAADw/wIAAAAAAAUAAADw/wMAAAAAAAUAAADw/wQAAAAAAAUAAADw/wUAAAAAAAUAAADw/wYAAAAAAAUAAADw/wcAAAAAAAUAAADw/wgAAAAAAAUAAADw/wkAAAAAAAUAAADw/woAAAAAAAUAAADw/wsAAAAAAAYAAADx/wsAAAABAAYAAADy/wsAAAABAAYAAADz/wsAAAABAAYAAAD0/wsAAAABAAYAAAD1/wsAAAABAAYAAAD2/wsAAAABAAYAAAD3/wsAAAABAAYAAAD4/wsAAAABAAYAAAD5/wsAAAABAAYAAAD6/wsAAAABAAYAAAD7/wsAAAABAAYAAAD8/wsAAAABAAYAAAD9/wsAAAABAAYAAAD+/wsAAAABAAYAAAD//wsAAAABAAYAAAAAAAsAAAABAAYAAAABAAsAAAABAAYAAAACAAsAAAABAAYAAAADAAsAAAABAAYAAAAEAAsAAAABAAYAAAAFAAsAAAABAAYAAAAGAAsAAAABAAYAAAAHAAsAAAABAAYAAAAIAAsAAAABAAYAAAAJAAsAAAABAAYAAAAKAAsAAAABAAYAAAALAAsAAAABAAYAAAAMAAsAAAABAAYAAAANAAsAAAABAAYAAAAOAAsAAAABAAYAAAAPAAsAAAACAAYAAAAPAPX/AAACAAUAAAAPAPb/AAACAAUAAAAPAPf/AAACAAUAAAAPAPj/AAACAAUAAAAPAPn/AAACAAUAAAAPAPr/AAACAAUAAAAPAPv/AAACAAUAAAAPAPz/AAACAAUAAAAPAP3/AAACAAUAAAAPAP7/AAACAAUAAAAPAP//AAACAAUAAAAPAAAAAAACAAUAAAAPAAEAAAACAAUAAAAPAAIAAAACAAUAAAAPAAMAAAACAAUAAAAPAAQAAAACAAUAAAAPAAUAAAACAAUAAAAPAAYAAAACAAUAAAAPAAcAAAACAAUAAAAPAAgAAAACAAUAAAAPAAkAAAACAAUAAAAPAAoAAAACAAUAAAA=")
+tile_map_data = PackedByteArray("AADw//b/AAAAAAUAAADw//f/AAAAAAUAAADw//j/AAAAAAUAAADw//n/AAAAAAUAAADw//r/AAAAAAUAAADw//v/AAAAAAUAAADw//z/AAAAAAUAAADw//3/AAAAAAUAAADw//7/AAAAAAUAAADw////AAAAAAUAAADw/wAAAAAAAAUAAADw/wEAAAAAAAUAAADw/wIAAAAAAAUAAADw/wMAAAAAAAUAAADw/wQAAAAAAAUAAADw/wUAAAAAAAUAAADw/wYAAAAAAAUAAADw/wcAAAAAAAUAAADw/wgAAAAAAAUAAADw/wkAAAAAAAUAAADw/woAAAAAAAUAAADw/wsAAAAAAAYAAADx/wsAAAABAAYAAADy/wsAAAABAAYAAADz/wsAAAABAAYAAAD0/wsAAAABAAYAAAD1/wsAAAABAAYAAAD2/wsAAAABAAYAAAD3/wsAAAABAAYAAAD4/wsAAAABAAYAAAD5/wsAAAABAAYAAAD6/wsAAAABAAYAAAD7/wsAAAABAAYAAAD8/wsAAAABAAYAAAD9/wsAAAABAAYAAAD+/wsAAAABAAYAAAD//wsAAAABAAYAAAAAAAsAAAABAAYAAAABAAsAAAABAAYAAAACAAsAAAABAAYAAAADAAsAAAABAAYAAAAEAAsAAAABAAYAAAAFAAsAAAABAAYAAAAGAAsAAAABAAYAAAAHAAsAAAABAAYAAAAIAAsAAAABAAYAAAAJAAsAAAABAAYAAAAKAAsAAAABAAYAAAALAAsAAAABAAYAAAAMAAsAAAABAAYAAAANAAsAAAABAAYAAAAOAAsAAAABAAYAAAAPAAsAAAACAAYAAAAPAPb/AAACAAUAAAAPAPf/AAACAAUAAAAPAPj/AAACAAUAAAAPAPn/AAACAAUAAAAPAPr/AAACAAUAAAAPAPv/AAACAAUAAAAPAPz/AAACAAUAAAAPAP3/AAACAAUAAAAPAP7/AAACAAUAAAAPAP//AAACAAUAAAAPAAAAAAACAAUAAAAPAAEAAAACAAUAAAAPAAIAAAACAAUAAAAPAAMAAAACAAUAAAAPAAQAAAACAAUAAAAPAAUAAAACAAUAAAAPAAYAAAACAAUAAAAPAAcAAAACAAUAAAAPAAgAAAACAAUAAAAPAAkAAAACAAUAAAAPAAoAAAACAAUAAAA=")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=640248356]
 script = ExtResource("4_3ijp0")
@@ -45,15 +56,6 @@ player = NodePath("../Player")
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("7_bsx3y")]
 
-[node name="ChameleonPlatform" type="Node2D" parent="." unique_id=878703597]
-
-[node name="Sprite2D" type="Sprite2D" parent="ChameleonPlatform" unique_id=1038733054]
-position = Vector2(388, -219)
-texture = ExtResource("8_gi7hc")
-
-[node name="BeChamel" parent="." unique_id=1565266819 instance=ExtResource("9_ppfpn")]
-position = Vector2(380, -266)
-
 [node name="BattleStartTrigger" type="Area2D" parent="." unique_id=673810965 node_paths=PackedStringArray("boss")]
 position = Vector2(-367, 329)
 script = ExtResource("10_0snvp")
@@ -63,5 +65,38 @@ boss = NodePath("../BeChamel")
 position = Vector2(0, -40.21582)
 scale = Vector2(2.2568355, 2.2568355)
 shape = SubResource("RectangleShape2D_pn6cq")
+
+[node name="Node2D" type="Node" parent="." unique_id=340841195]
+
+[node name="ChameleonPlatformRight" type="Node2D" parent="Node2D" unique_id=878703597]
+position = Vector2(-388, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ChameleonPlatformRight" unique_id=1038733054]
+position = Vector2(388, -219)
+texture = ExtResource("8_gi7hc")
+
+[node name="ChameleonPlatformLeft" type="Node2D" parent="Node2D" unique_id=551541331]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ChameleonPlatformLeft" unique_id=123238755]
+position = Vector2(388, -219)
+texture = ExtResource("8_gi7hc")
+
+[node name="ChameleonPlatformMid" type="Node2D" parent="Node2D" unique_id=470394704]
+position = Vector2(-776, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ChameleonPlatformMid" unique_id=1135681404]
+position = Vector2(388, -219)
+texture = ExtResource("8_gi7hc")
+
+[node name="Node" type="Node" parent="." unique_id=2105286342]
+
+[node name="LeftMark" type="Marker2D" parent="Node" unique_id=1518322558]
+position = Vector2(-388, -275)
+
+[node name="MidMark" type="Marker2D" parent="Node" unique_id=1569654195]
+position = Vector2(1, -265)
+
+[node name="RightMark" type="Marker2D" parent="Node" unique_id=1805895762]
+position = Vector2(384, -272)
 
 [editable path="Tilemaps"]
