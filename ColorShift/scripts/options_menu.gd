@@ -13,6 +13,8 @@ func _ready() -> void:
 	remap_menu.back_pressed.connect(_on_remap_menu_back_pressed)
 	remap_menu_button.pressed.connect(_on_controls_button_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	visibility_changed.connect(_on_visibility_changed)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or not _is_back_event(event):
@@ -32,11 +34,15 @@ func _on_controls_button_pressed() -> void:
 func _on_remap_menu_back_pressed() -> void:
 	remap_menu.visible = false
 	v_box_container.visible = true
+	remap_menu_button.grab_focus()
+
 
 func _on_back_pressed() -> void:
 	back_requested.emit()
-
+	
 func _is_back_event(event: InputEvent) -> bool:
-	if not (event is InputEventKey and event.pressed and not event.echo):
-		return false
-	return event.physical_keycode == KEY_ESCAPE or event.physical_keycode == KEY_P
+	return event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")
+	
+func _on_visibility_changed() -> void:
+	if is_visible_in_tree():
+		$Panel/VBoxContainer/FullScreenControl.grab_focus()

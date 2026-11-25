@@ -45,6 +45,7 @@ func get_controller_event(action: String) -> InputEvent:
 	return null
 
 func set_controller_event(action: String, controller_event: InputEvent) -> void:
+	controller_event.device = -1
 	var keyboard_events: Array[InputEvent] = []
 	for event in InputMap.action_get_events(action):
 		if event is InputEventKey:

@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/moving_platform.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cfadig3iuqluv" path="res://assets/sprites/scenary/platform_grey.png" id="2_texture"]
+
+[sub_resource type="Curve2D" id="Curve2D_path"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 0)
+}
+point_count = 2
+
+; Mismo perfil que el polygon_0 de los tiles one-way de level_4, escalado
+; a los 96 px de ancho de la plataforma (3 tiles de 32 px).
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_platform"]
+points = PackedVector2Array(-48, -16, 48, -16, 48, -6.631342, -48, -5.7060394)
+
+[node name="MovingPlatform" type="Node2D"]
+z_index = -1
+script = ExtResource("1_script")
+speed = 60.0
+platform_distance = 0.0
+direction = "right"
+ping_pong = true
+pause_at_ends = 0.4
+start_progress = 0.0
+auto_start = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_path")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+rotates = false
+
+;直接 bajo MovingPlatform: el script le copia la posicion de PathFollow2D
+; cada frame fisico, asi el servidor de fisicas ve el movimiento del cuerpo.
+[node name="Platform" type="AnimatableBody2D" parent="." groups=["one_way_platforms"]]
+; mask 0: la plataforma no colisiona con el escenario (ni bloques ni pinchos),
+; pero el jugador, que busca en la capa World, si puede apoyarse en ella.
+collision_layer = 1
+collision_mask = 0
+sync_to_physics = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Platform"]
+texture_filter = 1
+texture = ExtResource("2_texture")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+shape = SubResource("ConvexPolygonShape2D_platform")
+one_way_collision = true
+one_way_collision_margin = 4.0

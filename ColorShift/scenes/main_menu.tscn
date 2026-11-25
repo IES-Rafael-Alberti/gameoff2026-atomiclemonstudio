@@ -5,9 +5,14 @@
 [ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="3_rtw2f"]
 [ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="4_oa1go"]
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
+[ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4h3mk"]
 load_path = "res://.godot/imported/menu_background.jpg-819745cadd0ee8ec4027dcf3a57a9d63.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_title"]
+atlas = ExtResource("6_title")
+region = Rect2(488, 403, 943, 169)
 
 [node name="Menu" type="Control" unique_id=1308118498]
 layout_mode = 3
@@ -38,7 +43,6 @@ texture = SubResource("CompressedTexture2D_4h3mk")
 expand_mode = 1
 
 [node name="OptionsMenu" parent="." unique_id=2056824226 instance=ExtResource("5_8ln24")]
-visible = false
 z_index = 1
 layout_mode = 1
 anchors_preset = 8
@@ -64,12 +68,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Tittle" type="Label" parent="VBoxContainer" unique_id=1526771150]
+[node name="Title" type="TextureRect" parent="VBoxContainer" unique_id=1526771150]
+custom_minimum_size = Vector2(0, 67)
 layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 64
-text = "COLOR SHIFT"
-horizontal_alignment = 1
+texture = SubResource("AtlasTexture_title")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Play" type="Button" parent="VBoxContainer" unique_id=2116125581]
 layout_mode = 2

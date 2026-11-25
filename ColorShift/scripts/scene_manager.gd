@@ -14,6 +14,8 @@ const SCENES := {
 	"level_1": "res://scenes/level_1.tscn",
 	"level_2": "res://scenes/level_2.tscn",
 	"level_3": "res://scenes/level_3.tscn",
+	"level_4": "res://scenes/level_4.tscn",
+	"level_5": "res://scenes/level_5.tscn",
 	"level_color_test": "res://scenes/level_color_test.tscn",
 	"level_select": "res://scenes/level_select.tscn",
 	"credits": "res://scenes/credits.tscn",
@@ -46,7 +48,7 @@ func change_scene(scene_name: String) -> void:
 	var key := scene_name.to_lower()
 
 	if not SCENES.has(key):
-		push_error("SceneManager: la escena '%s' no está registrada." % scene_name)
+		push_error("SceneManager: la escena '%s' no estÃ¡ registrada." % scene_name)
 		return
 	if is_transitioning:
 		return
@@ -56,9 +58,14 @@ func change_scene(scene_name: String) -> void:
 
 	await _fade_to(1.0)
 
+	# Every level starts with the transparent (GREY) wheel, even if the player
+	# already has the second wheel. Menus keep whatever color was active.
+	if _is_level_scene(key):
+		GameManager.reset_color()
+
 	var error := get_tree().change_scene_to_file(SCENES[key])
 	if error != OK:
-		push_error("SceneManager: error al cargar '%s' (código %d)." % [key, error])
+		push_error("SceneManager: error al cargar '%s' (cÃ³digo %d)." % [key, error])
 	else:
 		current_scene_name = key
 
@@ -92,6 +99,10 @@ func reload_scene() -> void:
 
 func get_current_scene() -> String:
 	return current_scene_name
+
+
+func _is_level_scene(key: String) -> bool:
+	return key != "level_select" and (key == "demo_level" or key.begins_with("level_"))
 
 
 func _fade_to(target_alpha: float) -> void:

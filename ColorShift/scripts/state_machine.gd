@@ -120,7 +120,48 @@ func _is_on_one_way_platform(character: CharacterBody2D) -> bool:
 			if data.is_collision_polygon_one_way(0, polygon):
 				return true
 
+	# Moving one-way platforms (AnimatableBody2D inside moving_platform.tscn).
+	for node in scene.find_children("*", "CollisionShape2D", true, false):
+		var shape := node as CollisionShape2D
+		if shape == null or not shape.one_way_collision:
+			continue
+
+		var body := shape.get_parent() as CollisionObject2D
+		if body == null or not body.is_in_group("one_way_platforms"):
+			continue
+
+		var local_feet := shape.to_local(feet)
+		if shape.shape is RectangleShape2D:
+			var rect := (shape.shape as RectangleShape2D).get_rect()
+			if rect.has_point(local_feet):
+				return true
+		elif shape.shape is ConvexPolygonShape2D:
+			# Same trapezoid as the one-way tiles, scaled to the platform width.
+			if _point_in_convex(local_feet, (shape.shape as ConvexPolygonShape2D).points):
+				return true
+
 	return false
+
+
+func _point_in_convex(point: Vector2, points: PackedVector2Array) -> bool:
+	# Convex polygon: the point is inside if it stays on the same side of
+	# every edge. Returns true on the boundary too.
+	if points.size() < 3:
+		return false
+
+	var sign := 0.0
+	for i in points.size():
+		var edge := points[(i + 1) % points.size()] - points[i]
+		var side := edge.cross(point - points[i])
+		if absf(side) < 0.0001:
+			continue
+		var s := 1.0 if side > 0.0 else -1.0
+		if sign == 0.0:
+			sign = s
+		elif s != sign:
+			return false
+
+	return true
 
 func _get_character_bottom() -> float:
 	var character = get_parent()
