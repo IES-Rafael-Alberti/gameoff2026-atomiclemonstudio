@@ -35,36 +35,67 @@ texture_margin_right = 8.0
 texture_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cvq0m"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("9_smlwr")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nb050"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smlwr"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nffq5"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mun1a"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("9_smlwr")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tpfov"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8ladg"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5xgqf"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cy8jg"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("9_smlwr")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4d3f0"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fvot6"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
+texture = ExtResource("10_cvq0m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v6bqf"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 texture = ExtResource("10_cvq0m")
 
 [node name="OptionsMenu" type="Control" unique_id=2056824226]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -220,6 +251,7 @@ theme_override_colors/font_color = Color(0.11858118, 0.118581496, 0.11858127, 1)
 theme_override_styles/normal = SubResource("StyleBoxTexture_mun1a")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_tpfov")
 theme_override_styles/hover = SubResource("StyleBoxTexture_8ladg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_5xgqf")
 alignment = 1
 selected = 0
 allow_reselect = true
@@ -245,6 +277,7 @@ theme_override_colors/font_color = Color(0.11858118, 0.118581496, 0.11858127, 1)
 theme_override_styles/normal = SubResource("StyleBoxTexture_cy8jg")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_4d3f0")
 theme_override_styles/hover = SubResource("StyleBoxTexture_fvot6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_v6bqf")
 text = "Back"
 
 [node name="RemapMenu" parent="." unique_id=1157468083 instance=ExtResource("8_remap")]
