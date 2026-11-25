@@ -2,6 +2,8 @@ extends Control
 
 signal back_pressed
 
+const MenuStyle := preload("res://scripts/menu_style.gd")
+
 # Names shown to the player
 const ACTION_DISPLAY_NAMES := {
 	"jump": "Jump",
@@ -26,6 +28,7 @@ var _listening_device := ""
 func _ready() -> void:
 	# Keep working while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	theme = MenuStyle.get_theme()
 	call_deferred("_populate_action_list")
 	reset_button.pressed.connect(_on_reset_pressed)
 	back_button.pressed.connect(_on_back_pressed)

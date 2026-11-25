@@ -10,6 +10,7 @@ const LEVELS := {
 	5: "level_5",
 }
 const LEVEL_COUNT := 6
+const MenuStyle := preload("res://scripts/menu_style.gd")
 const DOOR := preload("res://assets/sprites/scenary/door.png")
 # One thumbnail per level (reused cyclically if there are more levels than art).
 const THUMBNAILS: Array[Texture2D] = [
@@ -24,6 +25,7 @@ const THUMBNAILS: Array[Texture2D] = [
 @onready var grid: GridContainer = $Panel/VBoxContainer/GridContainer
 
 func _ready() -> void:
+	theme = MenuStyle.get_theme()
 	for n in range(1, LEVEL_COUNT + 1):
 		grid.add_child(_make_button(n))
 	grid.get_child(0).grab_focus()

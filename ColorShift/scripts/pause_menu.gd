@@ -1,8 +1,12 @@
 extends Control
+
+const MenuStyle := preload("res://scripts/menu_style.gd")
+
 @onready var options_menu: Control = $PanelContainer/OptionsMenu
 @onready var v_box_container: VBoxContainer = $PanelContainer/VBoxContainer
 
 func _ready() -> void:
+	theme = MenuStyle.get_theme()
 	options_menu.back_requested.connect(_on_options_back_requested)
 
 func pause():

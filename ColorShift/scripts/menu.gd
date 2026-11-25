@@ -1,4 +1,7 @@
 extends Control
+
+const MenuStyle := preload("res://scripts/menu_style.gd")
+
 @onready var options_menu: Control = $OptionsMenu
 @onready var v_box_container: VBoxContainer = $VBoxContainer
 
@@ -16,6 +19,7 @@ var current_background_index := -1
 var _original_content_size := Vector2i.ZERO
 
 func _ready() -> void:
+	theme = MenuStyle.get_theme()
 	var window := get_window()
 	_original_content_size = window.content_scale_size
 	window.content_scale_size = MENU_CONTENT_SIZE
