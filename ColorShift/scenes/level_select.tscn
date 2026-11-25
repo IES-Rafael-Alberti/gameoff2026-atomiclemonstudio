@@ -1,9 +1,6 @@
 [gd_scene format=3 uid="uid://de6468c67effu"]
 
 [ext_resource type="Script" uid="uid://bxwey0pwmvf6b" path="res://scripts/level_select.gd" id="1_select"]
-[ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="2_normal"]
-[ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="3_pressed"]
-[ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="4_hover"]
 [ext_resource type="Texture2D" uid="uid://ccml3pp6s7g7w" path="res://assets/general/menu-background-lvl-selector.png" id="5_bg"]
 
 [node name="LevelSelect" type="Control" unique_id=1951161803]
@@ -62,11 +59,10 @@ theme_override_constants/v_separation = 20
 columns = 3
 
 [node name="Back" type="Button" parent="Panel/VBoxContainer" unique_id=1299472649]
+custom_minimum_size = Vector2(320, 64)
+size_flags_horizontal = 4
+theme_type_variation = &"BigButton"
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_normal")
-theme_override_styles/pressed = ExtResource("3_pressed")
-theme_override_styles/hover = ExtResource("4_hover")
 text = "BACK"
 
 [connection signal="pressed" from="Panel/VBoxContainer/Back" to="." method="_on_back_pressed"]

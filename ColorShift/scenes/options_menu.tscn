@@ -10,8 +10,6 @@
 [ext_resource type="Script" uid="uid://c0uexlxh574ku" path="res://scripts/color_blind_control_select.gd" id="5_3xsyx"]
 [ext_resource type="Texture2D" uid="uid://dx682gps4oqxi" path="res://assets/ui/horizontal_scroll_audio_filled.PNG" id="5_cvq0m"]
 [ext_resource type="PackedScene" uid="uid://bryw5kt5cdc8h" path="res://scenes/remap_menu.tscn" id="8_remap"]
-[ext_resource type="Texture2D" uid="uid://b7oxbsodbafiw" path="res://assets/ui/button_normal.PNG" id="9_smlwr"]
-[ext_resource type="Texture2D" uid="uid://bkf1g4gksyq1u" path="res://assets/ui/button_pressed.PNG" id="10_cvq0m"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_binsn"]
 texture = ExtResource("4_smlwr")
@@ -33,66 +31,6 @@ texture_margin_left = 8.0
 texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cvq0m"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("9_smlwr")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nb050"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smlwr"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nffq5"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mun1a"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("9_smlwr")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tpfov"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8ladg"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5xgqf"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cy8jg"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("9_smlwr")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4d3f0"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fvot6"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v6bqf"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_cvq0m")
 
 [node name="OptionsMenu" type="Control" unique_id=2056824226]
 visible = false
@@ -228,31 +166,24 @@ grow_vertical = 0
 text = "Effects volume"
 
 [node name="RemapMenuButton" type="Button" parent="Panel/VBoxContainer" unique_id=482737385]
+custom_minimum_size = Vector2(240, 48)
+size_flags_horizontal = 4
 layout_mode = 2
-theme_override_colors/font_color = Color(0.10747976, 0.10747973, 0.10747973, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxTexture_cvq0m")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_nb050")
-theme_override_styles/hover = SubResource("StyleBoxTexture_smlwr")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_nffq5")
 text = "Remap Menu"
 
 [node name="Label2" type="Label" parent="Panel/VBoxContainer" unique_id=1963411433]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 text = "Colorblind Mode"
 horizontal_alignment = 1
 
 [node name="ColorBlindControl" type="OptionButton" parent="Panel/VBoxContainer/Label2" unique_id=1580853982]
+custom_minimum_size = Vector2(240, 48)
 layout_mode = 0
-offset_left = 55.0
-offset_top = 27.0
-offset_right = 299.0
-offset_bottom = 50.0
-theme_override_colors/font_color = Color(0.11858118, 0.118581496, 0.11858127, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_mun1a")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_tpfov")
-theme_override_styles/hover = SubResource("StyleBoxTexture_8ladg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_5xgqf")
+offset_left = 50.0
+offset_top = 32.0
+offset_right = 290.0
+offset_bottom = 80.0
 alignment = 1
 selected = 0
 allow_reselect = true
@@ -272,13 +203,9 @@ layout_mode = 2
 alignment = 1
 
 [node name="BackButton" type="Button" parent="Panel/VBoxContainer/NavigationButtons" unique_id=2145169038]
-custom_minimum_size = Vector2(180, 0)
+custom_minimum_size = Vector2(240, 48)
+size_flags_horizontal = 4
 layout_mode = 2
-theme_override_colors/font_color = Color(0.11858118, 0.118581496, 0.11858127, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_cy8jg")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_4d3f0")
-theme_override_styles/hover = SubResource("StyleBoxTexture_fvot6")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_v6bqf")
 text = "Back"
 
 [node name="RemapMenu" parent="." unique_id=1157468083 instance=ExtResource("8_remap")]

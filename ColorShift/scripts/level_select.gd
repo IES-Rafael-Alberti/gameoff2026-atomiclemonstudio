@@ -37,6 +37,9 @@ func _make_button(n: int) -> Button:
 		button.add_theme_stylebox_override(style, preload("res://shader/button_style.tres"))
 	button.add_theme_stylebox_override("pressed", preload("res://shader/button_pressed_style.tres"))
 	button.add_theme_stylebox_override("hover", preload("res://shader/button_hover_style.tres"))
+	button.add_theme_stylebox_override("hover_pressed", preload("res://shader/button_pressed_style.tres"))
+	# The cards are not drawn with the button art: keep the plain outline when selected.
+	button.add_theme_stylebox_override("focus", ThemeDB.get_default_theme().get_stylebox("focus", "Button"))
 
 	var thumb := TextureRect.new()
 	thumb.texture = THUMBNAILS[(n - 1) % THUMBNAILS.size()]
