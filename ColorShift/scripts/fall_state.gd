@@ -4,9 +4,21 @@ class_name FallState
 
 @onready var animated_sprite = %PlayerSkin
 
+const COYOTE_TIME := 0.12
+var coyote_timer := 0.0
+
 func enter():
-	pass
+	var character = state_machine.get_parent()
+	if is_zero_approx(character.velocity.y):
+		coyote_timer = COYOTE_TIME
+	else:
+		coyote_timer = 0.0
 	#print("Entering fall state")
+	
+func handle_input(event):
+	if event.is_action_pressed("jump") and coyote_timer > 0.0:
+		coyote_timer = 0.0
+		state_machine.change_state("jumpstate")
 
 func physics_update(delta):
 	# Get the character here, not at class level: state_machine is still

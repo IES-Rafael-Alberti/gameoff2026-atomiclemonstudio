@@ -8,6 +8,7 @@ const HOLD_TIME := 0.12
 const SHORT_JUMP_VELOCITY := -200.0
 
 var hold_time_elapsed := 0.0
+var coyote_time := 0.0
 
 func enter():
 	var character = state_machine.get_parent()
