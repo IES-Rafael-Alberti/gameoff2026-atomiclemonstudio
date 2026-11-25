@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://dcxhere4tpmn4"]
 
 [ext_resource type="Script" uid="uid://dlvmfvypu8xj8" path="res://scripts/menu.gd" id="1_wu84c"]
+[ext_resource type="Texture2D" uid="uid://vkqsj56yw4x2" path="res://assets/general/castle-background.png" id="2_wu84c"]
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4h3mk"]
-load_path = "res://.godot/imported/menu_background.jpg-819745cadd0ee8ec4027dcf3a57a9d63.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_title"]
 atlas = ExtResource("6_title")
@@ -36,8 +34,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("CompressedTexture2D_4h3mk")
-expand_mode = 1
+texture = ExtResource("2_wu84c")
 
 [node name="OptionsMenu" parent="." unique_id=2056824226 instance=ExtResource("5_8ln24")]
 z_index = 1
@@ -51,6 +48,7 @@ offset_left = -280.0
 offset_right = 280.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=178074880]
+z_index = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -74,23 +72,23 @@ stretch_mode = 5
 
 [node name="Play" type="Button" parent="VBoxContainer" unique_id=2116125581]
 custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"BigButton"
-layout_mode = 2
 text = "PLAY"
 
 [node name="OptionsMenu" type="Button" parent="VBoxContainer" unique_id=1603076282]
 custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"BigButton"
-layout_mode = 2
 text = "OPTIONS"
 
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=859579674]
 custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"BigButton"
-layout_mode = 2
 text = "QUIT GAME"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
