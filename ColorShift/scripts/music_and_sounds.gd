@@ -22,9 +22,16 @@ const KEY_COLLECT_SOUND := preload("res://bso_colorshift/extra SFX/litupsubway-k
 
 ## Scenes that use the level theme. Everything else uses the menu theme.
 const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4", "level_5"]
+## Intro del logo: no suena música de fondo mientras se ve.
+const INTRO_SCENE := "title_scene"
 
 const MUSIC_FADE_TIME := 0.6
 const MUSIC_FADE_FROM_DB := -30.0
+
+## Volumen de la musica de fondo en dB (0 = original, negativo = mas flojo).
+## Se pueden ajustar aqui los dos temas de forma independiente.
+const MENU_MUSIC_VOLUME_DB := -10.0
+const LEVEL_MUSIC_VOLUME_DB := -10.0
 
 ## Avoids playing the menu sound twice when a click triggers hover + focus.
 const MENU_SELECT_COOLDOWN_MS := 60
@@ -199,6 +206,10 @@ func _on_menu_option_changed() -> void:
 
 
 func _sync_music(scene_name: String) -> void:
+	# La intro del estudio va sin música: la del menú entra al llegar a main_menu.
+	if scene_name.to_lower() == INTRO_SCENE:
+		return
+
 	var next_stream: AudioStream = LEVEL_MUSIC if _is_level(scene_name) else MENU_MUSIC
 
 	# Do not overlap the level music with the amulet intro.
@@ -210,21 +221,26 @@ func _sync_music(scene_name: String) -> void:
 	_play_music(next_stream)
 
 
+func _music_volume_for(stream: AudioStream) -> float:
+	return LEVEL_MUSIC_VOLUME_DB if stream == LEVEL_MUSIC else MENU_MUSIC_VOLUME_DB
+
+
 func _play_music(next_stream: AudioStream) -> void:
 	if next_stream == null:
 		return
 
+	var target_db := _music_volume_for(next_stream)
 	if next_stream == _current_music and _music.playing:
 		# The track may have been faded out by the amulet intro: bring it back.
-		if _music.volume_db < 0.0:
-			_fade_music_to(0.0, MUSIC_FADE_TIME)
+		if _music.volume_db < target_db - 0.01:
+			_fade_music_to(target_db, MUSIC_FADE_TIME)
 		return
 
 	_current_music = next_stream
 	_music.stream = next_stream
 	_music.volume_db = MUSIC_FADE_FROM_DB
 	_music.play()
-	_fade_music_to(0.0, MUSIC_FADE_TIME)
+	_fade_music_to(target_db, MUSIC_FADE_TIME)
 
 
 func _fade_music_to(target_db: float, duration: float) -> void:

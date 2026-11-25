@@ -11,16 +11,17 @@ const LEVELS := {
 }
 const LEVEL_COUNT := 6
 const DOOR := preload("res://assets/sprites/scenary/door.png")
-# Placeholder thumbnails, reused cyclically until each level has its own art.
+# One thumbnail per level (reused cyclically if there are more levels than art).
 const THUMBNAILS: Array[Texture2D] = [
-	preload("res://assets/menu_background.jpg"),
-	preload("res://assets/menu_background_2.jpg"),
-	preload("res://assets/menu_background_3.jpg"),
-	preload("res://assets/menu_background_4.jpg"),
+	preload("res://assets/level-selection/select-lvl1.png"),
+	preload("res://assets/level-selection/select-lvl2.png"),
+	preload("res://assets/level-selection/select-lvl3.png"),
+	preload("res://assets/level-selection/select-lvl4.png"),
+	preload("res://assets/level-selection/select-lvl5.png"),
+	preload("res://assets/level-selection/select-lvl6.png")
 ]
 
 @onready var grid: GridContainer = $Panel/VBoxContainer/GridContainer
-
 
 func _ready() -> void:
 	for n in range(1, LEVEL_COUNT + 1):

@@ -1,6 +1,6 @@
 extends Area2D
 ## Left color wheel collectible (level_color_test). Touching it gives the second wheel:
-## it starts on the color opposite to the right wheel, turns with Left Shift
+## both discs start on GREY (the transparent slot), it turns with Left Shift
 ## and its color mixes with the right one (RED + BLUE = PURPLE...).
 
 const SPIN_FPS := 6.0

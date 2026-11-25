@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bd0hp0r7smx2j"]
+
+[ext_resource type="Script" uid="uid://ciljfh1l7w3em" path="res://scripts/title_scene.gd" id="1_title"]
+[ext_resource type="Texture2D" uid="uid://cdb5jy5na7nxa" path="res://assets/animations/studio/background.PNG" id="2_bg"]
+[ext_resource type="PackedScene" uid="uid://eq2oc04nu5ud" path="res://scenes/animated_logo.tscn" id="3_logo"]
+[ext_resource type="Texture2D" uid="uid://c65rmqq6liyrn" path="res://assets/animations/studio/studio_text.PNG" id="4_text"]
+
+[node name="TitleScene" type="Node2D" unique_id=359059288]
+script = ExtResource("1_title")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=2002994935]
+position = Vector2(683, 384)
+scale = Vector2(0.2222, 0.2222)
+texture = ExtResource("2_bg")
+
+[node name="LogoAnimated" parent="." unique_id=1859392388 instance=ExtResource("3_logo")]
+position = Vector2(683, 290)
+scale = Vector2(0.24, 0.24)
+
+[node name="StudioName" type="Sprite2D" parent="." unique_id=1223836564]
+position = Vector2(645, 501)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("4_text")

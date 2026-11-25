@@ -3,20 +3,30 @@ extends Control
 @onready var v_box_container: VBoxContainer = $VBoxContainer
 
 const BACKGROUNDS: Array[Texture2D] = [
-	preload("res://assets/menu_background.jpg"),
-	preload("res://assets/menu_background_2.jpg"),
-	preload("res://assets/menu_background_3.jpg"),
-	preload("res://assets/menu_background_4.jpg"),
+	preload("res://assets/general/castle-background.png"),
 ]
 
 @onready var background: TextureRect = $TextureRect
 
+## El menú va en 16:9 para que castle-background.png ocupe todo el ancho.
+## El juego sigue en 4:3: el tamaño original se recupera al salir.
+const MENU_CONTENT_SIZE := Vector2i(1366, 768)
+
 var current_background_index := -1
+var _original_content_size := Vector2i.ZERO
 
 func _ready() -> void:
+	var window := get_window()
+	_original_content_size = window.content_scale_size
+	window.content_scale_size = MENU_CONTENT_SIZE
+
 	_change_background()
 	options_menu.back_requested.connect(_on_options_back_requested)
 	$VBoxContainer/Play.grab_focus() # Pilla el input con el que estés tocando. Hace saltos entre ellos.
+
+func _exit_tree() -> void:
+	if _original_content_size != Vector2i.ZERO:
+		get_window().content_scale_size = _original_content_size
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("shift"):

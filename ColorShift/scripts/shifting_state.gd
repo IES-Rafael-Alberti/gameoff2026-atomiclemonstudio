@@ -7,6 +7,13 @@ class_name ShiftingState
 func enter():
 	pass
 
+# Saltar tiene prioridad sobre el barrido de color: si el jugador pulsa Shift
+# y salta antes de soltarlo, debe poder saltar en vez de quedarse atrapado en
+# este estado hasta que suelte la tecla.
+func handle_input(event: InputEvent):
+	if event.is_action_pressed("jump") and not event.is_echo():
+		state_machine.change_state("jumpstate")
+
 func physics_update(delta):
 	var character = state_machine.get_parent()
 

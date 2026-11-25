@@ -4,6 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="2_normal"]
 [ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="3_pressed"]
 [ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="4_hover"]
+[ext_resource type="Texture2D" uid="uid://ccml3pp6s7g7w" path="res://assets/general/menu-background-lvl-selector.png" id="5_bg"]
 
 [node name="LevelSelect" type="Control" unique_id=1951161803]
 layout_mode = 3
@@ -21,6 +22,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1911603291]
 layout_mode = 1

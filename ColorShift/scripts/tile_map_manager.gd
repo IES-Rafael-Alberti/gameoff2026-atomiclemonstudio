@@ -176,8 +176,10 @@ func _make_material(color_name: String) -> ShaderMaterial:
 	var tile_material := ShaderMaterial.new()
 	tile_material.shader = TILE_SHADER
 	tile_material.set_shader_parameter("atlas_size", _atlas_sizes[0])
+	tile_material.set_shader_parameter("base_atlas", ATLAS_FAMILIES[0][0])
 	tile_material.set_shader_parameter("combo_atlas", ATLAS_FAMILIES[0][1])
 	tile_material.set_shader_parameter("atlas_size_alt", _atlas_sizes[1])
+	tile_material.set_shader_parameter("base_atlas_alt", ATLAS_FAMILIES[1][0])
 	tile_material.set_shader_parameter("combo_atlas_alt", ATLAS_FAMILIES[1][1])
 	_set_quadrants(tile_material, color_name, color_name)
 	return tile_material
@@ -399,8 +401,10 @@ func _try_interact_nearest() -> void:
 			return
 
 
-# Remove all connected barrier tiles, whatever color is active.
-func _remove_connected_barrier(start_cell: Vector2i) -> void:
+# Remove the connected barrier tiles that share the same ID. Barriers of other
+# IDs can touch each other (e.g. three colored doors side by side), so the flood
+# fill must not cross into them.
+func _remove_connected_barrier(start_cell: Vector2i, barrier_id: Variant) -> void:
 	var to_check: Array[Vector2i] = [start_cell]
 	var visited: Dictionary = {}
 	var connected_cells: Array[Vector2i] = []
@@ -415,7 +419,7 @@ func _remove_connected_barrier(start_cell: Vector2i) -> void:
 
 		var props: Dictionary = interactive_tiles.get(current, {})
 
-		if props.get("BARRIER", false):
+		if props.get("BARRIER", false) and props.get("BARRIER_ID") == barrier_id:
 			connected_cells.append(current)
 
 			for dir in [
@@ -473,6 +477,6 @@ func _on_button_pressed(button_id: int) -> void:
 
 			# Compare the barrier ID with the pressed button ID
 			if barrier_id == button_id:
-				_remove_connected_barrier(cell)
+				_remove_connected_barrier(cell, barrier_id)
 				UIManager.show_message("Barrier opened!", 1.8)
 				print("Barrier opened with ID: ", button_id)
