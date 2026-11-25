@@ -1,15 +1,28 @@
 [gd_scene format=3 uid="uid://dcxhere4tpmn4"]
 
 [ext_resource type="Script" uid="uid://dlvmfvypu8xj8" path="res://scripts/menu.gd" id="1_wu84c"]
-[ext_resource type="StyleBox" uid="uid://efv7cse1jmu8" path="res://shader/button_style.tres" id="2_8ln24"]
-[ext_resource type="StyleBox" uid="uid://cajnv7pgeoakg" path="res://shader/button_pressed_style.tres" id="3_rtw2f"]
-[ext_resource type="StyleBox" uid="uid://d3lenpq33l7qv" path="res://shader/button_hover_style.tres" id="4_oa1go"]
+[ext_resource type="Texture2D" uid="uid://b7oxbsodbafiw" path="res://assets/ui/button_normal.PNG" id="3_wu84c"]
+[ext_resource type="Texture2D" uid="uid://bkf1g4gksyq1u" path="res://assets/ui/button_pressed.PNG" id="4_8ln24"]
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4h3mk"]
 load_path = "res://.godot/imported/menu_background.jpg-819745cadd0ee8ec4027dcf3a57a9d63.ctex"
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5d2l8"]
+texture = ExtResource("3_wu84c")
+content_margin_top = 0.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7l7mv"]
+texture = ExtResource("4_8ln24")
+content_margin_top = 0.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v4r4p"]
+texture = ExtResource("4_8ln24")
+content_margin_top = 0.0
+content_margin_bottom = 8.0
 [sub_resource type="AtlasTexture" id="AtlasTexture_title"]
 atlas = ExtResource("6_title")
 region = Rect2(488, 403, 943, 169)
@@ -77,26 +90,29 @@ stretch_mode = 5
 
 [node name="Play" type="Button" parent="VBoxContainer" unique_id=2116125581]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_8ln24")
-theme_override_styles/pressed = ExtResource("3_rtw2f")
-theme_override_styles/hover = ExtResource("4_oa1go")
+theme_override_styles/normal = SubResource("StyleBoxTexture_5d2l8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7l7mv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v4r4p")
 text = "PLAY"
 
 [node name="OptionsMenu" type="Button" parent="VBoxContainer" unique_id=1603076282]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_8ln24")
-theme_override_styles/pressed = ExtResource("3_rtw2f")
-theme_override_styles/hover = ExtResource("4_oa1go")
+theme_override_styles/normal = SubResource("StyleBoxTexture_5d2l8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7l7mv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v4r4p")
 text = "OPTIONS"
 
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=859579674]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_8ln24")
-theme_override_styles/pressed = ExtResource("3_rtw2f")
-theme_override_styles/hover = ExtResource("4_oa1go")
+theme_override_styles/normal = SubResource("StyleBoxTexture_5d2l8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7l7mv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v4r4p")
 text = "QUIT GAME"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]

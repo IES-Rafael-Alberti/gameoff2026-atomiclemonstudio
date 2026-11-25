@@ -1,8 +1,6 @@
 extends Area2D
 
-signal collected(id: String)
-
-@export var collectable_id: String = "collectable_1"
+signal collected
 
 
 func _ready() -> void:
@@ -14,5 +12,8 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 
 	MusicAndSounds.play_collectable()
-	collected.emit(collectable_id)
+	collected.emit()
+
+	GameManager.collect_carrot()
+
 	queue_free()

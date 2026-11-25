@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://ddnd0b0eegesm"]
+
+[ext_resource type="Script" uid="uid://bku8lluqdd5ih" path="res://scripts/carrot_counter.gd" id="1_173x5"]
+[ext_resource type="Texture2D" uid="uid://ccp5wca853nbj" path="res://assets/sprites/collectables/collectable_color.png" id="1_pfopp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4v7s"]
+atlas = ExtResource("1_pfopp")
+
+[node name="CarrotCounter" type="Control" unique_id=1624779705]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_173x5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=532706363]
+position = Vector2(-43, 720.5)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_g4v7s")
+
+[node name="Label" type="Label" parent="." unique_id=1239648363]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = 701.0
+offset_right = -127.0
+offset_bottom = 724.0
+grow_vertical = 2
+scale = Vector2(2, 2)
+text = "0/0"

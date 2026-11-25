@@ -12,6 +12,9 @@ func _build_ui() -> void:
 	canvas.layer = 100 # Ensures UI renders on top of everything
 	add_child(canvas)
 
+	var carrot_counter := preload("res://scenes/carrot_counter.tscn").instantiate()
+	canvas.add_child(carrot_counter)
+
 	# 1. Center message label (for notifications like "Got a key!")
 	message_label = Label.new()
 	message_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
