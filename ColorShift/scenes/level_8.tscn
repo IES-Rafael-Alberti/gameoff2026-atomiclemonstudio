@@ -1,14 +1,18 @@
 [gd_scene format=4 uid="uid://01u0w8do2jrw"]
 
-[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_ysmsy"]
-[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="2_gi7hc"]
-[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="3_ppfpn"]
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://Scenes/player.tscn" id="1_ysmsy"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://Scenes/key.tscn" id="2_gi7hc"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://Scenes/tilemaps.tscn" id="3_ppfpn"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="4_3ijp0"]
-[ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://scenes/parallax_container_castle.tscn" id="5_snfn4"]
+[ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://Scenes/parallax_container_castle.tscn" id="5_snfn4"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="6_r51xj"]
-[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="7_bsx3y"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://Scenes/pause_menu.tscn" id="7_bsx3y"]
 [ext_resource type="Texture2D" uid="uid://cfadig3iuqluv" path="res://assets/sprites/scenary/platform_grey.png" id="8_gi7hc"]
-[ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://scenes/chameleon.tscn" id="9_ppfpn"]
+[ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://Scenes/chameleon.tscn" id="9_ppfpn"]
+[ext_resource type="Script" uid="uid://d2r8at46b5pkl" path="res://scripts/battle_start_trigger.gd" id="10_0snvp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
+size = Vector2(20, 55.63913)
 
 [node name="Level8" type="Node2D" unique_id=1939000241]
 
@@ -49,5 +53,15 @@ texture = ExtResource("8_gi7hc")
 
 [node name="BeChamel" parent="." unique_id=1565266819 instance=ExtResource("9_ppfpn")]
 position = Vector2(380, -266)
+
+[node name="BattleStartTrigger" type="Area2D" parent="." unique_id=673810965 node_paths=PackedStringArray("boss")]
+position = Vector2(-367, 329)
+script = ExtResource("10_0snvp")
+boss = NodePath("../BeChamel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BattleStartTrigger" unique_id=2121560029]
+position = Vector2(0, -40.21582)
+scale = Vector2(2.2568355, 2.2568355)
+shape = SubResource("RectangleShape2D_pn6cq")
 
 [editable path="Tilemaps"]
