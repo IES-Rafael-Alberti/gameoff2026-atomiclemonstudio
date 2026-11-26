@@ -8,6 +8,7 @@ const LEVELS := {
 	3: "level_3",
 	4: "level_4",
 	5: "level_5",
+	6: "level_6",
 }
 const LEVEL_COUNT := 6
 const MenuStyle := preload("res://scripts/menu_style.gd")
