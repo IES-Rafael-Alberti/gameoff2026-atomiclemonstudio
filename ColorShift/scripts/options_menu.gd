@@ -2,6 +2,8 @@ extends Control
 
 signal back_requested
 
+const MenuStyle := preload("res://scripts/menu_style.gd")
+
 @onready var remap_menu: Control = $RemapMenu
 @onready var v_box_container: VBoxContainer = $Panel/VBoxContainer
 @onready var remap_menu_button: Button = $Panel/VBoxContainer/RemapMenuButton
@@ -9,6 +11,9 @@ signal back_requested
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	theme = MenuStyle.get_options_theme()
+	# The big title needs a thicker outline than the rest of the text.
+	$Panel/VBoxContainer/Label.add_theme_constant_override("outline_size", 14)
 	remap_menu.visible = false
 	remap_menu.back_pressed.connect(_on_remap_menu_back_pressed)
 	remap_menu_button.pressed.connect(_on_controls_button_pressed)

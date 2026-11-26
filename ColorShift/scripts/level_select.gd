@@ -10,7 +10,9 @@ const LEVELS := {
 	5: "level_5",
 }
 const LEVEL_COUNT := 6
+const MenuStyle := preload("res://scripts/menu_style.gd")
 const DOOR := preload("res://assets/sprites/scenary/door.png")
+const DOOR_SIZE := Vector2(64, 96)
 # One thumbnail per level (reused cyclically if there are more levels than art).
 const THUMBNAILS: Array[Texture2D] = [
 	preload("res://assets/level-selection/select-lvl1.png"),
@@ -24,39 +26,35 @@ const THUMBNAILS: Array[Texture2D] = [
 @onready var grid: GridContainer = $Panel/VBoxContainer/GridContainer
 
 func _ready() -> void:
+	theme = MenuStyle.get_theme()
 	for n in range(1, LEVEL_COUNT + 1):
 		grid.add_child(_make_button(n))
 	grid.get_child(0).grab_focus()
 
 func _make_button(n: int) -> Button:
 	var button := Button.new()
-	button.custom_minimum_size = Vector2(220, 170)
-	for style in ["normal", "disabled"]:
-		button.add_theme_stylebox_override(style, preload("res://shader/button_style.tres"))
-	button.add_theme_stylebox_override("pressed", preload("res://shader/button_pressed_style.tres"))
-	button.add_theme_stylebox_override("hover", preload("res://shader/button_hover_style.tres"))
+	button.theme_type_variation = &"LevelCard"
+	button.custom_minimum_size = MenuStyle.CARD_REGION.size * MenuStyle.CARD_SCALE
 
 	var thumb := TextureRect.new()
 	thumb.texture = THUMBNAILS[(n - 1) % THUMBNAILS.size()]
+	thumb.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	thumb.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	thumb.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	thumb.clip_contents = true
 	thumb.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	thumb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	thumb.offset_left = 8
-	thumb.offset_top = 8
-	thumb.offset_right = -8
-	thumb.offset_bottom = -44
+	# Behind the card, so the frame of its window stays on top of the picture.
+	thumb.show_behind_parent = true
+	_place_on_card(thumb, MenuStyle.CARD_ART)
 	button.add_child(thumb)
 
 	var label := Label.new()
 	label.text = "LEVEL %d" % n
+	label.theme_type_variation = &"CardLabel"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 28)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	label.offset_top = -44
+	_place_on_card(label, MenuStyle.CARD_TEXT)
 	button.add_child(label)
 
 	if LEVELS.has(n):
@@ -70,13 +68,16 @@ func _make_button(n: int) -> Button:
 		door.texture = DOOR
 		door.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		door.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		door.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-		door.offset_left = -32
-		door.offset_right = 32
-		door.offset_top = -66
-		door.offset_bottom = 30
+		door.position = MenuStyle.CARD_ART.get_center() * MenuStyle.CARD_SCALE - DOOR_SIZE / 2.0
+		door.size = DOOR_SIZE
 		button.add_child(door)
 	return button
+
+
+## Puts a node over an area of the card, given in pixels of the card art.
+func _place_on_card(node: Control, area: Rect2) -> void:
+	node.position = area.position * MenuStyle.CARD_SCALE
+	node.size = area.size * MenuStyle.CARD_SCALE
 
 
 func _on_back_pressed() -> void:
