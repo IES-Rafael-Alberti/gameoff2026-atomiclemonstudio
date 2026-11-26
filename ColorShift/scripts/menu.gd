@@ -4,6 +4,7 @@ const MenuStyle := preload("res://scripts/menu_style.gd")
 
 @onready var options_menu: Control = $OptionsMenu
 @onready var v_box_container: VBoxContainer = $VBoxContainer
+@onready var title: TextureRect = $Title
 
 const BACKGROUNDS: Array[Texture2D] = [
 	preload("res://assets/general/castle-background.png"),
@@ -49,9 +50,11 @@ func _on_quit_pressed() -> void:
 func _on_options_menu_pressed() -> void:
 	if options_menu:
 		v_box_container.visible = !v_box_container.visible
+		title.visible = v_box_container.visible
 		options_menu.visible = !options_menu.visible
 
 func _on_options_back_requested() -> void:
 	options_menu.visible = false
 	v_box_container.visible = true
+	title.visible = true
 	$VBoxContainer/Play.grab_focus() # Pilla el input con el que estés tocando. Hace saltos entre ellos.
