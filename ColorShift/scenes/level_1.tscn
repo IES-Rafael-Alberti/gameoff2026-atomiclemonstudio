@@ -2,16 +2,21 @@
 
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_bswci"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_rus8k"]
-[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_xfk5q"]
-[ext_resource type="Script" uid="uid://drxi58piaykom" path="res://scripts/checkpoints_level1.gd" id="4_7p6j4"]
+[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://Scripts/camera_controller.gd" id="3_xfk5q"]
+[ext_resource type="Script" uid="uid://drxi58piaykom" path="res://Scripts/checkpoints_level1.gd" id="4_7p6j4"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="4_chwpn"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_6444e"]
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="5_af3po"]
 [ext_resource type="Texture2D" uid="uid://dwjp22u3d21in" path="res://assets/sprites/scenary/Tileset-2222.png" id="7_6r07y"]
+[ext_resource type="Texture2D" uid="uid://bj03ip8c8qnf8" path="res://assets/general/jungla-bg-PLANO1y2.png" id="9_7nomh"]
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="9_key"]
+[ext_resource type="Texture2D" uid="uid://bkqywraakqdr3" path="res://assets/general/junglaFOREGROUND (1).png" id="10_1s4pk"]
 [ext_resource type="Texture2D" uid="uid://bftn4h5jxrruo" path="res://assets/sprites/scenary/grass1.png" id="10_grass1"]
 [ext_resource type="Texture2D" uid="uid://b5r6exegbqhr2" path="res://assets/sprites/scenary/grass2.png" id="11_grass2"]
 [ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="11_uy8f0"]
+[ext_resource type="Texture2D" uid="uid://dm1vui735bfmy" path="res://assets/general/JUNGLA_BGPLANOS 3 Y 4 (1).png" id="11_x2xxo"]
+[ext_resource type="Texture2D" uid="uid://m2f5ivhihb6m" path="res://assets/general/jungla_B_PLANOS 5 6 Y 7 (1).png" id="12_2cbcq"]
+[ext_resource type="Texture2D" uid="uid://djgru4rb23m5i" path="res://assets/general/CIELO (1).png" id="13_1s4pk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
@@ -2607,5 +2612,31 @@ position = Vector2(1472, 44)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=357274128]
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_6444e")]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1782869683]
+
+[node name="foreground" type="Sprite2D" parent="Node2D" unique_id=31726632]
+position = Vector2(2, 30)
+texture = ExtResource("10_1s4pk")
+
+[node name="sky" type="Sprite2D" parent="Node2D" unique_id=1530120916]
+z_index = -3
+position = Vector2(14, -65)
+texture = ExtResource("13_1s4pk")
+
+[node name="p3y4" type="Sprite2D" parent="Node2D" unique_id=2096770450]
+z_index = -2
+position = Vector2(8, -62)
+texture = ExtResource("11_x2xxo")
+
+[node name="p1y2" type="Sprite2D" parent="Node2D" unique_id=1010924298]
+z_index = -1
+position = Vector2(9, -63)
+texture = ExtResource("9_7nomh")
+
+[node name="56y7" type="Sprite2D" parent="Node2D" unique_id=1913247139]
+z_index = -3
+position = Vector2(14, -65)
+texture = ExtResource("12_2cbcq")
 
 [editable path="Tilemaps"]
