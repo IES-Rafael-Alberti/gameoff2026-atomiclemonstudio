@@ -7,6 +7,7 @@ const FADE_TIME := 0.5
 
 # A single place to register scenes: name -> path
 const SCENES := {
+	"dialogue_intro": "res://scenes/dialogue_intro.tscn",
 	"main_menu": "res://scenes/main_menu.tscn",
 	"pause_menu": "res://scenes/pause_menu.tscn",
 	"options_menu": "res://scenes/options_menu.tscn",

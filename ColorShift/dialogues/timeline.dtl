@@ -1,0 +1,15 @@
+[background arg="res://assets/level-selection/select-lvl1.png" fade="0.0"]
+[style name="dialogue_style_larry"]
+larry: oh noooo what's hapening
+[background arg="res://assets/general/castle-background.png" fade="0.5"]
+update larry left [animation="Tada" length="1.0"]
+[style name="dialogue_style_bechamel"]
+Bechamel: MUAJAJA
+join Bechamel right
+[style name="dialogue_style_bechamel"]
+Bechamel: jojojo i got all the colors
+join larry left
+[style name="dialogue_style_larry"]
+larry: im a carrot
+leave --All--
+[background arg="res://assets/level-selection/select-lvl6.png" fade="0.0"]

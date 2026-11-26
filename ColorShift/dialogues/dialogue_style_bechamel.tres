@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="DialogicStyle" load_steps=14 format=3 uid="uid://h3tpx8hkmbdm"]
+
+[ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="2_by3jq"]
+[ext_resource type="Script" uid="uid://dv08k6ljua6fm" path="res://addons/dialogic/Resources/dialogic_style.gd" id="3_style"]
+[ext_resource type="Resource" path="res://dialogues/dialogue_style.tres" id="4_base"]
+[ext_resource type="PackedScene" uid="uid://bquja8jyk8kbr" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.tscn" id="6_07lws"]
+
+[sub_resource type="Resource" id="BaseLayer"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="Layer10"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="Layer11"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="Layer12"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="TextboxLayer"]
+script = ExtResource("2_by3jq")
+scene = ExtResource("6_07lws")
+overrides = {
+"box_color_custom": "Color(1, 1, 1, 1)",
+"box_color_use_global": "false",
+"box_panel": "res://dialogues/dialogue_bubble_bechamel.tres",
+"box_size": "Vector2(620, 235)",
+"name_label_alignment": "2",
+"name_label_box_offset": "Vector2(0, 40)",
+"text_custom_color": "Color(0, 0, 0, 1)",
+"text_use_global_color": "false"
+}
+
+[sub_resource type="Resource" id="Layer14"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="Layer15"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="Layer16"]
+script = ExtResource("2_by3jq")
+
+[sub_resource type="Resource" id="Layer17"]
+script = ExtResource("2_by3jq")
+
+[resource]
+script = ExtResource("3_style")
+name = "dialogue_style_bechamel"
+inherits = ExtResource("4_base")
+layer_list = Array[String](["10", "11", "12", "13", "14", "15", "16", "17"])
+layer_info = {
+"": SubResource("BaseLayer"),
+"10": SubResource("Layer10"),
+"11": SubResource("Layer11"),
+"12": SubResource("Layer12"),
+"13": SubResource("TextboxLayer"),
+"14": SubResource("Layer14"),
+"15": SubResource("Layer15"),
+"16": SubResource("Layer16"),
+"17": SubResource("Layer17")
+}
+metadata/_latest_layer = "13"

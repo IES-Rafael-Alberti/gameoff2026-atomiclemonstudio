@@ -23,7 +23,7 @@ const KEY_COLLECT_SOUND := preload("res://bso_colorshift/extra SFX/litupsubway-k
 ## Scenes that use the level theme. Everything else uses the menu theme.
 const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4", "level_5"]
 ## Intro del logo: no suena música de fondo mientras se ve.
-const INTRO_SCENE := "title_scene"
+const SILENT_SCENES := ["title_scene", "dialogue_intro"]
 
 const MUSIC_FADE_TIME := 0.6
 const MUSIC_FADE_FROM_DB := -30.0
@@ -207,7 +207,7 @@ func _on_menu_option_changed() -> void:
 
 func _sync_music(scene_name: String) -> void:
 	# La intro del estudio va sin música: la del menú entra al llegar a main_menu.
-	if scene_name.to_lower() == INTRO_SCENE:
+	if scene_name.to_lower() in SILENT_SCENES:
 		return
 
 	var next_stream: AudioStream = LEVEL_MUSIC if _is_level(scene_name) else MENU_MUSIC

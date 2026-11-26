@@ -1,0 +1,31 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.17395306, 0.45703125, 0.14996338, 1),
+&"custom_info": {
+"prefix": "",
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "dialogue_style_bechamel",
+"suffix": ""
+},
+&"default_portrait": "Default",
+&"description": "",
+&"display_name": "Bechamel VI ",
+&"mirror": false,
+&"nicknames": ["Bechamel VI"],
+&"offset": Vector2(200, 0),
+&"portraits": {
+"Default": {
+"export_overrides": {
+"image": "\"res://assets/dialogues/chameleon_neutral_bocadillo.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
+&"scale": 1.0
+}

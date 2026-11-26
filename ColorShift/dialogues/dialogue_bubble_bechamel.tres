@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/dialogues/bocadillo texto bechamel.png" id="1"]
+
+[resource]
+texture = ExtResource("1")
+region_rect = Rect2(65, 186, 631, 240)
+content_margin_left = 55.0
+content_margin_top = 80.0
+content_margin_right = 55.0
+content_margin_bottom = 30.0
