@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="2_gi7hc"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="3_ppfpn"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="4_3ijp0"]
+[ext_resource type="PackedScene" uid="uid://bnnsuqcgy6y10" path="res://scenes/chameleon_platforms.tscn" id="5_r51xj"]
 [ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://scenes/parallax_container_castle.tscn" id="5_snfn4"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="6_r51xj"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="7_bsx3y"]
@@ -28,6 +29,7 @@ position = Vector2(-54, 32)
 position = Vector2(380, -255)
 projectile_scene = ExtResource("9_iynha")
 heatseeker_scene = ExtResource("10_r51xj")
+platforms_spell_scene = ExtResource("5_r51xj")
 left_position = NodePath("../Node/LeftMark")
 right_position = NodePath("../Node/RightMark")
 

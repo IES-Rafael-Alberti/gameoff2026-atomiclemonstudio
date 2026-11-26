@@ -382,7 +382,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rmo5b")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"jump_left",
 "speed": 5.0
 }, {
@@ -408,7 +408,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xqob0")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"jump_right",
 "speed": 5.0
 }, {
@@ -505,7 +505,7 @@ script = ExtResource("1_1wbcg")
 position = Vector2(2, -2)
 scale = Vector2(1.03125, 1.03125)
 sprite_frames = SubResource("SpriteFrames_jyaov")
-animation = &"hit"
+animation = &"jump_left"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=8457552]

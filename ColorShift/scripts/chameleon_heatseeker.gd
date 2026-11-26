@@ -4,10 +4,27 @@ extends Area2D
 @export var speed: float = 180.0
 
 var color_name: String = "RED"
+var damage: int = 1
 var player: Node2D = null
+
+# The boss can configure the spell before it enters the tree. In that case
+# _ready() must not roll a second, conflicting colour.
+var _is_configured: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
+
+
+func setup(new_color: String, new_speed: float, new_damage: int) -> void:
+	color_name = new_color.to_upper()
+	speed = new_speed
+	damage = maxi(new_damage, 1)
+	_is_configured = true
+
+	# setup() is normally called before add_child(); if the node is already
+	# in the tree, apply the colour straight away as well.
+	if is_node_ready():
+		_update_color()
 
 
 func _ready() -> void:
@@ -18,27 +35,28 @@ func _ready() -> void:
 	if not GameManager.color_changed.is_connected(_on_color_changed):
 		GameManager.color_changed.connect(_on_color_changed)
 
-	# Choose a random color different from the active color.
-	var possible_colors: Array[String] = [
-		"GREY",
-		"RED",
-		"BLUE",
-		"YELLOW"
-	]
+	if not _is_configured:
+		# Choose a random color different from the active color.
+		var possible_colors: Array[String] = [
+			"GREY",
+			"RED",
+			"BLUE",
+			"YELLOW"
+		]
 
-	if GameManager.has_second_wheel:
-		possible_colors.append_array([
-			"ORANGE",
-			"PURPLE",
-			"GREEN"
-		])
+		if GameManager.has_second_wheel:
+			possible_colors.append_array([
+				"ORANGE",
+				"PURPLE",
+				"GREEN"
+			])
 
-	possible_colors.erase(GameManager.get_color_name().to_upper())
+		possible_colors.erase(GameManager.get_color_name().to_upper())
 
-	if possible_colors.is_empty():
-		possible_colors = ["RED", "BLUE", "YELLOW"]
+		if possible_colors.is_empty():
+			possible_colors = ["RED", "BLUE", "YELLOW"]
 
-	color_name = possible_colors.pick_random()
+		color_name = possible_colors.pick_random()
 
 	_update_color()
 
@@ -94,7 +112,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 
 	if body.has_method("take_damage"):
-		body.take_damage(999999)
+		body.take_damage(damage)
 
 	queue_free()
 

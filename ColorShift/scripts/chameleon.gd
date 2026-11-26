@@ -5,6 +5,7 @@ signal boss_defeated
 
 @export var projectile_scene: PackedScene
 @export var heatseeker_scene: PackedScene
+@export var platforms_spell_scene: PackedScene
 
 @export var left_position: Marker2D
 @export var right_position: Marker2D
@@ -60,6 +61,10 @@ var movement_target_x: float = 0.0
 # Recovery control.
 var is_recovering: bool = false
 
+# Animation control. Every time a new animation is started the token changes,
+# so coroutines waiting on the previous animation know they were interrupted.
+var _animation_token: int = 0
+
 
 var boss_sequence: Array[Dictionary] = [
 	{"action": "cast", "spell": "projectile"},
@@ -83,7 +88,66 @@ var boss_sequence: Array[Dictionary] = [
 
 
 func _ready() -> void:
-	sprite.play("idle")
+	_play_animation(&"idle")
+
+
+# --------------------------------------------------
+# ANIMATION CONTROL
+# --------------------------------------------------
+
+func _play_animation(animation: StringName) -> void:
+	# Start an animation and invalidate waits on the previous one.
+	_animation_token += 1
+	sprite.play(animation)
+
+
+func _wait_for_animation(animation: StringName, token: int) -> bool:
+	# Waits for an animation to play through once. Waiting on the global
+	# animation_finished signal is unsafe here: another animation can replace
+	# it, making the signal belong to the wrong animation or never arrive at
+	# all. Polling the token and sprite state keeps spell logic in sync.
+	#
+	# Looping animations never stop playing, so they are bounded by one nominal
+	# duration instead of waiting forever (jump_left/jump_right loop).
+	var frames: SpriteFrames = sprite.sprite_frames
+	var loops: bool = frames.get_animation_loop(animation)
+	var duration: float = (
+		float(frames.get_frame_count(animation))
+		/ maxf(frames.get_animation_speed(animation), 0.001)
+	)
+	var elapsed: float = 0.0
+
+	while is_alive and token == _animation_token:
+		if not loops:
+			if sprite.animation == animation and not sprite.is_playing():
+				return true
+		elif elapsed >= duration:
+			return true
+
+		elapsed += get_process_delta_time()
+		await get_tree().process_frame
+
+	return false
+
+
+func _spell_parent() -> Node:
+	# current_scene is not set in every context (e.g. during scene changes).
+	# Falling back to the tree root keeps the attack from silently failing.
+	var current_scene: Node = get_tree().current_scene
+	return current_scene if current_scene != null else get_tree().root
+
+
+func _return_to_idle() -> void:
+	# Do not snap to idle while a one-shot hit animation is still playing, or
+	# while the recovery tween is controlling the boss. Jump and walk
+	# animations loop by design, so they must never block the return to idle.
+	if not is_alive or is_recovering:
+		return
+
+	if sprite.is_playing() and sprite.animation == &"hit":
+		return
+
+	_play_animation(&"idle")
 
 
 # --------------------------------------------------
@@ -202,11 +266,12 @@ func _start_recovery() -> void:
 	var target_position: Vector2 = target_marker.global_position
 	var starting_position: Vector2 = global_position
 
-	# Play the appropriate jump animation.
-	if target_position.x < global_position.x:
-		sprite.play("jump_left")
-	else:
-		sprite.play("jump_right")
+	# Play the appropriate jump animation. This also cancels a spell cast
+	# that may be waiting for its own animation to finish.
+	var jump_animation: StringName = (
+		&"jump_left" if target_position.x < global_position.x else &"jump_right"
+	)
+	_play_animation(jump_animation)
 
 	# Create a jump arc.
 	var apex_position: Vector2 = Vector2(
@@ -241,9 +306,10 @@ func _start_recovery() -> void:
 	velocity = Vector2.ZERO
 	movement_target_x = target_position.x
 
-	sprite.play("idle")
-
+	# jump_left/jump_right loop, so there is no final frame to wait for.
+	# The tween is the authority for the recovery movement here.
 	is_recovering = false
+	_play_animation(&"idle")
 
 
 # --------------------------------------------------
@@ -302,16 +368,21 @@ func cast_spell(spell_name: String) -> void:
 	if not is_alive:
 		return
 
-	sprite.play("cast")
-	await sprite.animation_finished
+	_play_animation(&"cast")
+	var cast_token: int = _animation_token
 
-	if not is_alive:
+	# Only spawn the spell once the cast animation has actually finished. If
+	# the boss is hit or starts recovering mid-cast, the spell is cancelled
+	# instead of firing while a different animation is on screen.
+	if not await _wait_for_animation(&"cast", cast_token):
+		return
+
+	if not is_alive or is_recovering:
 		return
 
 	await spawn_spell(spell_name)
 
-	if is_alive and not is_recovering:
-		sprite.play("idle")
+	_return_to_idle()
 
 
 func spawn_spell(spell_name: String) -> void:
@@ -323,10 +394,32 @@ func spawn_spell(spell_name: String) -> void:
 			spawn_heatseeker()
 
 		"platforms_spell":
-			GameManager.randomize_color()
+			spawn_platforms_spell()
 
 		_:
 			push_warning("Unknown Chameleon spell: " + spell_name)
+
+
+# --------------------------------------------------
+# PLATFORMS SPELL
+# --------------------------------------------------
+
+func spawn_platforms_spell() -> void:
+	if platforms_spell_scene == null:
+		# The spell scene also performs the colour change; keep the effect
+		# working when no visual effect scene has been assigned.
+		GameManager.randomize_color()
+		return
+
+	var spell := platforms_spell_scene.instantiate() as Node2D
+
+	if spell == null:
+		push_error("Chameleon: Platforms spell root must be Node2D!")
+		GameManager.randomize_color()
+		return
+
+	_spell_parent().add_child(spell)
+	spell.global_position = attack_point.global_position
 
 
 # --------------------------------------------------
@@ -363,6 +456,11 @@ func spawn_heatseeker() -> void:
 		push_error("Chameleon: Heatseeker scene root must be Area2D!")
 		return
 
+	if not heatseeker.has_method("setup"):
+		push_error("Chameleon: Heatseeker scene is missing setup()!")
+		heatseeker.free()
+		return
+
 	heatseeker.call(
 		"setup",
 		selected_color,
@@ -370,7 +468,7 @@ func spawn_heatseeker() -> void:
 		heatseeker_damage
 	)
 
-	get_tree().current_scene.add_child(heatseeker)
+	_spell_parent().add_child(heatseeker)
 	heatseeker.global_position = attack_point.global_position
 
 
@@ -447,7 +545,7 @@ func spawn_projectile_line(
 
 		projectile.call("setup", color, projectile_speed)
 
-		get_tree().current_scene.add_child(projectile)
+		_spell_parent().add_child(projectile)
 
 		var screen_x: float = (
 			(float(i) + 0.5) / float(projectile_count)
@@ -476,18 +574,25 @@ func walk_to_target(target: String) -> void:
 	movement_target_x = destination.x
 	is_moving = true
 
-	if target == "left":
-		sprite.play("walk_left")
-	else:
-		sprite.play("walk_right")
+	_play_animation(&"walk_left" if target == "left" else &"walk_right")
 
-	while is_moving and is_alive:
+	# The walk animation loops, so the movement itself must end the loop.
+	# Add a safety timeout in case a wall blocks the path to the marker;
+	# otherwise the boss would walk in place forever.
+	var travel_time: float = (
+		absf(destination.x - global_position.x) / maxf(walk_speed, 1.0)
+	)
+	var timeout: float = travel_time + 2.0
+	var elapsed: float = 0.0
+
+	while is_moving and is_alive and elapsed < timeout:
+		elapsed += get_physics_process_delta_time()
 		await get_tree().physics_frame
 
+	is_moving = false
 	velocity.x = 0.0
 
-	if is_alive and not is_recovering:
-		sprite.play("idle")
+	_return_to_idle()
 
 
 func jump_to_target(target: String) -> void:
@@ -507,18 +612,28 @@ func jump_to_target(target: String) -> void:
 
 	velocity.y = -(gravity * jump_duration * 0.5)
 
-	if target == "left":
-		sprite.play("jump_left")
-	else:
-		sprite.play("jump_right")
+	var jump_animation: StringName = (
+		&"jump_left" if target == "left" else &"jump_right"
+	)
+	_play_animation(jump_animation)
 
-	while (is_moving or not is_on_floor()) and is_alive and not is_recovering:
+	var travel_time: float = (
+		absf(destination.x - global_position.x) / maxf(walk_speed, 1.0)
+	)
+	var timeout: float = travel_time + jump_duration + 3.0
+	var elapsed: float = 0.0
+
+	while (is_moving or not is_on_floor()) and is_alive and not is_recovering \
+			and elapsed < timeout:
+		elapsed += get_physics_process_delta_time()
 		await get_tree().physics_frame
 
+	is_moving = false
 	velocity.x = 0.0
 
-	if is_alive and not is_recovering:
-		sprite.play("idle")
+	# Jump animations loop; returning to idle here is what ends the loop.
+	# Waiting for animation_finished would hang forever at the marker.
+	_return_to_idle()
 
 
 func _get_target_position(target: String) -> Vector2:
@@ -549,7 +664,9 @@ func take_damage(amount: int) -> void:
 		_defeat_boss()
 		return
 
-	sprite.play("hit")
+	# A hit takes priority: interrupt the cast animation so any spell waiting
+	# on it is cancelled rather than spawning out of sync.
+	_play_animation(&"hit")
 
 
 func _defeat_boss() -> void:
