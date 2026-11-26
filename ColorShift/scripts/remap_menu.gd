@@ -29,7 +29,7 @@ var _listening_device := ""
 func _ready() -> void:
 	# Keep working while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	theme = MenuStyle.get_theme()
+	theme = MenuStyle.get_options_theme()
 	call_deferred("_populate_action_list")
 	reset_button.pressed.connect(_on_reset_pressed)
 	back_button.pressed.connect(_on_back_pressed)

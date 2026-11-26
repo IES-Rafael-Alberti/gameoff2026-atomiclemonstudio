@@ -11,7 +11,9 @@ const MenuStyle := preload("res://scripts/menu_style.gd")
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	theme = MenuStyle.get_theme()
+	theme = MenuStyle.get_options_theme()
+	# The big title needs a thicker outline than the rest of the text.
+	$Panel/VBoxContainer/Label.add_theme_constant_override("outline_size", 14)
 	remap_menu.visible = false
 	remap_menu.back_pressed.connect(_on_remap_menu_back_pressed)
 	remap_menu_button.pressed.connect(_on_controls_button_pressed)

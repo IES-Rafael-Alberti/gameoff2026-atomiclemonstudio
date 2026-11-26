@@ -28,6 +28,7 @@ ColorBlindMode="*uid://beruxe0eoluh6"
 ScreenTransition="*res://scenes/screen_transition.tscn"
 MusicAndSounds="*res://scripts/music_and_sounds.gd"
 InputSettings="*uid://yco5xyct6yy1"
+FocusManager="*res://scripts/focus_manager.gd"
 
 [display]
 
