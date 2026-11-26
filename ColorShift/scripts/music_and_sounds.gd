@@ -21,7 +21,7 @@ const COLLECTABLE_SOUND := preload("res://bso_colorshift/extra SFX/liecio-diamon
 const KEY_COLLECT_SOUND := preload("res://bso_colorshift/extra SFX/litupsubway-key-collect-sfx-522219.mp3")
 
 ## Scenes that use the level theme. Everything else uses the menu theme.
-const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4", "level_5"]
+const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4", "level_5", "level_6"]
 ## Intro del logo: no suena música de fondo mientras se ve.
 const INTRO_SCENE := "title_scene"
 
