@@ -30,8 +30,8 @@ position = Vector2(380, -255)
 projectile_scene = ExtResource("9_iynha")
 heatseeker_scene = ExtResource("10_r51xj")
 platforms_spell_scene = ExtResource("5_r51xj")
-left_position = NodePath("../Node/LeftMark")
-right_position = NodePath("../Node/RightMark")
+left_position = NodePath("../ChameleonMarkers/LeftMark")
+right_position = NodePath("../ChameleonMarkers/RightMark")
 max_hits = 5
 
 [node name="Key" parent="." unique_id=2020584789 instance=ExtResource("2_gi7hc")]
@@ -69,15 +69,15 @@ position = Vector2(0, -40.21582)
 scale = Vector2(2.2568355, 2.2568355)
 shape = SubResource("RectangleShape2D_pn6cq")
 
-[node name="Node" type="Node" parent="." unique_id=2105286342]
+[node name="ChameleonMarkers" type="Node" parent="." unique_id=2105286342]
 
-[node name="LeftMark" type="Marker2D" parent="Node" unique_id=1518322558]
+[node name="LeftMark" type="Marker2D" parent="ChameleonMarkers" unique_id=1518322558]
 position = Vector2(-388, -255)
 
-[node name="MidMark" type="Marker2D" parent="Node" unique_id=1569654195]
+[node name="MidMark" type="Marker2D" parent="ChameleonMarkers" unique_id=1569654195]
 position = Vector2(1, -255)
 
-[node name="RightMark" type="Marker2D" parent="Node" unique_id=1805895762]
+[node name="RightMark" type="Marker2D" parent="ChameleonMarkers" unique_id=1805895762]
 position = Vector2(380, -255)
 
 [node name="Button" parent="." unique_id=717267214 node_paths=PackedStringArray("tile_layer") instance=ExtResource("13_r51xj")]
