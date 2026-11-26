@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cqfrwajhg0xtg"]
+
+[ext_resource type="Shader" uid="uid://brbfjvcvesuxl" path="res://shader/larry_menu_shader.gdshader" id="1_xedbw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i38d4"]
+shader = ExtResource("1_xedbw")
+shader_parameter/light_color = Color(0.22745098, 1, 1, 1)
+shader_parameter/light_speed = 0.0
+shader_parameter/light_size = 0.01
+
+[node name="Node2D" type="Node2D" unique_id=1018482605]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=289713263]
+material = SubResource("ShaderMaterial_i38d4")
+offset_right = 512.0
+offset_bottom = 512.0
