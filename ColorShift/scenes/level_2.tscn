@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_12fag"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_1q6tm"]
-[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_v36qu"]
-[ext_resource type="Script" uid="uid://d06nvfrb2xmcx" path="res://scripts/checkpoints_level2.gd" id="4_1q6tm"]
+[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://Scripts/camera_controller.gd" id="3_v36qu"]
+[ext_resource type="Script" uid="uid://d06nvfrb2xmcx" path="res://Scripts/checkpoints_level2.gd" id="4_1q6tm"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="4_42uki"]
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="5_t7v2y"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_v36qu"]
@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://b5r6exegbqhr2" path="res://assets/sprites/scenary/grass2.png" id="11_grass2"]
 [ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="11_vcilj"]
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="12_bl0du"]
+[ext_resource type="Texture2D" uid="uid://by8tura21iife" path="res://assets/general/p1 nivel 3 jungla.png" id="14_fldb1"]
+[ext_resource type="Texture2D" uid="uid://h6v0bcbxuosq" path="res://assets/general/p2 level 3 jungla.png" id="15_igmy8"]
+[ext_resource type="Texture2D" uid="uid://djgru4rb23m5i" path="res://assets/general/CIELO (1).png" id="16_wdtqu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
@@ -2624,5 +2627,38 @@ platform_color = "YELLOW"
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1998705099]
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_v36qu")]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1163304302]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=1186092309]
+z_index = -1
+position = Vector2(532, 322)
+texture = ExtResource("14_fldb1")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Node2D" unique_id=767806062]
+z_index = -1
+position = Vector2(1447, 358)
+texture = ExtResource("14_fldb1")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D" unique_id=286322229]
+z_index = -2
+position = Vector2(395, 410)
+texture = ExtResource("14_fldb1")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Node2D" unique_id=1963418829]
+z_index = -3
+position = Vector2(304, 370)
+texture = ExtResource("15_igmy8")
+
+[node name="Sprite2D6" type="Sprite2D" parent="Node2D" unique_id=1757694166]
+z_index = -3
+position = Vector2(1138, 372)
+texture = ExtResource("15_igmy8")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Node2D" unique_id=370458559]
+z_index = -4
+position = Vector2(517.5, 0)
+scale = Vector2(2.0107422, 1)
+texture = ExtResource("16_wdtqu")
 
 [editable path="Tilemaps"]

@@ -2615,28 +2615,58 @@ position = Vector2(1472, 44)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1782869683]
 
-[node name="foreground" type="Sprite2D" parent="Node2D" unique_id=31726632]
-position = Vector2(2, 30)
-texture = ExtResource("10_1s4pk")
+[node name="Node2D2" type="Node2D" parent="Node2D" unique_id=140679157]
 
-[node name="sky" type="Sprite2D" parent="Node2D" unique_id=1530120916]
-z_index = -3
-position = Vector2(14, -65)
-texture = ExtResource("13_1s4pk")
-
-[node name="p3y4" type="Sprite2D" parent="Node2D" unique_id=2096770450]
+[node name="p3y5" type="Sprite2D" parent="Node2D/Node2D2" unique_id=195913531]
 z_index = -2
-position = Vector2(8, -62)
+position = Vector2(1031, 116)
 texture = ExtResource("11_x2xxo")
 
-[node name="p1y2" type="Sprite2D" parent="Node2D" unique_id=1010924298]
+[node name="sky2" type="Sprite2D" parent="Node2D/Node2D2" unique_id=1086625582]
+z_index = -3
+position = Vector2(1033, 4)
+texture = ExtResource("13_1s4pk")
+
+[node name="sky3" type="Sprite2D" parent="Node2D/Node2D2" unique_id=284764194]
+z_index = -3
+position = Vector2(1023, -764)
+texture = ExtResource("13_1s4pk")
+
+[node name="p1y2" type="Sprite2D" parent="Node2D/Node2D2" unique_id=2027248908]
 z_index = -1
-position = Vector2(9, -63)
+position = Vector2(1030, 118)
 texture = ExtResource("9_7nomh")
 
-[node name="56y7" type="Sprite2D" parent="Node2D" unique_id=1913247139]
+[node name="56y8" type="Sprite2D" parent="Node2D/Node2D2" unique_id=578807392]
 z_index = -3
-position = Vector2(14, -65)
+position = Vector2(1040, 118)
 texture = ExtResource("12_2cbcq")
+
+[node name="Node2D" type="Node2D" parent="Node2D" unique_id=210286391]
+position = Vector2(1001, 120)
+
+[node name="p3y4" type="Sprite2D" parent="Node2D/Node2D" unique_id=2096770450]
+z_index = -2
+position = Vector2(-993, -182)
+texture = ExtResource("11_x2xxo")
+
+[node name="p1y2" type="Sprite2D" parent="Node2D/Node2D" unique_id=1010924298]
+z_index = -1
+position = Vector2(-992, -183)
+texture = ExtResource("9_7nomh")
+
+[node name="sky" type="Sprite2D" parent="Node2D/Node2D" unique_id=1530120916]
+z_index = -3
+position = Vector2(-987, -185)
+texture = ExtResource("13_1s4pk")
+
+[node name="56y7" type="Sprite2D" parent="Node2D/Node2D" unique_id=1913247139]
+z_index = -3
+position = Vector2(-987, -185)
+texture = ExtResource("12_2cbcq")
+
+[node name="foreground" type="Sprite2D" parent="Node2D/Node2D" unique_id=31726632]
+position = Vector2(-999, -90)
+texture = ExtResource("10_1s4pk")
 
 [editable path="Tilemaps"]

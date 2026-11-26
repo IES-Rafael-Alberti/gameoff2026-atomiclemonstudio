@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_s8nj6"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_vwg62"]
-[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_qf6rc"]
+[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://Scripts/camera_controller.gd" id="3_qf6rc"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="4_5rvg2"]
-[ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="4_s8nj6"]
+[ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://Scripts/checkpoints_level3.gd" id="4_s8nj6"]
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="5_jtv8s"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_vwg62"]
 [ext_resource type="Texture2D" uid="uid://dwjp22u3d21in" path="res://assets/sprites/scenary/Tileset-2222.png" id="7_n4vm5"]
@@ -13,6 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://b5r6exegbqhr2" path="res://assets/sprites/scenary/grass2.png" id="11_grass2"]
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="11_n4vm5"]
 [ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="12_fxnjf"]
+[ext_resource type="Texture2D" uid="uid://by8tura21iife" path="res://assets/general/p1 nivel 3 jungla.png" id="14_8uepa"]
+[ext_resource type="Texture2D" uid="uid://h6v0bcbxuosq" path="res://assets/general/p2 level 3 jungla.png" id="15_q7pjq"]
+[ext_resource type="Texture2D" uid="uid://b5vusgkgyd08y" path="res://assets/general/p3 level 3.png" id="16_wa6ex"]
+[ext_resource type="Texture2D" uid="uid://cwb067f4xijqj" path="res://assets/general/p4 level 3.png" id="17_sx8yt"]
+[ext_resource type="Texture2D" uid="uid://djgru4rb23m5i" path="res://assets/general/CIELO (1).png" id="18_k5r18"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
@@ -2630,5 +2635,58 @@ position = Vector2(1423, 95)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=633604805]
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_vwg62")]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=608408308]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=1138457933]
+z_index = -1
+position = Vector2(19, 152)
+texture = ExtResource("14_8uepa")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D" unique_id=290576434]
+z_index = -2
+position = Vector2(48, 154)
+texture = ExtResource("15_q7pjq")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Node2D" unique_id=1424724360]
+z_index = -3
+position = Vector2(4, 140)
+texture = ExtResource("16_wa6ex")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Node2D" unique_id=1842723157]
+z_index = -4
+position = Vector2(1, 176)
+texture = ExtResource("17_sx8yt")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Node2D" unique_id=2115552582]
+z_index = -6
+texture = ExtResource("18_k5r18")
+
+[node name="Node2D2" type="Node2D" parent="." unique_id=1816602815]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D2" unique_id=1894018814]
+z_index = -1
+position = Vector2(1043, 150)
+texture = ExtResource("14_8uepa")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D2" unique_id=1762736948]
+z_index = -2
+position = Vector2(1072, 152)
+texture = ExtResource("15_q7pjq")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Node2D2" unique_id=1305214742]
+z_index = -3
+position = Vector2(1028, 138)
+texture = ExtResource("16_wa6ex")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Node2D2" unique_id=101909550]
+z_index = -4
+position = Vector2(1025, 174)
+texture = ExtResource("17_sx8yt")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Node2D2" unique_id=1783107296]
+z_index = -6
+position = Vector2(1024, -2)
+texture = ExtResource("18_k5r18")
 
 [editable path="Tilemaps"]
