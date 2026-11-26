@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://eknd86g2wg75" path="res://assets/general/larry.png" id="5_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
+[ext_resource type="Script" uid="uid://btlny5dc8e42c" path="res://scripts/menu_editor_preview.gd" id="7_prev"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_title"]
 atlas = ExtResource("6_title")
@@ -114,6 +115,10 @@ expand_mode = 1
 scale = Vector2(0.5, 0.5)
 mouse_filter = 2
 texture = ExtResource("5_rtw2f")
+
+[node name="Preview16x9" type="Node2D" parent="." unique_id=867423440]
+z_index = 100
+script = ExtResource("7_prev")
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsMenu" to="." method="_on_options_menu_pressed"]
