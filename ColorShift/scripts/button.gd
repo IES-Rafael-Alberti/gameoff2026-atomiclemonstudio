@@ -21,6 +21,7 @@ var can_press: bool = true
 
 # BUTTON SETTINGS
 @export var cooldown: float = 2.0
+@export var visible_in_all_colors: bool = false
 
 # TILE SETTINGS
 @export var tile_layer: TileMapLayer
@@ -34,11 +35,37 @@ var tiles_hidden: bool = false
 func _ready() -> void:
 	area_2d.monitoring = false
 
+	if not GameManager.color_changed.is_connected(_on_color_changed):
+		GameManager.color_changed.connect(_on_color_changed)
+	if not ScreenTransition.sweep_finished.is_connected(_on_sweep_finished):
+		ScreenTransition.sweep_finished.connect(_on_sweep_finished)
 
-func _process(delta: float) -> void:
-	var current_color = GameManager.get_color_name()
+	_update_skin()
 
-	if current_color != button_color:
+
+func _exit_tree() -> void:
+	if GameManager.color_changed.is_connected(_on_color_changed):
+		GameManager.color_changed.disconnect(_on_color_changed)
+	if ScreenTransition.sweep_finished.is_connected(_on_sweep_finished):
+		ScreenTransition.sweep_finished.disconnect(_on_sweep_finished)
+
+
+func _on_color_changed(_color: String) -> void:
+	# During a sweep the tileset reveals the new colour gradually. Switch the
+	# button when that reveal is done so both finish changing together.
+	if not ScreenTransition.is_busy():
+		_update_skin()
+
+
+func _on_sweep_finished() -> void:
+	_update_skin()
+
+
+func _update_skin() -> void:
+	var current_color := GameManager.get_color_name()
+
+	# Check if the button should be visible
+	if not visible_in_all_colors and current_color != button_color:
 		visible = false
 		area_2d.monitoring = false
 		return
@@ -46,6 +73,7 @@ func _process(delta: float) -> void:
 	visible = true
 	area_2d.monitoring = true
 
+	# Update button skin according to current color
 	for color_name in skins:
 		var skin = skins[color_name]
 		var is_active = (color_name == current_color)
@@ -75,6 +103,7 @@ func activate_button() -> void:
 
 	GameManager.button_pressed(button_id)
 
+	_update_skin()
 	remove_tiles()
 
 	# Button cooldown
@@ -82,6 +111,7 @@ func activate_button() -> void:
 
 	is_pressed = false
 	can_press = true
+	_update_skin()
 
 
 func remove_tiles() -> void:

@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 signal boss_defeated
 
+const POOF_EFFECT_SCRIPT: Script = preload("res://scripts/poof_effect.gd")
+
 @export var projectile_scene: PackedScene
 @export var heatseeker_scene: PackedScene
 @export var platforms_spell_scene: PackedScene
@@ -15,6 +17,10 @@ signal boss_defeated
 @export var gravity: float = 980.0
 
 @export var health: int = 100
+
+# Life counter for spike/fall hits. Change this in the inspector to decide
+# how many times the Chameleon can fall before it is defeated.
+@export var max_hits: int = 3
 
 # Projectile attack settings.
 @export var projectile_count: int = 16
@@ -60,6 +66,8 @@ var movement_target_x: float = 0.0
 
 # Recovery control.
 var is_recovering: bool = false
+var is_falling: bool = false
+var hits_taken: int = 0
 
 # Animation control. Every time a new animation is started the token changes,
 # so coroutines waiting on the previous animation know they were interrupted.
@@ -158,8 +166,8 @@ func _physics_process(delta: float) -> void:
 	if not is_alive:
 		return
 
-	# The recovery tween controls movement while recovering.
-	if is_recovering:
+	# The hit stun and the recovery tween control movement while falling.
+	if is_recovering or is_falling:
 		return
 
 	# Apply gravity whenever the Chameleon is not standing
@@ -184,9 +192,9 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	# Check for spikes or falling below the level.
+	# Check for spikes or falling below the level. Every spike colour counts.
 	if global_position.y > fall_limit_y or _is_over_spike():
-		_start_recovery()
+		_start_fall()
 
 
 # --------------------------------------------------
@@ -235,6 +243,43 @@ func _is_over_spike() -> bool:
 
 
 # --------------------------------------------------
+# FALL / HIT HANDLING
+# --------------------------------------------------
+
+func get_lives_remaining() -> int:
+	return maxi(max_hits - hits_taken, 0)
+
+
+func _start_fall() -> void:
+	if is_falling or is_recovering or not is_alive:
+		return
+
+	# Claim the fall immediately so physics cannot count the same fall twice.
+	is_falling = true
+	is_moving = false
+	velocity = Vector2.ZERO
+	hits_taken += 1
+
+	# A hit takes priority over a spell cast. The token change cancels any
+	# cast coroutine so a spell cannot appear while the hit is on screen.
+	_play_animation(&"hit")
+	var hit_token: int = _animation_token
+	await _wait_for_animation(&"hit", hit_token)
+
+	if not is_alive:
+		return
+
+	if get_lives_remaining() <= 0:
+		_defeat_boss()
+		return
+
+	# Hit animation is done: the fall continues with the cast animation while
+	# the boss hops back to one of its designated spots.
+	is_falling = false
+	_start_recovery()
+
+
+# --------------------------------------------------
 # RECOVERY
 # --------------------------------------------------
 
@@ -261,17 +306,26 @@ func _start_recovery() -> void:
 		is_recovering = false
 		return
 
-	# Choose a random marker.
-	var target_marker: Marker2D = available_markers.pick_random()
-	var target_position: Vector2 = target_marker.global_position
-	var starting_position: Vector2 = global_position
+	# Return to the designated spot closest to where the boss fell, instead
+	# of hopping to a random marker.
+	var fall_position: Vector2 = global_position
+	var target_marker: Marker2D = available_markers[0]
+	var best_distance: float = INF
 
-	# Play the appropriate jump animation. This also cancels a spell cast
-	# that may be waiting for its own animation to finish.
-	var jump_animation: StringName = (
-		&"jump_left" if target_position.x < global_position.x else &"jump_right"
-	)
-	_play_animation(jump_animation)
+	for marker in available_markers:
+		var distance: float = absf(marker.global_position.x - fall_position.x)
+
+		if distance < best_distance:
+			best_distance = distance
+			target_marker = marker
+
+	var target_position: Vector2 = target_marker.global_position
+	var starting_position: Vector2 = fall_position
+
+	# The fall is shown with the cast animation while the boss arcs back to a
+	# safe marker. Starting it also cancels any spell still waiting on cast.
+	_play_animation(&"cast")
+	var cast_token: int = _animation_token
 
 	# Create a jump arc.
 	var apex_position: Vector2 = Vector2(
@@ -306,10 +360,23 @@ func _start_recovery() -> void:
 	velocity = Vector2.ZERO
 	movement_target_x = target_position.x
 
-	# jump_left/jump_right loop, so there is no final frame to wait for.
-	# The tween is the authority for the recovery movement here.
+	# The boss is back on the floor: show the poof now, not after the cast has
+	# finished playing. Ordinary spell casts never reach this code path.
+	if is_alive:
+		_spawn_poof(global_position + Vector2(0.0, -8.0))
+
+	# The fall cast still plays out before idle takes over.
+	await _wait_for_animation(&"cast", cast_token)
+
 	is_recovering = false
-	_play_animation(&"idle")
+	_return_to_idle()
+
+
+func _spawn_poof(at_position: Vector2) -> void:
+	var poof := Node2D.new()
+	poof.set_script(POOF_EFFECT_SCRIPT)
+	_spell_parent().add_child(poof)
+	poof.global_position = at_position
 
 
 # --------------------------------------------------
@@ -330,8 +397,8 @@ func _run_boss_sequence() -> void:
 			if not is_alive:
 				return
 
-			# Pause the attack pattern during recovery.
-			while is_recovering and is_alive:
+			# Pause the attack pattern during the hit and the recovery.
+			while (is_falling or is_recovering) and is_alive:
 				await get_tree().process_frame
 
 			if not is_alive:
@@ -677,6 +744,7 @@ func _defeat_boss() -> void:
 	is_running_sequence = false
 	is_moving = false
 	is_recovering = false
+	is_falling = false
 
 	velocity = Vector2.ZERO
 

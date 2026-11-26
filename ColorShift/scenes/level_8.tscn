@@ -32,6 +32,7 @@ heatseeker_scene = ExtResource("10_r51xj")
 platforms_spell_scene = ExtResource("5_r51xj")
 left_position = NodePath("../Node/LeftMark")
 right_position = NodePath("../Node/RightMark")
+max_hits = 5
 
 [node name="Key" parent="." unique_id=2020584789 instance=ExtResource("2_gi7hc")]
 
@@ -82,12 +83,19 @@ position = Vector2(380, -255)
 [node name="Button" parent="." unique_id=717267214 node_paths=PackedStringArray("tile_layer") instance=ExtResource("13_r51xj")]
 position = Vector2(0, 48)
 button_id = 1
+visible_in_all_colors = true
 tile_layer = NodePath("../Tilemaps/TileMapLayer")
 
 [node name="ColorWheel" parent="." unique_id=461690810 instance=ExtResource("15_jpidd")]
 position = Vector2(-54, 40)
 
 [node name="GameManager" parent="." unique_id=374220462 instance=ExtResource("15_76cy3")]
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1928735009]
+offset_top = -333.0
+offset_right = 4.0
+offset_bottom = -306.0
+max_value = 5.0
 
 [editable path="Tilemaps"]
 [editable path="Button"]
