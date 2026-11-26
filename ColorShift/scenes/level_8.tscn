@@ -4,15 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="2_gi7hc"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="3_ppfpn"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="4_3ijp0"]
-[ext_resource type="PackedScene" uid="uid://bnnsuqcgy6y10" path="res://scenes/platforms_spell.tscn" id="5_r51xj"]
+[ext_resource type="PackedScene" uid="uid://bnnsuqcgy6y10" path="res://scenes/chameleon_platforms_spell.tscn" id="5_r51xj"]
 [ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://scenes/parallax_container_castle.tscn" id="5_snfn4"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="6_r51xj"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="7_bsx3y"]
-[ext_resource type="Texture2D" uid="uid://cfadig3iuqluv" path="res://assets/sprites/scenary/platform_grey.png" id="8_gi7hc"]
-[ext_resource type="PackedScene" uid="uid://c1bqiljmgkhw7" path="res://scenes/projectile.tscn" id="9_iynha"]
+[ext_resource type="PackedScene" uid="uid://c1bqiljmgkhw7" path="res://scenes/chameleon_projectile.tscn" id="9_iynha"]
 [ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://scenes/chameleon.tscn" id="9_ppfpn"]
 [ext_resource type="Script" uid="uid://d2r8at46b5pkl" path="res://scripts/battle_start_trigger.gd" id="10_0snvp"]
-[ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/barrel_throw.tscn" id="10_r51xj"]
+[ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/chameleon_barrel_throw.tscn" id="10_r51xj"]
+[ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="13_r51xj"]
+[ext_resource type="PackedScene" path="res://scenes/color_wheel.tscn" id="15_jpidd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
 size = Vector2(20, 55.63913)
@@ -21,10 +22,10 @@ size = Vector2(20, 55.63913)
 
 [node name="Player" parent="." unique_id=889365973 groups=["player"] instance=ExtResource("1_ysmsy")]
 unique_name_in_owner = true
-position = Vector2(-439, 320)
+position = Vector2(-54, 32)
 
 [node name="BeChamel" parent="." unique_id=1565266819 node_paths=PackedStringArray("left_position", "right_position") instance=ExtResource("9_ppfpn")]
-position = Vector2(380, -266)
+position = Vector2(380, -255)
 projectile_scene = ExtResource("9_iynha")
 barrel_throw_scene = ExtResource("10_r51xj")
 platforms_spell_scene = ExtResource("5_r51xj")
@@ -36,7 +37,7 @@ right_position = NodePath("../Node/RightMark")
 [node name="Tilemaps" parent="." unique_id=210110623 instance=ExtResource("3_ppfpn")]
 
 [node name="TileMapLayer" parent="Tilemaps" index="0" unique_id=1750349955]
-tile_map_data = PackedByteArray("AADw//b/AAAAAAUAAADw//f/AAAAAAUAAADw//j/AAAAAAUAAADw//n/AAAAAAUAAADw//r/AAAAAAUAAADw//v/AAAAAAUAAADw//z/AAAAAAUAAADw//3/AAAAAAUAAADw//7/AAAAAAUAAADw////AAAAAAUAAADw/wAAAAAAAAUAAADw/wEAAAAAAAUAAADw/wIAAAAAAAUAAADw/wMAAAAAAAUAAADw/wQAAAAAAAUAAADw/wUAAAAAAAUAAADw/wYAAAAAAAUAAADw/wcAAAAAAAUAAADw/wgAAAAAAAUAAADw/wkAAAAAAAUAAADw/woAAAAAAAUAAADw/wsAAAAAAAYAAADx/wsAAAABAAYAAADy/wsAAAABAAYAAADz/wsAAAABAAYAAAD0/wsAAAABAAYAAAD1/wsAAAABAAYAAAD2/wsAAAABAAYAAAD3/wsAAAABAAYAAAD4/wsAAAABAAYAAAD5/wsAAAABAAYAAAD6/wsAAAABAAYAAAD7/wsAAAABAAYAAAD8/wsAAAABAAYAAAD9/wsAAAABAAYAAAD+/wsAAAABAAYAAAD//wsAAAABAAYAAAAAAAsAAAABAAYAAAABAAsAAAABAAYAAAACAAsAAAABAAYAAAADAAsAAAABAAYAAAAEAAsAAAABAAYAAAAFAAsAAAABAAYAAAAGAAsAAAABAAYAAAAHAAsAAAABAAYAAAAIAAsAAAABAAYAAAAJAAsAAAABAAYAAAAKAAsAAAABAAYAAAALAAsAAAABAAYAAAAMAAsAAAABAAYAAAANAAsAAAABAAYAAAAOAAsAAAABAAYAAAAPAAsAAAACAAYAAAAPAPb/AAACAAUAAAAPAPf/AAACAAUAAAAPAPj/AAACAAUAAAAPAPn/AAACAAUAAAAPAPr/AAACAAUAAAAPAPv/AAACAAUAAAAPAPz/AAACAAUAAAAPAP3/AAACAAUAAAAPAP7/AAACAAUAAAAPAP//AAACAAUAAAAPAAAAAAACAAUAAAAPAAEAAAACAAUAAAAPAAIAAAACAAUAAAAPAAMAAAACAAUAAAAPAAQAAAACAAUAAAAPAAUAAAACAAUAAAAPAAYAAAACAAUAAAAPAAcAAAACAAUAAAAPAAgAAAACAAUAAAAPAAkAAAACAAUAAAAPAAoAAAACAAUAAAA=")
+tile_map_data = PackedByteArray("AADw//b/AAAAAAUAAADw//f/AAAAAAUAAADw//j/AAAAAAUAAADw//n/AAAAAAUAAADw//r/AAAAAAUAAADw//v/AAAAAAUAAADw//z/AAAAAAUAAADw//3/AAAAAAUAAADw//7/AAAAAAUAAADw////AAAAAAUAAADw/wAAAAAAAAUAAADw/wEAAAAAAAUAAADw/wIAAAAAAAUAAADw/wMAAAAAAAUAAADw/wQAAAAAAAUAAADw/wUAAAAAAAUAAADw/wYAAAAAAAUAAADw/wcAAAAAAAUAAADw/wgAAAAAAAUAAADw/wkAAAAAAAUAAADw/woAAAAAAAUAAADw/wsAAAAAAAYAAADx/wsAAAABAAYAAADy/wsAAAABAAYAAADz/wsAAAABAAYAAAD0/wsAAAABAAYAAAD1/wsAAAABAAYAAAD2/wsAAAABAAYAAAD3/wsAAAABAAYAAAD4/wsAAAABAAYAAAD5/wsAAAABAAYAAAD6/wsAAAABAAYAAAD7/wsAAAABAAYAAAD8/wsAAAABAAYAAAD9/wsAAAABAAYAAAD+/wsAAAABAAYAAAD//wsAAAABAAYAAAAAAAsAAAABAAYAAAABAAsAAAABAAYAAAACAAsAAAABAAYAAAADAAsAAAABAAYAAAAEAAsAAAABAAYAAAAFAAsAAAABAAYAAAAGAAsAAAABAAYAAAAHAAsAAAABAAYAAAAIAAsAAAABAAYAAAAJAAsAAAABAAYAAAAKAAsAAAABAAYAAAALAAsAAAABAAYAAAAMAAsAAAABAAYAAAANAAsAAAABAAYAAAAOAAsAAAABAAYAAAAPAAsAAAACAAYAAAAPAPb/AAACAAUAAAAPAPf/AAACAAUAAAAPAPj/AAACAAUAAAAPAPn/AAACAAUAAAAPAPr/AAACAAUAAAAPAPv/AAACAAUAAAAPAPz/AAACAAUAAAAPAP3/AAACAAUAAAAPAP7/AAACAAUAAAAPAP//AAACAAUAAAAPAAAAAAACAAUAAAAPAAEAAAACAAUAAAAPAAIAAAACAAUAAAAPAAMAAAACAAUAAAAPAAQAAAACAAUAAAAPAAUAAAACAAUAAAAPAAYAAAACAAUAAAAPAAcAAAACAAUAAAAPAAgAAAACAAUAAAAPAAkAAAACAAUAAAAPAAoAAAACAAUAAADy/wIAAAAJAAQAAADy/wUAAAAFAA0AAADy/wYAAAADAAsAAADz/wIAAAAKAAQAAADz/wUAAAAFAA0AAADz/wYAAAAEAAsAAAD0/wIAAAAKAAQAAAD0/wUAAAAFAA0AAAD0/wYAAAAEAAsAAAD1/wIAAAALAAQAAAD1/wUAAAAFAA0AAAD1/wYAAAAFAAsAAAD4/wAAAwAFAA0AAAD4/wEAAwADAAsAAAD4/wQAAAADAAQAAAD4/wgAAAAJAAQAAAD5/wAAAwAFAA0AAAD5/wEAAwAEAAsAAAD5/wQAAAAEAAQAAAD5/wgAAAAKAAQAAAD6/wAAAwAFAA0AAAD6/wEAAwAEAAsAAAD6/wQAAAAEAAQAAAD6/wgAAAAKAAQAAAD7/wAAAwAFAA0AAAD7/wEAAwAFAAsAAAD7/wQAAAAFAAQAAAD7/wgAAAALAAQAAAD+//7/AwALAAYAAAD+////AwAJAAQAAAD+/wIAAAADAAQAAAD+/wYAAAAJAAQAAAD///7/AwALAAYAAAD/////AwAKAAQAAAD//wIAAAAEAAQAAAD//wYAAAAKAAQAAAAAAP7/AwALAAYAAAAAAP//AwAKAAQAAAAAAAIAAAAEAAQAAAAAAAYAAAAKAAQAAAABAP7/AwALAAYAAAABAP//AwALAAQAAAABAAIAAAAFAAQAAAABAAYAAAALAAQAAAAEAAAAAwALAA0AAAAEAAEAAwAJAAsAAAAEAAQAAAADAAQAAAAEAAgAAAAJAAQAAAAFAAAAAwALAA0AAAAFAAEAAwAKAAsAAAAFAAQAAAAEAAQAAAAFAAgAAAAKAAQAAAAGAAAAAwALAA0AAAAGAAEAAwAKAAsAAAAGAAQAAAAEAAQAAAAGAAgAAAAKAAQAAAAHAAAAAwALAA0AAAAHAAEAAwALAAsAAAAHAAQAAAAFAAQAAAAHAAgAAAALAAQAAAAKAAIAAAAJAAQAAAAKAAUAAAALAA0AAAAKAAYAAAAJAAsAAAALAAIAAAAKAAQAAAALAAUAAAALAA0AAAALAAYAAAAKAAsAAAAMAAIAAAAKAAQAAAAMAAUAAAALAA0AAAAMAAYAAAAKAAsAAAANAAIAAAALAAQAAAANAAUAAAALAA0AAAANAAYAAAALAAsAAADx/woAAAAFAAYAAADy/woAAAAFAAYAAADz/woAAAAFAAYAAAD0/woAAAAFAAYAAAD1/woAAAAFAAYAAAD2/woAAAAFAAYAAAD3/woAAAAFAAYAAAD4/woAAAAFAAYAAAD5/woAAAAFAAYAAAD6/woAAAAFAAYAAAD7/woAAAAFAAYAAAD8/woAAAAFAAYAAAD9/woAAAAFAAYAAAD+/woAAAAFAAYAAAD//woAAAAFAAYAAAAAAAoAAAAFAAYAAAABAAoAAAAFAAYAAAACAAoAAAAFAAYAAAADAAoAAAAFAAYAAAAEAAoAAAAFAAYAAAAFAAoAAAAFAAYAAAAGAAoAAAAFAAYAAAAHAAoAAAAFAAYAAAAIAAoAAAAFAAYAAAAKAAoAAAAFAAYAAAALAAoAAAAFAAYAAAAMAAoAAAAFAAYAAAAJAAoAAAAFAAYAAAANAAoAAAAFAAYAAAAOAAoAAAAFAAYAAADz//n/AAAEAAQAAAD0//n/AAAEAAQAAAD1//n/AAAEAAQAAAD2//n/AAAEAAQAAAD3//n/AAAEAAQAAAD4//n/AAAEAAQAAAD5//n/AAAEAAQAAAD6//n/AAAEAAQAAAD7//n/AAAEAAQAAAD8//n/AAAEAAQAAAD9//n/AAAEAAQAAAD+//n/AAAEAAQAAAD///n/AAAEAAQAAAAAAPn/AAAEAAQAAAABAPn/AAAEAAQAAAACAPn/AAAEAAQAAAADAPn/AAAEAAQAAAAEAPn/AAAEAAQAAAAFAPn/AAAEAAQAAAAGAPn/AAAEAAQAAAAHAPn/AAAEAAQAAAAIAPn/AAAEAAQAAAAJAPn/AAAEAAQAAAAKAPn/AAAEAAQAAAALAPn/AAAEAAQAAAAMAPn/AAAEAAQAAAANAPn/AAAFAAQAAADy//n/AAADAAQAAAA=")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=640248356]
 script = ExtResource("4_3ijp0")
@@ -57,7 +58,7 @@ player = NodePath("../Player")
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("7_bsx3y")]
 
 [node name="BattleStartTrigger" type="Area2D" parent="." unique_id=673810965 node_paths=PackedStringArray("boss")]
-position = Vector2(-367, 329)
+position = Vector2(0, 42)
 script = ExtResource("10_0snvp")
 boss = NodePath("../BeChamel")
 
@@ -66,37 +67,24 @@ position = Vector2(0, -40.21582)
 scale = Vector2(2.2568355, 2.2568355)
 shape = SubResource("RectangleShape2D_pn6cq")
 
-[node name="Node2D" type="Node" parent="." unique_id=340841195]
-
-[node name="ChameleonPlatformRight" type="Node2D" parent="Node2D" unique_id=878703597]
-position = Vector2(-388, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/ChameleonPlatformRight" unique_id=1038733054]
-position = Vector2(388, -219)
-texture = ExtResource("8_gi7hc")
-
-[node name="ChameleonPlatformLeft" type="Node2D" parent="Node2D" unique_id=551541331]
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/ChameleonPlatformLeft" unique_id=123238755]
-position = Vector2(388, -219)
-texture = ExtResource("8_gi7hc")
-
-[node name="ChameleonPlatformMid" type="Node2D" parent="Node2D" unique_id=470394704]
-position = Vector2(-776, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/ChameleonPlatformMid" unique_id=1135681404]
-position = Vector2(388, -219)
-texture = ExtResource("8_gi7hc")
-
 [node name="Node" type="Node" parent="." unique_id=2105286342]
 
 [node name="LeftMark" type="Marker2D" parent="Node" unique_id=1518322558]
-position = Vector2(-388, -275)
+position = Vector2(-388, -255)
 
 [node name="MidMark" type="Marker2D" parent="Node" unique_id=1569654195]
-position = Vector2(1, -265)
+position = Vector2(1, -255)
 
 [node name="RightMark" type="Marker2D" parent="Node" unique_id=1805895762]
-position = Vector2(384, -272)
+position = Vector2(380, -255)
+
+[node name="Button" parent="." unique_id=717267214 node_paths=PackedStringArray("tile_layer") instance=ExtResource("13_r51xj")]
+position = Vector2(0, 48)
+button_id = 1
+tile_layer = NodePath("../Tilemaps/TileMapLayer")
+
+[node name="ColorWheel" parent="." unique_id=461690810 instance=ExtResource("15_jpidd")]
+position = Vector2(-54, 40)
 
 [editable path="Tilemaps"]
+[editable path="Button"]

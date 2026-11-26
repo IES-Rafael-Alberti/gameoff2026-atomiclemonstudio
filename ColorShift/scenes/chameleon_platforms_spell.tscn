@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bnnsuqcgy6y10"]
+
+[ext_resource type="Texture2D" uid="uid://b3n1t3oeao2k2" path="res://assets/sprites/attacks/chameleon_attack.png" id="1_8up2e"]
+
+[node name="Platforms" type="Node2D" unique_id=711666676]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1101206162]
+texture = ExtResource("1_8up2e")
