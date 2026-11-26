@@ -32,6 +32,7 @@ var _fade_rect: ColorRect
 func _ready() -> void:
 	# Ensure the fade effect works even while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	call_deferred("_configure_starting_scene")
 
 	_fade_layer = CanvasLayer.new()
 	_fade_layer.layer = 100 # above any HUD
@@ -44,6 +45,13 @@ func _ready() -> void:
 	_fade_rect.modulate.a = 0.0
 	_fade_layer.add_child(_fade_rect)
 
+func _configure_starting_scene() -> void:
+	var scene := get_tree().current_scene
+	if scene == null:
+		return
+
+	current_scene_name = scene.scene_file_path.get_file().get_basename()
+	GameManager.configure_for_scene(current_scene_name)
 
 func change_scene(scene_name: String) -> void:
 	var key := scene_name.to_lower()
@@ -62,6 +70,7 @@ func change_scene(scene_name: String) -> void:
 	# Every level starts with the transparent (GREY) wheel, even if the player
 	# already has the second wheel. Menus keep whatever color was active.
 	if _is_level_scene(key):
+		GameManager.configure_for_scene(key)
 		GameManager.reset_color()
 
 	var error := get_tree().change_scene_to_file(SCENES[key])
@@ -87,6 +96,7 @@ func reload_scene() -> void:
 	is_transitioning = true
 
 	# Reset level also reset the color filter
+	GameManager.configure_for_scene(current_scene_name)
 	GameManager.reset_color()
 
 	await _fade_to(1.0)

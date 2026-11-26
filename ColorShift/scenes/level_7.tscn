@@ -16,8 +16,6 @@
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="12_36u6r"]
 [ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="13_l5pst"]
 [ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="20_a51ki"]
-[ext_resource type="Script" uid="uid://d0j0h0qc2ov38" path="res://scripts/level_7.gd" id="21_level7"]
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
 texture = ExtResource("2_0bg5e")
@@ -2580,7 +2578,6 @@ sources/7 = SubResource("TileSetAtlasSource_fmsuk")
 sources/8 = SubResource("TileSetAtlasSource_3oae0")
 
 [node name="Level7" type="Node2D" unique_id=1284172005]
-script = ExtResource("21_level7")
 
 [node name="Player" parent="." unique_id=889365973 groups=["player"] instance=ExtResource("1_bswci")]
 unique_name_in_owner = true

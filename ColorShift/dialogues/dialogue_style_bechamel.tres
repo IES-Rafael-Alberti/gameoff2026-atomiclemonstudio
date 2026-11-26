@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="DialogicStyle" load_steps=14 format=3 uid="uid://h3tpx8hkmbdm"]
+[gd_resource type="Resource" script_class="DialogicStyle" format=3 uid="uid://h3tpx8hkmbdm"]
 
 [ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="2_by3jq"]
 [ext_resource type="Script" uid="uid://dv08k6ljua6fm" path="res://addons/dialogic/Resources/dialogic_style.gd" id="3_style"]
-[ext_resource type="Resource" path="res://dialogues/dialogue_style.tres" id="4_base"]
+[ext_resource type="Resource" uid="uid://da3unst23fn0s" path="res://dialogues/dialogue_style.tres" id="4_base"]
 [ext_resource type="PackedScene" uid="uid://bquja8jyk8kbr" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.tscn" id="6_07lws"]
 
 [sub_resource type="Resource" id="BaseLayer"]

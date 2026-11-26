@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var shift_pressed := Input.is_action_pressed("shift")
-	var control_pressed := GameManager.has_second_wheel and Input.is_action_pressed("shift_2")
+	var control_pressed := GameManager.can_use_second_wheel() and Input.is_action_pressed("shift_2")
 	var shift_triggered := shift_pressed and not _shift_active
 	var control_triggered := control_pressed and not _control_active
 	_shift_active = shift_pressed
@@ -28,6 +28,9 @@ func _process(_delta: float) -> void:
 	if state_machine != null and state_machine.current_state != null:
 		if state_machine.current_state.name.to_lower() == "deathstate":
 			return
+
+	if not GameManager.try_begin_shift():
+		return
 
 	if shift_triggered:
 		ScreenTransition.shift_color(1)
