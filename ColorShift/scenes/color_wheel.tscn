@@ -1,18 +1,18 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://df074ylh78ahw"]
 
-[ext_resource type="Script" path="res://scripts/color_wheel_pickup.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://c2po2sm80o1kt" path="res://scripts/color_wheel_pickup.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://ck2rcn0nkdsvu" path="res://assets/ui/Wheel_Left_Turn.png" id="2_wheel"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wheel"]
 radius = 16.0
 
-[node name="ColorWheel" type="Area2D"]
+[node name="ColorWheel" type="Area2D" unique_id=439439523]
 script = ExtResource("1_script")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1342982581]
 texture_filter = 1
 texture = ExtResource("2_wheel")
 hframes = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=324248740]
 shape = SubResource("CircleShape2D_wheel")

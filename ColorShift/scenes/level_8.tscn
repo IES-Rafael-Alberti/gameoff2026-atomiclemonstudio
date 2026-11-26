@@ -4,16 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="2_gi7hc"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="3_ppfpn"]
 [ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="4_3ijp0"]
-[ext_resource type="PackedScene" uid="uid://bnnsuqcgy6y10" path="res://scenes/chameleon_platforms_spell.tscn" id="5_r51xj"]
 [ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://scenes/parallax_container_castle.tscn" id="5_snfn4"]
 [ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="6_r51xj"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="7_bsx3y"]
 [ext_resource type="PackedScene" uid="uid://c1bqiljmgkhw7" path="res://scenes/chameleon_projectile.tscn" id="9_iynha"]
 [ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://scenes/chameleon.tscn" id="9_ppfpn"]
 [ext_resource type="Script" uid="uid://d2r8at46b5pkl" path="res://scripts/battle_start_trigger.gd" id="10_0snvp"]
-[ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/chameleon_barrel_throw.tscn" id="10_r51xj"]
+[ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/chameleon_heatseeker.tscn" id="10_r51xj"]
 [ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="13_r51xj"]
-[ext_resource type="PackedScene" path="res://scenes/color_wheel.tscn" id="15_jpidd"]
+[ext_resource type="PackedScene" uid="uid://cvhd3saqxcdej" path="res://scenes/game_manager.tscn" id="15_76cy3"]
+[ext_resource type="PackedScene" uid="uid://df074ylh78ahw" path="res://scenes/color_wheel.tscn" id="15_jpidd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
 size = Vector2(20, 55.63913)
@@ -27,8 +27,7 @@ position = Vector2(-54, 32)
 [node name="BeChamel" parent="." unique_id=1565266819 node_paths=PackedStringArray("left_position", "right_position") instance=ExtResource("9_ppfpn")]
 position = Vector2(380, -255)
 projectile_scene = ExtResource("9_iynha")
-barrel_throw_scene = ExtResource("10_r51xj")
-platforms_spell_scene = ExtResource("5_r51xj")
+heatseeker_scene = ExtResource("10_r51xj")
 left_position = NodePath("../Node/LeftMark")
 right_position = NodePath("../Node/RightMark")
 
@@ -85,6 +84,8 @@ tile_layer = NodePath("../Tilemaps/TileMapLayer")
 
 [node name="ColorWheel" parent="." unique_id=461690810 instance=ExtResource("15_jpidd")]
 position = Vector2(-54, 40)
+
+[node name="GameManager" parent="." unique_id=374220462 instance=ExtResource("15_76cy3")]
 
 [editable path="Tilemaps"]
 [editable path="Button"]
