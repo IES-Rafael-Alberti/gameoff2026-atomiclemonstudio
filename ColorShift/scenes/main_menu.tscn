@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://eknd86g2wg75" path="res://assets/general/larry.png" id="5_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
+[ext_resource type="Script" uid="uid://btlny5dc8e42c" path="res://scripts/menu_editor_preview.gd" id="7_prev"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_title"]
 atlas = ExtResource("6_title")
@@ -35,8 +36,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 1
 texture = ExtResource("2_wu84c")
+expand_mode = 1
 
 [node name="OptionsMenu" parent="." unique_id=2056824226 instance=ExtResource("5_8ln24")]
 z_index = 1
@@ -50,6 +51,7 @@ offset_left = -280.0
 offset_right = 280.0
 
 [node name="Title" type="TextureRect" parent="." unique_id=1526771150]
+custom_minimum_size = Vector2(0, 67)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -62,10 +64,9 @@ offset_right = 336.0
 offset_bottom = -39.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = SubResource("AtlasTexture_title")
 expand_mode = 1
 stretch_mode = 5
-custom_minimum_size = Vector2(0, 67)
-texture = SubResource("AtlasTexture_title")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=178074880]
 z_index = 1
@@ -106,14 +107,18 @@ text = "QUIT GAME"
 
 [node name="larry" type="TextureRect" parent="." unique_id=1336689954]
 layout_mode = 0
-offset_left = -29.0
+offset_left = 13.0
 offset_top = 208.0
-offset_right = 1891.0
+offset_right = 1933.0
 offset_bottom = 1288.0
-expand_mode = 1
 scale = Vector2(0.5, 0.5)
 mouse_filter = 2
 texture = ExtResource("5_rtw2f")
+expand_mode = 1
+
+[node name="Preview16x9" type="Node2D" parent="." unique_id=867423440]
+z_index = 100
+script = ExtResource("7_prev")
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsMenu" to="." method="_on_options_menu_pressed"]
