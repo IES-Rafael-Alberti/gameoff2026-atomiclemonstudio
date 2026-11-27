@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c1bqiljmgkhw7"]
 
-[ext_resource type="Script" uid="uid://botl50mx0smvp" path="res://scripts/chameleon_projectile.gd" id="1_f8cdk"]
-[ext_resource type="Texture2D" uid="uid://b3n1t3oeao2k2" path="res://assets/sprites/attacks/chameleon_attack.png" id="2_5s8e5"]
+[ext_resource type="Script" uid="uid://botl50mx0smvp" path="res://Scripts/chameleon_projectile.gd" id="1_f8cdk"]
+[ext_resource type="Texture2D" uid="uid://py2lxo4f8s5v" path="res://assets/sprites/attacks/fireeeee.png" id="2_5s8e5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5s8e5"]
 size = Vector2(29, 32)

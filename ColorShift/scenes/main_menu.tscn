@@ -1,15 +1,29 @@
 [gd_scene format=3 uid="uid://dcxhere4tpmn4"]
 
-[ext_resource type="Script" uid="uid://dlvmfvypu8xj8" path="res://scripts/menu.gd" id="1_wu84c"]
+[ext_resource type="Script" uid="uid://dlvmfvypu8xj8" path="res://Scripts/menu.gd" id="1_wu84c"]
 [ext_resource type="Texture2D" uid="uid://vkqsj56yw4x2" path="res://assets/general/castle-background.png" id="2_wu84c"]
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://eknd86g2wg75" path="res://assets/general/larry.png" id="5_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
-[ext_resource type="Script" uid="uid://btlny5dc8e42c" path="res://scripts/menu_editor_preview.gd" id="7_prev"]
+[ext_resource type="Script" uid="uid://btlny5dc8e42c" path="res://Scripts/menu_editor_preview.gd" id="7_prev"]
 [ext_resource type="Shader" uid="uid://brbfjvcvesuxl" path="res://shader/larry_menu_shader.gdshader" id="8_beam"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_beam"]
 shader = ExtResource("8_beam")
+shader_parameter/color_a = Color(0.97, 0.85, 0.2, 1)
+shader_parameter/color_b = Color(0.9, 0.2, 0.2, 1)
+shader_parameter/color_c = Color(0.2, 0.4, 0.95, 1)
+shader_parameter/origin = Vector2(215, 503)
+shader_parameter/direction = -10.0
+shader_parameter/cone_angle = 70.0
+shader_parameter/edge_fade = 12.0
+shader_parameter/colors_in_cone = 2.0
+shader_parameter/sweep_time = 5.0
+shader_parameter/blend_angle = 5.0
+shader_parameter/light_color = Color(1, 1, 1, 0.35)
+shader_parameter/light_speed = 120.0
+shader_parameter/light_size = 312.0
+shader_parameter/light_strength = 0.15
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_title"]
 atlas = ExtResource("6_title")

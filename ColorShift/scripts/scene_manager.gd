@@ -18,6 +18,7 @@ const SCENES := {
 	"level_5": "res://scenes/level_5.tscn",
 	"level_6": "res://scenes/level_6.tscn",
 	"level_7": "res://scenes/level_7.tscn",
+	"level_8": "res://scenes/level_8.tscn",
 	"level_color_test": "res://scenes/level_color_test.tscn",
 	"level_select": "res://scenes/level_select.tscn",
 	"credits": "res://scenes/credits.tscn",
