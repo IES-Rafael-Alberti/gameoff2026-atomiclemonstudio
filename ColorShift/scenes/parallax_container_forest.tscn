@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dbup833hs3egi"]
 
-[ext_resource type="Script" uid="uid://biuv0wxej7652" path="res://scripts/parallax_background.gd" id="1_tjwph"]
+[ext_resource type="Script" uid="uid://biuv0wxej7652" path="res://Scripts/parallax_background.gd" id="1_tjwph"]
 [ext_resource type="Texture2D" uid="uid://crvigd1abspay" path="res://assets/sprites/backgrounds/bg1.PNG" id="2_f5vs3"]
 [ext_resource type="Texture2D" uid="uid://s465ktqcpdqj" path="res://assets/sprites/backgrounds/bg2.PNG" id="3_yb23w"]
 [ext_resource type="Texture2D" uid="uid://c1v8jmrm486ea" path="res://assets/sprites/backgrounds/bg3.PNG" id="4_w7dl1"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://de5s14wsyossx" path="res://assets/sprites/backgrounds/bg7.PNG" id="8_x8ytl"]
 [ext_resource type="Texture2D" uid="uid://bs818jqb0wqkk" path="res://assets/sprites/backgrounds/bg8.PNG" id="9_tn15s"]
 
-[node name="ParallaxContainer" type="Node2D" unique_id=178089555]
+[node name="ParallaxContainer" type="Control" unique_id=162259127]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_tjwph")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=2046271612]

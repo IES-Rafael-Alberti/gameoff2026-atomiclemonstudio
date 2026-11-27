@@ -2,12 +2,13 @@
 extends CharacterBody2D
 
 signal boss_defeated
+signal health_changed(new_health: int)
 
 @export var projectile_scene: PackedScene
 @export var heatseeker_scene: PackedScene
 @export var platforms_spell_scene: PackedScene
 
-@export var health: int = 100
+@export var health: int = 7
 
 # Physics and recovery settings.
 @export var gravity: float = 980.0
@@ -50,6 +51,7 @@ var starting_position: Vector2
 var is_recovering: bool = false
 var is_falling: bool = false
 var is_returning: bool = false
+var is_defeated: bool = false
 
 # Every interruption changes this token.
 var action_token: int = 0
@@ -75,13 +77,19 @@ func _ready() -> void:
 	starting_position = global_position
 	sprite.play("idle")
 
+	# Notify the health bar of the initial health.
+	health_changed.emit(health)
+
 
 # --------------------------------------------------
 # PHYSICS AND FALL DETECTION
 # --------------------------------------------------
 
 func _physics_process(delta: float) -> void:
-	if not is_alive or is_returning:
+	if is_returning:
+		return
+
+	if not is_alive and not is_defeated:
 		return
 
 	velocity.x = 0.0
@@ -93,7 +101,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	# Detect when the chameleon loses the floor.
+	# Detect when the Chameleon loses the floor.
 	if not is_on_floor() and velocity.y > 0.0:
 		if not is_recovering:
 			_start_fall()
@@ -104,42 +112,43 @@ func _physics_process(delta: float) -> void:
 # --------------------------------------------------
 
 func _start_fall() -> void:
-	if is_recovering or not is_alive:
+	if is_recovering or (not is_alive and not is_defeated):
 		return
 
 	is_recovering = true
 	is_falling = true
 
-	# Cancel the current attack or animation wait.
 	action_token += 1
-
-	# The fall interrupts any pending cast.
 	velocity.x = 0.0
 
-	_recover_from_fall()
+	# Falling deals exactly 1 damage.
+	if is_alive:
+		take_damage(1)
 
+	# Wait until the Chameleon actually lands.
+	_wait_for_landing()
+
+func _wait_for_landing() -> void:
+	while not is_on_floor():
+		await get_tree().physics_frame
+
+	if is_defeated:
+		_recover_from_fall()
+	elif is_alive:
+		_recover_from_fall()
 
 func _recover_from_fall() -> void:
-	# Allow a short delay before showing the hit animation.
 	await get_tree().create_timer(fall_delay).timeout
 
-	if not is_alive:
-		return
-
-	# Play hit animation.
+	# Play hit animation after landing.
 	sprite.play("hit")
-
 	await _wait_for_animation("hit")
 
-	if not is_alive:
-		return
-
-	# Stop physics while the recovery jump is controlling position.
+	# Return to the original position.
 	is_returning = true
 	is_falling = false
 	velocity = Vector2.ZERO
 
-	# Play jump animation while returning to the starting position.
 	sprite.play("jump_left")
 
 	var tween := create_tween()
@@ -153,19 +162,17 @@ func _recover_from_fall() -> void:
 
 	await tween.finished
 
-	if not is_alive:
-		return
-
 	global_position = starting_position
 
-	# Recovery finished.
 	is_returning = false
 	is_recovering = false
 	is_falling = false
-
 	velocity = Vector2.ZERO
 
-	# Return to idle until the next attack.
+	if is_defeated:
+		await _play_death_animation()
+		return
+
 	sprite.play("idle")
 
 
@@ -243,7 +250,6 @@ func _run_boss_sequence() -> void:
 # SPELLS
 # --------------------------------------------------
 
-
 func cast_spell(spell_name: String) -> void:
 	if not is_alive or is_recovering:
 		return
@@ -275,7 +281,6 @@ func cast_spell(spell_name: String) -> void:
 
 	# Execute the spell while idle animation is playing.
 	await spawn_spell(spell_name, current_token)
-
 
 
 func spawn_spell(spell_name: String, token: int) -> void:
@@ -465,22 +470,42 @@ func take_damage(amount: int) -> void:
 	if not is_alive:
 		return
 
-	health -= amount
+	health = maxi(health - amount, 0)
+
+	# Update the health bar.
+	health_changed.emit(health)
+
+	print("Chameleon health: ", health)
 
 	if health <= 0:
 		_defeat_boss()
 
 
 func _defeat_boss() -> void:
-	if not is_alive:
+	if is_defeated:
 		return
 
+	is_defeated = true
 	is_alive = false
 	is_running_sequence = false
 
-	# Cancel pending animation and attack operations.
 	action_token += 1
+
+	velocity.x = 0.0
 
 	boss_defeated.emit()
 
-	queue_free()
+	# If already recovering, let the recovery finish.
+	# Otherwise, play the death animation normally.
+	if not is_recovering:
+		_play_death_animation()
+
+
+func _play_death_animation() -> void:
+	await get_tree().create_timer(0.3).timeout
+
+	sprite.play("death")
+	await sprite.animation_finished
+
+	sprite.stop()
+	sprite.frame = sprite.sprite_frames.get_frame_count("death") - 1

@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://bwajug716cqcl"]
 
+[ext_resource type="Script" uid="uid://dc23b7lngpuyk" path="res://Scripts/level_8.gd" id="1_642gq"]
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_ysmsy"]
 [ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="2_gi7hc"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="3_ppfpn"]
@@ -13,12 +14,16 @@
 [ext_resource type="Script" uid="uid://d2r8at46b5pkl" path="res://Scripts/battle_start_trigger.gd" id="10_0snvp"]
 [ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/chameleon_heatseeker.tscn" id="10_r51xj"]
 [ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="13_r51xj"]
+[ext_resource type="Texture2D" uid="uid://fjh7odlpbpmj" path="res://assets/sprites/player/empty.png" id="15_6tdb6"]
 [ext_resource type="PackedScene" uid="uid://cvhd3saqxcdej" path="res://scenes/game_manager.tscn" id="15_76cy3"]
+[ext_resource type="Texture2D" uid="uid://ccjpsry2fhv16" path="res://assets/sprites/player/health.png" id="16_642gq"]
+[ext_resource type="Script" uid="uid://dej0gsdoetyvh" path="res://Scripts/progress_bar.gd" id="17_6tdb6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
 size = Vector2(20, 55.63913)
 
 [node name="Level8" type="Node2D" unique_id=1939000241]
+script = ExtResource("1_642gq")
 
 [node name="Player" parent="." unique_id=889365973 groups=["player"] instance=ExtResource("1_ysmsy")]
 unique_name_in_owner = true
@@ -95,11 +100,19 @@ tile_respawn_time = 1.0
 
 [node name="GameManager" parent="." unique_id=374220462 instance=ExtResource("15_76cy3")]
 
-[node name="ProgressBar" type="TextureProgressBar" parent="." unique_id=1720291938]
-offset_top = -333.0
-offset_right = 4.0
-offset_bottom = -306.0
-max_value = 5.0
+[node name="ProgressBar" type="TextureProgressBar" parent="." unique_id=1720291938 node_paths=PackedStringArray("chameleon")]
+offset_left = -97.0
+offset_top = -353.0
+offset_right = -33.0
+offset_bottom = -321.0
+scale = Vector2(3, 3)
+max_value = 6.0
+value = 6.0
+texture_under = ExtResource("15_6tdb6")
+texture_progress = ExtResource("16_642gq")
+texture_progress_offset = Vector2(4, 0)
+script = ExtResource("17_6tdb6")
+chameleon = NodePath("../BeChamel")
 
 [editable path="Tilemaps"]
 [editable path="Button"]

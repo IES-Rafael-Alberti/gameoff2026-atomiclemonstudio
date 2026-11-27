@@ -1,4 +1,3 @@
-
 extends Control
 
 @export var player: Node2D
