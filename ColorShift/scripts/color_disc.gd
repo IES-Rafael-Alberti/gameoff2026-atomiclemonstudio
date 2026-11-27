@@ -26,7 +26,8 @@ const GAME_WIDTH := 1024.0
 # Wheel -> TextureRect and wheel -> step currently drawn.
 var _discs: Dictionary = {}
 var _steps: Dictionary = {}
-var _cooldown_labels: Dictionary = {}
+# Boss shift cooldown, shared by both wheels: one counter centred on top.
+var _cooldown_label: Label
 var _original_content_size := Vector2i.ZERO
 
 
@@ -71,25 +72,21 @@ func _ready() -> void:
 		clip.add_child(disc)
 		add_child(clip)
 
-		var cooldown_label := Label.new()
-		cooldown_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-		cooldown_label.offset_left = -24
-		cooldown_label.offset_right = 24
-		cooldown_label.offset_top = -12
-		cooldown_label.offset_bottom = 12
-		cooldown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		cooldown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		cooldown_label.add_theme_font_size_override("font_size", 16)
-		cooldown_label.add_theme_color_override("font_color", Color.WHITE)
-		cooldown_label.add_theme_color_override("font_outline_color", Color.BLACK)
-		cooldown_label.add_theme_constant_override("outline_size", 4)
-		cooldown_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		disc.add_child(cooldown_label)
-
 		_discs[wheel] = disc
 		_steps[wheel] = GameManager.get_wheel_step(wheel)
-		_cooldown_labels[wheel] = cooldown_label
 		_show_frame(wheel, _steps[wheel] * 2)
+
+	_cooldown_label = Label.new()
+	_cooldown_label.position = Vector2(LEVEL_CONTENT_SIZE.x * 0.5 - 40.0, MARGIN)
+	_cooldown_label.size = Vector2(80.0, 32.0)
+	_cooldown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_cooldown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_cooldown_label.add_theme_font_size_override("font_size", 24)
+	_cooldown_label.add_theme_color_override("font_color", Color.WHITE)
+	_cooldown_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_cooldown_label.add_theme_constant_override("outline_size", 6)
+	_cooldown_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_cooldown_label)
 
 	_discs[2].visible = GameManager.can_use_second_wheel()
 	GameManager.color_changed.connect(_on_color_changed)
@@ -108,11 +105,9 @@ func _exit_tree() -> void:
 
 func _on_shift_cooldown_changed(remaining: float) -> void:
 	var show_timer := GameManager.current_level_number == 8 and remaining > 0.0
-	for wheel in _cooldown_labels:
-		var label := _cooldown_labels[wheel] as Label
-		label.visible = show_timer
-		if show_timer:
-			label.text = "%.1f" % remaining
+	_cooldown_label.visible = show_timer
+	if show_timer:
+		_cooldown_label.text = "%.1f" % remaining
 
 
 func _on_color_changed(_color: String) -> void:
