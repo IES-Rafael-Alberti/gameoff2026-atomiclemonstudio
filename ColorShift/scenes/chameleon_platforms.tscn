@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bnnsuqcgy6y10"]
+
+[ext_resource type="Script" uid="uid://bidt5mwd86adg" path="res://scripts/chameleon_platforms.gd" id="1_ijwen"]
+
+[node name="Platforms" type="Node2D" unique_id=711666676]
+script = ExtResource("1_ijwen")
