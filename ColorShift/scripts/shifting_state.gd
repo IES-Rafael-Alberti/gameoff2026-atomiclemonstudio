@@ -30,5 +30,5 @@ func physics_update(delta):
 		state_machine.change_state("fallstate")
 		return
 
-	if not Input.is_action_pressed("shift") and not Input.is_action_pressed("shift_2"):
+	if not Input.is_action_pressed("shift") and not (GameManager.can_use_second_wheel() and Input.is_action_pressed("shift_2")):
 		state_machine.change_state("idlestate")

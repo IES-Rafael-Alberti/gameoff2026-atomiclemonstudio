@@ -1,7 +1,7 @@
 extends CanvasLayer
 ## Ruedas de color del HUD, como ayuda para daltonicos ademas de los filtros.
-## Derecha: rueda 1 (Right Shift). Izquierda: rueda 2 (Left Shift), visible al
-## conseguirla en level_color_test. El color activo es el de arriba. Cada sprite tiene
+## Derecha: rueda 1 (Right Shift). Izquierda: rueda 2 (Left Shift), visible desde
+## el nivel 4. El color activo es el de arriba. Cada sprite tiene
 ## 8 fotogramas de 32 px: los pares son los 4 colores y los impares el giro.
 ## Se crea desde color_shift_controller.gd, asi solo existe dentro de los niveles.
 ##
@@ -26,6 +26,8 @@ const GAME_WIDTH := 1024.0
 # Wheel -> TextureRect and wheel -> step currently drawn.
 var _discs: Dictionary = {}
 var _steps: Dictionary = {}
+# Boss shift cooldown, shared by both wheels: one counter centred on top.
+var _cooldown_label: Label
 var _original_content_size := Vector2i.ZERO
 
 
@@ -74,8 +76,22 @@ func _ready() -> void:
 		_steps[wheel] = GameManager.get_wheel_step(wheel)
 		_show_frame(wheel, _steps[wheel] * 2)
 
-	_discs[2].visible = GameManager.has_second_wheel
+	_cooldown_label = Label.new()
+	_cooldown_label.position = Vector2(LEVEL_CONTENT_SIZE.x * 0.5 - 40.0, MARGIN)
+	_cooldown_label.size = Vector2(80.0, 32.0)
+	_cooldown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_cooldown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_cooldown_label.add_theme_font_size_override("font_size", 24)
+	_cooldown_label.add_theme_color_override("font_color", Color.WHITE)
+	_cooldown_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_cooldown_label.add_theme_constant_override("outline_size", 6)
+	_cooldown_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_cooldown_label)
+
+	_discs[2].visible = GameManager.can_use_second_wheel()
 	GameManager.color_changed.connect(_on_color_changed)
+	GameManager.shift_cooldown_changed.connect(_on_shift_cooldown_changed)
+	_on_shift_cooldown_changed(GameManager.shift_cooldown_remaining)
 
 
 func _exit_tree() -> void:
@@ -83,10 +99,19 @@ func _exit_tree() -> void:
 		get_window().content_scale_size = _original_content_size
 	if GameManager.color_changed.is_connected(_on_color_changed):
 		GameManager.color_changed.disconnect(_on_color_changed)
+	if GameManager.shift_cooldown_changed.is_connected(_on_shift_cooldown_changed):
+		GameManager.shift_cooldown_changed.disconnect(_on_shift_cooldown_changed)
+
+
+func _on_shift_cooldown_changed(remaining: float) -> void:
+	var show_timer := GameManager.current_level_number == 8 and remaining > 0.0
+	_cooldown_label.visible = show_timer
+	if show_timer:
+		_cooldown_label.text = "%.1f" % remaining
 
 
 func _on_color_changed(_color: String) -> void:
-	if GameManager.has_second_wheel and not _discs[2].visible:
+	if GameManager.can_use_second_wheel() and not _discs[2].visible:
 		# Just collected: it appears already on its start color.
 		_discs[2].visible = true
 		_steps[2] = GameManager.get_wheel_step(2)

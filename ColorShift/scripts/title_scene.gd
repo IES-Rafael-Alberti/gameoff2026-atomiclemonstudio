@@ -1,5 +1,5 @@
 extends Node2D
-## Pantalla de arranque: reproduce el logo animado del estudio y pasa al menú.
+## Pantalla de arranque: reproduce el logo animado y abre el menú principal.
 
 # Tamaño lógico 16:9 solo para esta pantalla. El juego sigue en 1024x768 (4:3).
 const TITLE_CONTENT_SIZE := Vector2i(1366, 768)
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 	_logo_player.play("default")
 	await _logo_player.animation_finished
-	_go_to_menu()
+	_go_to_main_menu()
 
 
 # Se ejecuta cuando la escena se libera, ya con la pantalla en negro por el fundido
@@ -29,10 +29,10 @@ func _exit_tree() -> void:
 # Cualquier tecla o botón salta la intro
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed() and not event.is_echo():
-		_go_to_menu()
+		_go_to_main_menu()
 
 
-func _go_to_menu() -> void:
+func _go_to_main_menu() -> void:
 	if _leaving:
 		return
 	_leaving = true
