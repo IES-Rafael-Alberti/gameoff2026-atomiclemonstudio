@@ -9,7 +9,7 @@ const POOF_EFFECT_SCRIPT: Script = preload("res://scripts/poof_effect.gd")
 # walk/jump have their own _left/_right sheets and are never mirrored.
 const FACE_PLAYER_ANIMATIONS: Array[StringName] = [&"cast", &"idle", &"hit"]
 
-enum BossState { ON_PLATFORM, HIT, RECOVERING }
+enum BossState { ON_PLATFORM, JUMPING, HIT, RECOVERING }
 
 @export var projectile_scene: PackedScene
 @export var heatseeker_scene: PackedScene
@@ -17,6 +17,8 @@ enum BossState { ON_PLATFORM, HIT, RECOVERING }
 
 @export var left_position: Marker2D
 @export var right_position: Marker2D
+# ChameleonMarkers: every Marker2D in it is a spot to jump or recover to.
+@export var chameleon_markers: Node
 
 @export var walk_speed: float = 100.0
 @export var jump_duration: float = 0.8
@@ -80,13 +82,15 @@ var hits_taken: int = 0
 var _step: int = 0
 # Bumped to cancel the running step: every step checks it after each await.
 var _action_id: int = 0
+var _markers: Array[Marker2D] = []
 
 
 var boss_sequence: Array[Dictionary] = [
 	{"action": "cast", "spell": "projectile"},
 	{"action": "wait", "duration": 1.0},
 
-	{"action": "jump", "target": "left"},
+	# Jumps pick a random marker other than the current one.
+	{"action": "jump"},
 	{"action": "wait", "duration": 0.5},
 
 	{"action": "cast", "spell": "heatseeker"},
@@ -98,7 +102,7 @@ var boss_sequence: Array[Dictionary] = [
 	{"action": "cast", "spell": "platforms_spell"},
 	{"action": "wait", "duration": 2.0},
 
-	{"action": "jump", "target": "right"},
+	{"action": "jump"},
 	{"action": "wait", "duration": 1.0}
 ]
 
@@ -106,6 +110,14 @@ var boss_sequence: Array[Dictionary] = [
 func _ready() -> void:
 	sprite.animation_finished.connect(_on_animation_finished)
 	_play(&"idle")
+
+	if chameleon_markers == null:
+		push_error("Chameleon: chameleon_markers is not assigned!")
+		return
+
+	for child in chameleon_markers.get_children():
+		if child is Marker2D:
+			_markers.append(child)
 
 
 func _process(_delta: float) -> void:
@@ -348,7 +360,7 @@ func _run_boss_sequence() -> void:
 			await walk_to_target(instruction.get("target", "right"))
 
 		"jump":
-			await jump_to_target(instruction.get("target", "right"))
+			await jump_to_target()
 
 	if action_id != _action_id or not is_alive:
 		return
@@ -575,27 +587,65 @@ func walk_to_target(target: String) -> void:
 	_play(&"idle")
 
 
-func jump_to_target(target: String) -> void:
-	var action_id: int = _action_id
-	var destination: Vector2 = _get_target_position(target)
+func jump_to_target() -> void:
+	# Jump to one of the markers the boss is not standing on.
+	var current_marker: Marker2D = _nearest_marker(global_position.x)
+	var free_markers: Array[Marker2D] = _markers.filter(
+		func(marker: Marker2D) -> bool: return marker != current_marker
+	)
 
-	movement_target_x = destination.x
-	is_moving = true
+	if free_markers.is_empty():
+		push_warning("Chameleon: No free marker to jump to!")
+		return
 
-	velocity.y = -(gravity * jump_duration * 0.5)
+	var destination: Vector2 = free_markers.pick_random().global_position
+
+	state = BossState.JUMPING
+	is_moving = false
+	velocity = Vector2.ZERO
 
 	_play(&"jump_right" if destination.x > global_position.x else &"jump_left")
 
-	var travel_time: float = (
-		absf(destination.x - global_position.x) / maxf(walk_speed, 1.0)
+	# Same apex the old velocity jump reached with this gravity and air time.
+	await _arc_to(
+		destination,
+		gravity * jump_duration * jump_duration / 8.0,
+		jump_duration
 	)
-	await _wait(maxf(travel_time, jump_duration))
 
-	if action_id != _action_id:
-		return
-
-	is_moving = false
+	state = BossState.ON_PLATFORM
 	_play(&"idle")
+
+
+func _arc_to(target: Vector2, height: float, duration: float) -> void:
+	# Quadratic Bezier with its control point halfway in x: x moves at a
+	# constant speed while y follows a parabola, like a real jump, and it
+	# lands exactly on the target. With level ends the apex is `height` up.
+	var start: Vector2 = global_position
+	var control := Vector2(
+		(start.x + target.x) * 0.5,
+		minf(start.y, target.y) - height * 2.0
+	)
+
+	var tween := create_tween()
+	tween.tween_method(
+		func(t: float) -> void:
+			global_position = start.lerp(control, t).lerp(control.lerp(target, t), t),
+		0.0,
+		1.0,
+		duration
+	)
+	await tween.finished
+
+
+func _nearest_marker(x: float) -> Marker2D:
+	var nearest: Marker2D = null
+
+	for marker in _markers:
+		if nearest == null or absf(marker.global_position.x - x) < absf(nearest.global_position.x - x):
+			nearest = marker
+
+	return nearest
 
 
 func _get_target_position(target: String) -> Vector2:
