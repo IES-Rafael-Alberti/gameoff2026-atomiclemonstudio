@@ -343,7 +343,8 @@ func _run_boss_sequence() -> void:
 	# _action_id: this step stops at its next await, and _start_recovery()
 	# calls this again to retry the same step.
 	var action_id: int = _action_id
-	var instruction: Dictionary = boss_sequence[_step]
+	var step: int = _step
+	var instruction: Dictionary = boss_sequence[step]
 
 	match instruction.get("action", ""):
 		"wait":
@@ -361,7 +362,8 @@ func _run_boss_sequence() -> void:
 	if action_id != _action_id or not is_alive:
 		return
 
-	_step = (_step + 1) % boss_sequence.size()
+	# From `step`, not _step: cast_spell may have advanced it already.
+	_step = (step + 1) % boss_sequence.size()
 	_run_boss_sequence()
 
 
@@ -380,6 +382,10 @@ func cast_spell(spell_name: String) -> void:
 
 	if action_id != _action_id:
 		return
+
+	# The spell is out: a fall from here on resumes at the next step instead
+	# of casting it again.
+	_step = (_step + 1) % boss_sequence.size()
 
 	await spawn_spell(spell_name)
 
