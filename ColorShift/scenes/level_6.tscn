@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="10_lk3oq"]
 [ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="15_hrd5w"]
 [ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="20_a51ki"]
-[ext_resource type="Script" uid="uid://vmsog1ime7sn" path="res://scripts/level_6.gd" id="21_level6"]
+[ext_resource type="Script" uid="uid://2xhvsuhaktc3z" path="res://scripts/level_6.gd" id="21_level6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i46ye"]
 resource_name = "Tileset - 4 colors"
