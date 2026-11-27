@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://de6468c67effu"]
 
 [ext_resource type="Script" uid="uid://bxwey0pwmvf6b" path="res://scripts/level_select.gd" id="1_select"]
-[ext_resource type="Texture2D" uid="uid://ccml3pp6s7g7w" path="res://assets/general/menu-background-lvl-selector.png" id="5_bg"]
+[ext_resource type="Texture2D" uid="uid://hwhasaqx43i1" path="res://assets/general/menu-back-ground-lvl-selector-16-9.png" id="5_bg"]
 
 [node name="LevelSelect" type="Control" unique_id=1951161803]
 layout_mode = 3
@@ -52,11 +52,26 @@ theme_override_font_sizes/font_size = 64
 text = "Select level"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="Panel/VBoxContainer" unique_id=1089640955]
+[node name="Pages" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="Prev" type="Button" parent="Panel/VBoxContainer/Pages"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "<"
+
+[node name="GridContainer" type="GridContainer" parent="Panel/VBoxContainer/Pages" unique_id=1089640955]
 layout_mode = 2
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
 columns = 4
+
+[node name="Next" type="Button" parent="Panel/VBoxContainer/Pages"]
+layout_mode = 2
+size_flags_vertical = 4
+text = ">"
 
 [node name="Back" type="Button" parent="Panel/VBoxContainer" unique_id=1299472649]
 custom_minimum_size = Vector2(320, 64)
