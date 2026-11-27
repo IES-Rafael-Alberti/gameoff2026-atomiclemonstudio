@@ -17,11 +17,11 @@ const MENU_SELECT_SOUND := preload("res://bso_colorshift/menu select/Menu Select
 const AMULET_SOUND := preload("res://bso_colorshift/menu select/amulet/133008__cosmicd__annulet-of-absorption.wav")
 const COLOR_CHANGE_SOUND := preload("res://bso_colorshift/change colors/light switch/Light Switch Click On Sfx.wav")
 const DOOR_OPEN_SOUND := preload("res://bso_colorshift/extra SFX/dragon-studio-door-opening-397990.mp3")
-const COLLECTABLE_SOUND := preload("res://bso_colorshift/extra SFX/liecio-diamond-found-190255.mp3")
+const COLLECTABLE_SOUND := preload("res://bso_colorshift/extra SFX/freesound_community-carrotnom-92106.mp3")
 const KEY_COLLECT_SOUND := preload("res://bso_colorshift/extra SFX/litupsubway-key-collect-sfx-522219.mp3")
 
 ## Scenes that use the level theme. Everything else uses the menu theme.
-const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4", "level_5"]
+const LEVEL_SCENES := ["demo_level", "level_1", "level_2", "level_3", "level_4", "level_5", "level_6"]
 ## Intro del logo: no suena música de fondo mientras se ve.
 const SILENT_SCENES := ["title_scene", "dialogue_intro"]
 
@@ -56,7 +56,8 @@ const AMULET_PLAY_TIME := 2.0
 const AMULET_FADE_TIME := 0.5
 const SILENT_DB := -40.0
 
-## El sonido de coleccionable dura mas de 5 s; solo se escucha el inicio.
+## El sonido de coleccionable es corto; se limita su reproduccion por si se
+## encadena con otros objetos seguidos.
 const COLLECTABLE_PLAY_TIME := 1.0
 const COLLECTABLE_FADE_TIME := 0.12
 

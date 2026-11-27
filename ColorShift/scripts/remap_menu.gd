@@ -2,6 +2,9 @@ extends Control
 
 signal back_pressed
 
+const MenuStyle := preload("res://scripts/menu_style.gd")
+const COLUMN_GAP := 16
+
 # Names shown to the player
 const ACTION_DISPLAY_NAMES := {
 	"jump": "Jump",
@@ -26,6 +29,8 @@ var _listening_device := ""
 func _ready() -> void:
 	# Keep working while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	theme = MenuStyle.get_options_theme()
+	$PanelContainer.add_theme_stylebox_override("panel", MenuStyle.get_panel_box(MenuStyle.OPTIONS_PANEL))
 	call_deferred("_populate_action_list")
 	reset_button.pressed.connect(_on_reset_pressed)
 	back_button.pressed.connect(_on_back_pressed)
@@ -39,6 +44,7 @@ func _populate_action_list() -> void:
 func _create_column_header() -> void:
 	var header := HBoxContainer.new()
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_theme_constant_override("separation", COLUMN_GAP)
 
 	var action_label := Label.new()
 	action_label.text = "Action"
@@ -48,7 +54,7 @@ func _create_column_header() -> void:
 	for title in ["Keyboard", "Controller"]:
 		var column_label := Label.new()
 		column_label.text = title
-		column_label.custom_minimum_size = Vector2(180, 0)
+		column_label.custom_minimum_size = Vector2(MenuStyle.BUTTON_SIZE.x, 0)
 		column_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		header.add_child(column_label)
 
@@ -57,6 +63,7 @@ func _create_column_header() -> void:
 func _create_row(action: String) -> void:
 	var row := HBoxContainer.new()
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", COLUMN_GAP)
 
 	var label := Label.new()
 	label.text = ACTION_DISPLAY_NAMES.get(action, action)
@@ -64,14 +71,14 @@ func _create_row(action: String) -> void:
 	row.add_child(label)
 
 	var keyboard_button := Button.new()
-	keyboard_button.custom_minimum_size = Vector2(180, 0)
+	keyboard_button.custom_minimum_size = MenuStyle.BUTTON_SIZE
 	keyboard_button.text = _get_keyboard_text(action)
 	keyboard_button.tooltip_text = "Change keyboard binding"
 	keyboard_button.pressed.connect(_on_remap_button_pressed.bind(action, "keyboard"))
 	row.add_child(keyboard_button)
 
 	var controller_button := Button.new()
-	controller_button.custom_minimum_size = Vector2(180, 0)
+	controller_button.custom_minimum_size = MenuStyle.BUTTON_SIZE
 	controller_button.text = _get_controller_text(action)
 	controller_button.tooltip_text = "Change controller binding"
 	controller_button.pressed.connect(_on_remap_button_pressed.bind(action, "controller"))

@@ -197,29 +197,24 @@ size = Vector2(24, 14)
 
 [node name="Button" type="Node2D" unique_id=717267214]
 script = ExtResource("1_rhj8v")
+button_color = "GREY"
 
 [node name="Grey_skin" type="AnimatedSprite2D" parent="." unique_id=720252267]
-visible = false
 sprite_frames = SubResource("SpriteFrames_g4v7s")
 
 [node name="Red_skin" type="AnimatedSprite2D" parent="." unique_id=914842529]
-visible = false
 sprite_frames = SubResource("SpriteFrames_is61r")
 
 [node name="Blue_skin" type="AnimatedSprite2D" parent="." unique_id=781020007]
-visible = false
 sprite_frames = SubResource("SpriteFrames_8r4pl")
 
 [node name="Yellow_skin" type="AnimatedSprite2D" parent="." unique_id=2111813132]
-visible = false
 sprite_frames = SubResource("SpriteFrames_dogef")
 
 [node name="Orange_skin" type="AnimatedSprite2D" parent="." unique_id=389501137]
-visible = false
 sprite_frames = SubResource("SpriteFrames_fuovr")
 
 [node name="Purple_skin" type="AnimatedSprite2D" parent="." unique_id=1379268974]
-visible = false
 sprite_frames = SubResource("SpriteFrames_64bf4")
 
 [node name="Green_skin" type="AnimatedSprite2D" parent="." unique_id=657503799]

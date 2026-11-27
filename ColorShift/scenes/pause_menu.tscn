@@ -1,24 +1,7 @@
 [gd_scene format=3 uid="uid://bqkcdngamp8yw"]
 
 [ext_resource type="Script" uid="uid://c2xti6n1xssx5" path="res://scripts/pause_menu.gd" id="1_n87rw"]
-[ext_resource type="Texture2D" uid="uid://b7oxbsodbafiw" path="res://assets/ui/button_normal.PNG" id="3_5d2l8"]
-[ext_resource type="Texture2D" uid="uid://bkf1g4gksyq1u" path="res://assets/ui/button_pressed.PNG" id="4_7l7mv"]
 [ext_resource type="PackedScene" uid="uid://bagn5wawoecg4" path="res://scenes/options_menu.tscn" id="5_7l7mv"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v4r4p"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("3_5d2l8")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1s2dm"]
-content_margin_top = 0.0
-content_margin_bottom = 8.0
-texture = ExtResource("4_7l7mv")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_88e76"]
-content_margin_top = 0.0
-content_margin_bottom = 9.0
-texture = ExtResource("4_7l7mv")
 
 [node name="Pause_Menu" type="Control" unique_id=291861861]
 process_mode = 3
@@ -46,10 +29,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -312.82813
-offset_right = 280.0
-offset_bottom = 312.82813
+offset_left = -208.0
+offset_top = -300.0
+offset_right = 208.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -62,48 +45,38 @@ size_flags_vertical = 4
 theme_override_constants/separation = 40
 
 [node name="Continue" type="Button" parent="PanelContainer/VBoxContainer" unique_id=383328450]
+custom_minimum_size = Vector2(320, 64)
+size_flags_horizontal = 4
+theme_type_variation = &"BigButton"
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxTexture_v4r4p")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1s2dm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_88e76")
 text = "CONTINUE"
 
 [node name="ResetLevel" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1750589622]
+custom_minimum_size = Vector2(320, 64)
+size_flags_horizontal = 4
+theme_type_variation = &"BigButton"
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxTexture_v4r4p")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1s2dm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_88e76")
 text = "RESET LEVEL"
 
 [node name="OptionsMenu" type="Button" parent="PanelContainer/VBoxContainer" unique_id=501942707]
+custom_minimum_size = Vector2(320, 64)
+size_flags_horizontal = 4
+theme_type_variation = &"BigButton"
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxTexture_v4r4p")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1s2dm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_88e76")
 text = "OPTIONS"
 
 [node name="MainMenu" type="Button" parent="PanelContainer/VBoxContainer" unique_id=552890129]
+custom_minimum_size = Vector2(320, 64)
+size_flags_horizontal = 4
+theme_type_variation = &"BigButton"
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxTexture_v4r4p")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1s2dm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_88e76")
 text = "MAIN MENU"
 
 [node name="QuitGame" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1141699458]
+custom_minimum_size = Vector2(320, 64)
+size_flags_horizontal = 4
+theme_type_variation = &"BigButton"
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxTexture_v4r4p")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1s2dm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_88e76")
 text = "QUIT GAME"
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]

@@ -9,7 +9,10 @@ var coyote_timer := 0.0
 
 func enter():
 	var character = state_machine.get_parent()
-	if is_zero_approx(character.velocity.y):
+	# Si venimos de suelo, nos llevamos la inercia de la plataforma una sola vez
+	# y tenemos coyote time. Si venimos del salto, ya la llevamos aplicada.
+	if state_machine.previous_state_name in ["idlestate", "walkstate", "shiftingstate"]:
+		character.velocity.y += state_machine.inherited_velocity.y
 		coyote_timer = COYOTE_TIME
 	else:
 		coyote_timer = 0.0
@@ -30,7 +33,7 @@ func physics_update(delta):
 
 	# Air control
 	var direction = Input.get_axis("move_left", "move_right")
-	character.velocity.x = direction * SPEED
+	character.velocity.x = direction * SPEED + state_machine.inherited_velocity.x
 	if direction > 0:
 		animated_sprite.flip_h = false
 	elif direction < 0:

@@ -1,9 +1,17 @@
 extends Control
+
+const MenuStyle := preload("res://scripts/menu_style.gd")
+
 @onready var options_menu: Control = $PanelContainer/OptionsMenu
 @onready var v_box_container: VBoxContainer = $PanelContainer/VBoxContainer
 
 func _ready() -> void:
+	theme = MenuStyle.get_theme()
 	options_menu.back_requested.connect(_on_options_back_requested)
+	$PanelContainer.add_theme_stylebox_override("panel", MenuStyle.get_panel_box(MenuStyle.PAUSE_PANEL))
+	# The options menu draws its own panel: hide this one while it is open.
+	v_box_container.visibility_changed.connect(func() -> void:
+		$PanelContainer.self_modulate.a = 1.0 if v_box_container.visible else 0.0)
 
 func pause():
 	get_tree().paused =! get_tree().paused
@@ -37,8 +45,8 @@ func _on_options_menu_pressed() -> void:
 	if options_menu and v_box_container:
 		v_box_container.visible = !v_box_container.visible
 		options_menu.visible = !options_menu.visible
-		$PanelContainer/VBoxContainer/OptionsMenu.grab_focus()
 
 func _on_options_back_requested() -> void:
 	options_menu.visible = false
 	v_box_container.visible = true
+	$PanelContainer/VBoxContainer/OptionsMenu.grab_focus()

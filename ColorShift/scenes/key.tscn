@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b2txfo257sx57" path="res://scripts/key.gd" id="1_fttkb"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="2_wy8tx"]
+[ext_resource type="Texture2D" uid="uid://dwjp22u3d21in" path="res://assets/sprites/scenary/Tileset-2222.png" id="3_2222"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g4v7s"]
 atlas = ExtResource("2_wy8tx")
@@ -18,6 +19,18 @@ region = Rect2(160.23376, 393.79398, 30.925018, 13.295532)
 [sub_resource type="AtlasTexture" id="AtlasTexture_brs3p"]
 atlas = ExtResource("2_wy8tx")
 region = Rect2(352.03888, 393.7856, 30.983215, 13.295624)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_orange"]
+atlas = ExtResource("3_2222")
+region = Rect2(352.03888, 393.7856, 30.983215, 13.295624)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_purple"]
+atlas = ExtResource("3_2222")
+region = Rect2(352.02316, 169.94337, 31.003937, 13.297562)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_green"]
+atlas = ExtResource("3_2222")
+region = Rect2(160.23376, 393.79398, 30.925018, 13.295532)
 
 [node name="Key" type="Node2D" unique_id=2020584789]
 script = ExtResource("1_fttkb")
@@ -40,9 +53,12 @@ texture = SubResource("AtlasTexture_brs3p")
 
 [node name="OrangeSkin" type="Sprite2D" parent="."]
 visible = false
+texture = SubResource("AtlasTexture_orange")
 
 [node name="PurpleSkin" type="Sprite2D" parent="."]
 visible = false
+texture = SubResource("AtlasTexture_purple")
 
 [node name="GreenSkin" type="Sprite2D" parent="."]
 visible = false
+texture = SubResource("AtlasTexture_green")
