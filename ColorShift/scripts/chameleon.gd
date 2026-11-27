@@ -24,7 +24,10 @@ enum BossState { ON_PLATFORM, JUMPING, FALLING, HIT, RECOVERING }
 @export var jump_duration: float = 0.8
 @export var gravity: float = 980.0
 
-@export var health: int = 100
+# Unused: nothing damages the boss directly (spells only hit the player), and
+# the life counter below is its real health. Kept with take_damage() at the
+# end of the script; uncomment both if a player attack ever hits the boss.
+#@export var health: int = 100
 
 # Life counter for spike/fall hits. Change this in the inspector to decide
 # how many times the Chameleon can fall before it is defeated.
@@ -668,19 +671,21 @@ func _get_target_position(target: String) -> Vector2:
 # DAMAGE AND DEATH
 # --------------------------------------------------
 
-func take_damage(amount: int) -> void:
-	if not is_alive:
-		return
-
-	health -= amount
-
-	if health <= 0:
-		_defeat_boss()
-		return
-
-	# Only a visual flinch: the running step and the fall logic carry on.
-	if state == BossState.ON_PLATFORM:
-		_play(&"hit")
+# Unused (see `health` above): nothing calls it. Uncomment with `health` if
+# a player attack ever damages the boss; it would also need to update the bar.
+#func take_damage(amount: int) -> void:
+#	if not is_alive:
+#		return
+#
+#	health -= amount
+#
+#	if health <= 0:
+#		_defeat_boss()
+#		return
+#
+#	# Only a visual flinch: the running step and the fall logic carry on.
+#	if state == BossState.ON_PLATFORM:
+#		_play(&"hit")
 
 
 func _defeat_boss() -> void:
