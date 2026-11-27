@@ -5,6 +5,8 @@ signal boss_defeated
 
 const POOF_EFFECT_SCRIPT: Script = preload("res://scripts/poof_effect.gd")
 
+enum BossState { ON_PLATFORM, HIT, RECOVERING }
+
 @export var projectile_scene: PackedScene
 @export var heatseeker_scene: PackedScene
 @export var platforms_spell_scene: PackedScene
@@ -64,14 +66,14 @@ var is_running_sequence: bool = false
 var is_moving: bool = false
 var movement_target_x: float = 0.0
 
-# Recovery control.
-var is_recovering: bool = false
-var is_falling: bool = false
+var state: BossState = BossState.ON_PLATFORM
 var hits_taken: int = 0
 
-# Animation control. Every time a new animation is started the token changes,
-# so coroutines waiting on the previous animation know they were interrupted.
-var _animation_token: int = 0
+# Movelist step being run. It only advances when a step finishes, so a step
+# cut short by a fall is retried once the boss is back on its platform.
+var _step: int = 0
+# Bumped to cancel the running step: every step checks it after each await.
+var _action_id: int = 0
 
 
 var boss_sequence: Array[Dictionary] = [
@@ -96,46 +98,28 @@ var boss_sequence: Array[Dictionary] = [
 
 
 func _ready() -> void:
-	_play_animation(&"idle")
+	_play(&"idle")
 
 
 # --------------------------------------------------
-# ANIMATION CONTROL
+# HELPERS
 # --------------------------------------------------
 
-func _play_animation(animation: StringName) -> void:
-	# Start an animation and invalidate waits on the previous one.
-	_animation_token += 1
+# Node-bound wait: it pauses with the game (a tree timer keeps running in the
+# pause menu) and is dropped with the boss instead of resuming on a freed node.
+func _wait(seconds: float) -> void:
+	await create_tween().tween_interval(seconds).finished
+
+
+func _play(animation: StringName) -> void:
+	# play() alone keeps going if that animation is already on screen.
+	sprite.stop()
 	sprite.play(animation)
 
 
-func _wait_for_animation(animation: StringName, token: int) -> bool:
-	# Waits for an animation to play through once. Waiting on the global
-	# animation_finished signal is unsafe here: another animation can replace
-	# it, making the signal belong to the wrong animation or never arrive at
-	# all. Polling the token and sprite state keeps spell logic in sync.
-	#
-	# Looping animations never stop playing, so they are bounded by one nominal
-	# duration instead of waiting forever (jump_left/jump_right loop).
+func _animation_length(animation: StringName) -> float:
 	var frames: SpriteFrames = sprite.sprite_frames
-	var loops: bool = frames.get_animation_loop(animation)
-	var duration: float = (
-		float(frames.get_frame_count(animation))
-		/ maxf(frames.get_animation_speed(animation), 0.001)
-	)
-	var elapsed: float = 0.0
-
-	while is_alive and token == _animation_token:
-		if not loops:
-			if sprite.animation == animation and not sprite.is_playing():
-				return true
-		elif elapsed >= duration:
-			return true
-
-		elapsed += get_process_delta_time()
-		await get_tree().process_frame
-
-	return false
+	return frames.get_frame_count(animation) / maxf(frames.get_animation_speed(animation), 0.001)
 
 
 func _spell_parent() -> Node:
@@ -145,50 +129,26 @@ func _spell_parent() -> Node:
 	return current_scene if current_scene != null else get_tree().root
 
 
-func _return_to_idle() -> void:
-	# Do not snap to idle while a one-shot hit animation is still playing, or
-	# while the recovery tween is controlling the boss. Jump and walk
-	# animations loop by design, so they must never block the return to idle.
-	if not is_alive or is_recovering:
-		return
-
-	if sprite.is_playing() and sprite.animation == &"hit":
-		return
-
-	_play_animation(&"idle")
-
-
 # --------------------------------------------------
 # PHYSICS
 # --------------------------------------------------
 
 func _physics_process(delta: float) -> void:
-	if not is_alive:
+	# The hit stun and the recovery hop control the boss themselves.
+	if state != BossState.ON_PLATFORM:
 		return
 
-	# The hit stun and the recovery tween control movement while falling.
-	if is_recovering or is_falling:
-		return
-
-	# Apply gravity whenever the Chameleon is not standing
-	# on a floor.
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	else:
-		if velocity.y > 0.0:
-			velocity.y = 0.0
+	velocity.y += gravity * delta
 
 	# Horizontal movement.
+	velocity.x = 0.0
 	if is_moving:
 		var distance: float = movement_target_x - global_position.x
 
 		if absf(distance) <= 4.0:
 			is_moving = false
-			velocity.x = 0.0
 		else:
 			velocity.x = signf(distance) * walk_speed
-	else:
-		velocity.x = 0.0
 
 	move_and_slide()
 
@@ -251,31 +211,21 @@ func get_lives_remaining() -> int:
 
 
 func _start_fall() -> void:
-	if is_falling or is_recovering or not is_alive:
-		return
-
-	# Claim the fall immediately so physics cannot count the same fall twice.
-	is_falling = true
+	# Leaving ON_PLATFORM first means physics cannot count the same fall twice.
+	state = BossState.HIT
+	# Cancel the running step. Spells already spawned stay in the scene.
+	_action_id += 1
 	is_moving = false
 	velocity = Vector2.ZERO
 	hits_taken += 1
 
-	# A hit takes priority over a spell cast. The token change cancels any
-	# cast coroutine so a spell cannot appear while the hit is on screen.
-	_play_animation(&"hit")
-	var hit_token: int = _animation_token
-	await _wait_for_animation(&"hit", hit_token)
-
-	if not is_alive:
-		return
+	_play(&"hit")
+	await _wait(_animation_length(&"hit"))
 
 	if get_lives_remaining() <= 0:
 		_defeat_boss()
 		return
 
-	# Hit animation is done: the fall continues with the cast animation while
-	# the boss hops back to one of its designated spots.
-	is_falling = false
 	_start_recovery()
 
 
@@ -284,15 +234,8 @@ func _start_fall() -> void:
 # --------------------------------------------------
 
 func _start_recovery() -> void:
-	if is_recovering or not is_alive:
-		return
+	state = BossState.RECOVERING
 
-	is_recovering = true
-	is_moving = false
-
-	velocity = Vector2.ZERO
-
-	# Collect the available marker positions.
 	var available_markers: Array[Marker2D] = []
 
 	if left_position != null:
@@ -303,7 +246,6 @@ func _start_recovery() -> void:
 
 	if available_markers.is_empty():
 		push_error("Chameleon: No recovery markers assigned!")
-		is_recovering = false
 		return
 
 	# Return to the designated spot closest to where the boss fell, instead
@@ -320,17 +262,13 @@ func _start_recovery() -> void:
 			target_marker = marker
 
 	var target_position: Vector2 = target_marker.global_position
-	var starting_position: Vector2 = fall_position
 
-	# The fall is shown with the cast animation while the boss arcs back to a
-	# safe marker. Starting it also cancels any spell still waiting on cast.
-	_play_animation(&"cast")
-	var cast_token: int = _animation_token
+	# The fall is shown with the cast animation while the boss arcs back.
+	_play(&"cast")
 
-	# Create a jump arc.
 	var apex_position: Vector2 = Vector2(
-		(starting_position.x + target_position.x) * 0.5,
-		minf(starting_position.y, target_position.y) - recovery_jump_height
+		(fall_position.x + target_position.x) * 0.5,
+		minf(fall_position.y, target_position.y) - recovery_jump_height
 	)
 
 	var tween := create_tween()
@@ -353,23 +291,17 @@ func _start_recovery() -> void:
 
 	await tween.finished
 
-	if not is_alive:
-		return
-
-	global_position = target_position
 	velocity = Vector2.ZERO
 	movement_target_x = target_position.x
 
-	# The boss is back on the floor: show the poof now, not after the cast has
-	# finished playing. Ordinary spell casts never reach this code path.
-	if is_alive:
-		_spawn_poof(global_position + Vector2(0.0, -8.0))
+	# The boss is back on the floor: show the poof now.
+	_spawn_poof(global_position + Vector2(0.0, -8.0))
 
-	# The fall cast still plays out before idle takes over.
-	await _wait_for_animation(&"cast", cast_token)
+	state = BossState.ON_PLATFORM
 
-	is_recovering = false
-	_return_to_idle()
+	# Resume the movelist on the step the fall interrupted.
+	if is_running_sequence:
+		_run_boss_sequence()
 
 
 func _spawn_poof(at_position: Vector2) -> void:
@@ -388,43 +320,37 @@ func start_boss_fight() -> void:
 		return
 
 	is_running_sequence = true
-	_run_boss_sequence()
+
+	# Mid-fall, _start_recovery() starts the movelist once the boss is back.
+	if state == BossState.ON_PLATFORM:
+		_run_boss_sequence()
 
 
 func _run_boss_sequence() -> void:
-	while is_alive:
-		for instruction in boss_sequence:
-			if not is_alive:
-				return
+	# Runs the current step and then chains into the next one. A fall bumps
+	# _action_id: this step stops at its next await, and _start_recovery()
+	# calls this again to retry the same step.
+	var action_id: int = _action_id
+	var instruction: Dictionary = boss_sequence[_step]
 
-			# Pause the attack pattern during the hit and the recovery.
-			while (is_falling or is_recovering) and is_alive:
-				await get_tree().process_frame
+	match instruction.get("action", ""):
+		"wait":
+			await _wait(instruction.get("duration", 1.0))
 
-			if not is_alive:
-				return
+		"cast":
+			await cast_spell(instruction.get("spell", ""))
 
-			var action: String = instruction.get("action", "")
+		"walk":
+			await walk_to_target(instruction.get("target", "right"))
 
-			match action:
-				"wait":
-					var duration: float = instruction.get("duration", 1.0)
-					await get_tree().create_timer(duration).timeout
+		"jump":
+			await jump_to_target(instruction.get("target", "right"))
 
-				"cast":
-					var spell_name: String = instruction.get("spell", "")
-					await cast_spell(spell_name)
+	if action_id != _action_id or not is_alive:
+		return
 
-				"walk":
-					var target: String = instruction.get("target", "right")
-					await walk_to_target(target)
-
-				"jump":
-					var target: String = instruction.get("target", "right")
-					await jump_to_target(target)
-
-			if not is_alive:
-				return
+	_step = (_step + 1) % boss_sequence.size()
+	_run_boss_sequence()
 
 
 # --------------------------------------------------
@@ -432,24 +358,20 @@ func _run_boss_sequence() -> void:
 # --------------------------------------------------
 
 func cast_spell(spell_name: String) -> void:
-	if not is_alive:
-		return
+	var action_id: int = _action_id
 
-	_play_animation(&"cast")
-	var cast_token: int = _animation_token
+	_play(&"cast")
 
-	# Only spawn the spell once the cast animation has actually finished. If
-	# the boss is hit or starts recovering mid-cast, the spell is cancelled
-	# instead of firing while a different animation is on screen.
-	if not await _wait_for_animation(&"cast", cast_token):
-		return
+	# The spell appears once the cast animation has played through.
+	await _wait(_animation_length(&"cast"))
 
-	if not is_alive or is_recovering:
+	if action_id != _action_id:
 		return
 
 	await spawn_spell(spell_name)
 
-	_return_to_idle()
+	if action_id == _action_id:
+		_play(&"idle")
 
 
 func spawn_spell(spell_name: String) -> void:
@@ -552,6 +474,8 @@ func spawn_projectile_attack() -> void:
 		push_warning("Chameleon: No projectile colours configured!")
 		return
 
+	var action_id: int = _action_id
+
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 
 	var screen_to_world: Transform2D = (
@@ -566,21 +490,17 @@ func spawn_projectile_attack() -> void:
 	)
 
 	for color in projectile_colors:
-		if not is_alive:
-			return
-
 		spawn_projectile_line(
 			color,
 			viewport_size,
 			screen_to_world
 		)
 
-		await get_tree().create_timer(
-			projectile_line_interval
-		).timeout
+		await _wait(projectile_line_interval)
 
-	if not is_alive:
-		return
+		# Interrupted: the lines already on screen keep falling.
+		if action_id != _action_id:
+			return
 
 	var vertical_distance: float = absf(
 		bottom_world.y - top_world.y
@@ -591,7 +511,7 @@ func spawn_projectile_attack() -> void:
 		1.0
 	)
 
-	await get_tree().create_timer(travel_time + 0.2).timeout
+	await _wait(travel_time + 0.2)
 
 
 func spawn_projectile_line(
@@ -601,9 +521,6 @@ func spawn_projectile_line(
 ) -> void:
 
 	for i in range(projectile_count):
-		if not is_alive:
-			return
-
 		var projectile := projectile_scene.instantiate() as Area2D
 
 		if projectile == null:
@@ -633,45 +550,31 @@ func spawn_projectile_line(
 # --------------------------------------------------
 
 func walk_to_target(target: String) -> void:
-	if not is_alive:
-		return
-
+	var action_id: int = _action_id
 	var destination: Vector2 = _get_target_position(target)
+	var distance: float = destination.x - global_position.x
+
+	if absf(distance) <= 4.0:
+		return
 
 	movement_target_x = destination.x
 	is_moving = true
 
-	_play_animation(&"walk_left" if target == "left" else &"walk_right")
+	_play(&"walk_right" if distance > 0.0 else &"walk_left")
 
-	# The walk animation loops, so the movement itself must end the loop.
-	# Add a safety timeout in case a wall blocks the path to the marker;
-	# otherwise the boss would walk in place forever.
-	var travel_time: float = (
-		absf(destination.x - global_position.x) / maxf(walk_speed, 1.0)
-	)
-	var timeout: float = travel_time + 2.0
-	var elapsed: float = 0.0
+	# Physics stops the walk at the marker. Waiting the travel time (instead
+	# of for the arrival) means a wall in the way cannot hang the step.
+	await _wait(absf(distance) / maxf(walk_speed, 1.0))
 
-	while is_moving and is_alive and elapsed < timeout:
-		elapsed += get_physics_process_delta_time()
-		await get_tree().physics_frame
+	if action_id != _action_id:
+		return
 
 	is_moving = false
-	velocity.x = 0.0
-
-	_return_to_idle()
+	_play(&"idle")
 
 
 func jump_to_target(target: String) -> void:
-	if not is_alive:
-		return
-
-	while not is_on_floor() and is_alive and not is_recovering:
-		await get_tree().physics_frame
-
-	if not is_alive or is_recovering:
-		return
-
+	var action_id: int = _action_id
 	var destination: Vector2 = _get_target_position(target)
 
 	movement_target_x = destination.x
@@ -679,28 +582,18 @@ func jump_to_target(target: String) -> void:
 
 	velocity.y = -(gravity * jump_duration * 0.5)
 
-	var jump_animation: StringName = (
-		&"jump_left" if target == "left" else &"jump_right"
-	)
-	_play_animation(jump_animation)
+	_play(&"jump_left" if target == "left" else &"jump_right")
 
 	var travel_time: float = (
 		absf(destination.x - global_position.x) / maxf(walk_speed, 1.0)
 	)
-	var timeout: float = travel_time + jump_duration + 3.0
-	var elapsed: float = 0.0
+	await _wait(maxf(travel_time, jump_duration))
 
-	while (is_moving or not is_on_floor()) and is_alive and not is_recovering \
-			and elapsed < timeout:
-		elapsed += get_physics_process_delta_time()
-		await get_tree().physics_frame
+	if action_id != _action_id:
+		return
 
 	is_moving = false
-	velocity.x = 0.0
-
-	# Jump animations loop; returning to idle here is what ends the loop.
-	# Waiting for animation_finished would hang forever at the marker.
-	_return_to_idle()
+	_play(&"idle")
 
 
 func _get_target_position(target: String) -> Vector2:
@@ -731,9 +624,9 @@ func take_damage(amount: int) -> void:
 		_defeat_boss()
 		return
 
-	# A hit takes priority: interrupt the cast animation so any spell waiting
-	# on it is cancelled rather than spawning out of sync.
-	_play_animation(&"hit")
+	# Only a visual flinch: the running step and the fall logic carry on.
+	if state == BossState.ON_PLATFORM:
+		_play(&"hit")
 
 
 func _defeat_boss() -> void:
@@ -743,8 +636,7 @@ func _defeat_boss() -> void:
 	is_alive = false
 	is_running_sequence = false
 	is_moving = false
-	is_recovering = false
-	is_falling = false
+	_action_id += 1
 
 	velocity = Vector2.ZERO
 
