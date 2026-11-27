@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
 // Cono de color que sale de la lente de Larry y funciona como un limpiaparabrisas
-// de un solo sentido: el siguiente color primario baja desde el borde de arriba del
-// cono (punto A) hasta el de abajo, fundiéndose con el anterior:
+// de un solo sentido: los colores primarios entran por el borde de arriba del cono
+// (punto A) y bajan hasta el de abajo, siempre con dos o más a la vista:
 // amarillo -> rojo -> azul -> amarillo...
 
 // Colores primarios, en orden de barrido (los mismos tintes que screen_transition.gd).
@@ -15,20 +15,22 @@ uniform vec2 origin = vec2(215.0, 503.0);
 // Hacia dónde apunta, en grados: 0 = derecha, negativo = hacia arriba.
 uniform float direction : hint_range(-180.0, 180.0) = -10.0;
 // Apertura en grados. Con 360 lo cubre absolutamente todo.
-uniform float cone_angle : hint_range(1.0, 360.0) = 100.0;
+uniform float cone_angle : hint_range(1.0, 360.0) = 70.0;
 // Grados, desde cada borde hacia dentro, en los que el cono se va desvaneciendo.
-uniform float edge_fade : hint_range(0.5, 180.0) = 35.0;
+uniform float edge_fade : hint_range(0.5, 180.0) = 12.0;
 
-// Segundos que tarda un color en bajar y cubrir todo el cono.
+// Cuántos colores caben a la vez en el cono. Con 2 o más siempre se ven al menos dos.
+uniform float colors_in_cone : hint_range(1.0, 6.0, 0.1) = 2.0;
+// Segundos que tarda la línea entre dos colores en bajar de un borde al otro.
 uniform float sweep_time : hint_range(0.5, 20.0, 0.1) = 5.0;
-// Grados que ocupa el fundido entre un color y el siguiente.
-uniform float blend_angle : hint_range(1.0, 180.0) = 70.0;
+// Grosor en grados de la línea donde se funden dos colores.
+uniform float blend_angle : hint_range(0.1, 30.0) = 5.0;
 
 // Ondas de luz que salen de la punta. light_color.a es la opacidad de todo el cono.
 uniform vec4 light_color : source_color = vec4(1.0, 1.0, 1.0, 0.35);
 uniform float light_speed : hint_range(0.0, 2000.0) = 120.0; // píxeles por segundo
 uniform float light_size : hint_range(20.0, 1000.0) = 312.0; // píxeles entre dos ondas
-uniform float light_strength : hint_range(0.0, 1.0, 0.01) = 0.25;
+uniform float light_strength : hint_range(0.0, 1.0, 0.01) = 0.15;
 
 varying vec2 pixel;
 
@@ -37,29 +39,6 @@ vec3 primary_color(int index) {
 		return color_a;
 	}
 	return index == 1 ? color_b : color_c;
-}
-
-vec3 rgb2hsv(vec3 c) {
-	vec4 k = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-	vec4 p = mix(vec4(c.bg, k.wz), vec4(c.gb, k.xy), step(c.b, c.g));
-	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-	float d = q.x - min(q.w, q.y);
-	float e = 1.0e-10;
-	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-}
-
-vec3 hsv2rgb(vec3 c) {
-	vec3 p = abs(fract(c.xxx + vec3(1.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0);
-	return c.z * mix(vec3(1.0), clamp(p - 1.0, 0.0, 1.0), c.y);
-}
-
-// Mezcla por el tono, por el camino corto: de amarillo a rojo pasa por naranja, de
-// rojo a azul por morado y de azul a amarillo por verde, sin quedarse en gris.
-vec3 hue_mix(vec3 from, vec3 to, float t) {
-	vec3 a = rgb2hsv(from);
-	vec3 b = rgb2hsv(to);
-	float turn = fract(b.x - a.x + 0.5) - 0.5;
-	return hsv2rgb(vec3(a.x + turn * t, mix(a.yz, b.yz, t)));
 }
 
 void vertex() {
@@ -77,15 +56,16 @@ void fragment() {
 	// Opaco en el centro y transparente del todo en los dos bordes.
 	float cone_mask = 1.0 - smoothstep(half_angle - radians(edge_fade), half_angle, abs(angle));
 
-	float turns = TIME / sweep_time;
-	int current = int(mod(floor(turns), 3.0)); // color que entra en este barrido
-	// El centro del fundido empieza y acaba fuera del cono, para que no haya saltos.
-	float half_blend = radians(blend_angle) * 0.5;
-	float sweep = mix(-half_angle - half_blend, half_angle + half_blend, fract(turns));
-
-	// Por encima del fundido el color nuevo; por debajo, el del barrido anterior.
-	float swept = 1.0 - smoothstep(-half_blend, half_blend, angle - sweep);
-	vec3 base = hue_mix(primary_color((current + 2) % 3), primary_color(current), swept);
+	// Franja de color a la que pertenece el píxel: sube con el tiempo y hacia arriba,
+	// así las líneas entre colores bajan.
+	float band = radians(cone_angle) / colors_in_cone;
+	float position = TIME / sweep_time * colors_in_cone - (angle + half_angle) / band;
+	float line = floor(position + 0.5); // la línea más cercana
+	float half_blend = radians(blend_angle) / band * 0.5;
+	float blend = smoothstep(-half_blend, half_blend, position - line);
+	// El + 0.5 evita que un 2.9999 se quede en 2 al sacar el resto.
+	int next = int(mod(line, 3.0) + 0.5) % 3;
+	vec3 base = mix(primary_color((next + 2) % 3), primary_color(next), blend);
 
 	float wave = sin((dist - TIME * light_speed) * TAU / light_size) * 0.5 + 0.5;
 	vec3 color = mix(base, light_color.rgb, wave * light_strength);
