@@ -286,6 +286,7 @@ animations = [{
 size = Vector2(20, 47)
 
 [node name="Player" type="CharacterBody2D" unique_id=889365973]
+platform_on_leave = 2
 
 [node name="PlayerSkin" type="AnimatedSprite2D" parent="." unique_id=1560109266]
 unique_name_in_owner = true
