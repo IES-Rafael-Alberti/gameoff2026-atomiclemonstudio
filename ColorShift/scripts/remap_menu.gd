@@ -30,6 +30,7 @@ func _ready() -> void:
 	# Keep working while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	theme = MenuStyle.get_options_theme()
+	$PanelContainer.add_theme_stylebox_override("panel", MenuStyle.get_panel_box(MenuStyle.OPTIONS_PANEL))
 	call_deferred("_populate_action_list")
 	reset_button.pressed.connect(_on_reset_pressed)
 	back_button.pressed.connect(_on_back_pressed)

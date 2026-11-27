@@ -19,6 +19,16 @@ func _ready() -> void:
 	remap_menu_button.pressed.connect(_on_controls_button_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 	visibility_changed.connect(_on_visibility_changed)
+	# Panel art behind the column of options; hidden while the remap menu is open.
+	$Panel.draw.connect(_draw_background)
+	v_box_container.item_rect_changed.connect($Panel.queue_redraw)
+	v_box_container.visibility_changed.connect($Panel.queue_redraw)
+
+
+func _draw_background() -> void:
+	if v_box_container.visible:
+		var rect := v_box_container.get_rect().grow_individual(40, 24, 40, 48)
+		MenuStyle.get_panel_box(MenuStyle.OPTIONS_PANEL).draw($Panel.get_canvas_item(), rect)
 
 
 func _unhandled_input(event: InputEvent) -> void:
