@@ -8,8 +8,64 @@ const REMAPPABLE_ACTIONS: Array[String] = [
 	"shift", "shift_2", "interact", "pause", "teleport_checkpoint",
 ]
 
+# Last device the player used, so prompts show its buttons.
+var using_controller := false
+
 func _ready() -> void:
 	load_bindings()
+	using_controller = not Input.get_connected_joypads().is_empty()
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton or (event is InputEventJoypadMotion and absf(event.axis_value) > 0.5):
+		using_controller = true
+	elif event is InputEventKey:
+		using_controller = false
+
+# Key or button of the action on the device in use, e.g. "E" or "Y".
+func get_action_text(action: String) -> String:
+	return get_controller_text(action) if using_controller else get_keyboard_text(action)
+
+func get_keyboard_text(action: String) -> String:
+	var physical_keycode := get_physical_keycode(action)
+	if physical_keycode == KEY_NONE:
+		return "—"
+	var keycode := DisplayServer.keyboard_get_keycode_from_physical(physical_keycode as Key)
+	var text := OS.get_keycode_string(keycode)
+	match get_key_location(action):
+		KEY_LOCATION_LEFT:
+			text = "Left " + text
+		KEY_LOCATION_RIGHT:
+			text = "Right " + text
+	return text
+
+func get_controller_text(action: String) -> String:
+	var controller_event := get_controller_event(action)
+	if controller_event == null:
+		return "—"
+	if controller_event is InputEventJoypadButton:
+		return get_joypad_button_name(controller_event.button_index)
+	var direction := "+" if controller_event.axis_value > 0.0 else "-"
+	return "Axis %d %s" % [controller_event.axis, direction]
+
+func get_joypad_button_name(button_index: int) -> String:
+	var names := {
+		JOY_BUTTON_A: "A",
+		JOY_BUTTON_B: "B",
+		JOY_BUTTON_X: "X",
+		JOY_BUTTON_Y: "Y",
+		JOY_BUTTON_BACK: "Back",
+		JOY_BUTTON_GUIDE: "Guide",
+		JOY_BUTTON_START: "Start",
+		JOY_BUTTON_LEFT_STICK: "L3",
+		JOY_BUTTON_RIGHT_STICK: "R3",
+		JOY_BUTTON_LEFT_SHOULDER: "LB",
+		JOY_BUTTON_RIGHT_SHOULDER: "RB",
+		JOY_BUTTON_DPAD_UP: "D-pad Up",
+		JOY_BUTTON_DPAD_DOWN: "D-pad Down",
+		JOY_BUTTON_DPAD_LEFT: "D-pad Left",
+		JOY_BUTTON_DPAD_RIGHT: "D-pad Right",
+	}
+	return names.get(button_index, "Button %d" % button_index)
 
 func get_physical_keycode(action: String) -> int:
 	for event in InputMap.action_get_events(action):
