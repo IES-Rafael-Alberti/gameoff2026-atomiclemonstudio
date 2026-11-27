@@ -1,7 +1,5 @@
 extends Node
 
-const MenuStyle := preload("res://scripts/menu_style.gd")
-
 var message_label: Label
 var hint_label: Label
 var tutorial_label: Label
@@ -56,7 +54,6 @@ func _make_label(vertical_alignment: VerticalAlignment) -> Label:
 	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = vertical_alignment
-	label.add_theme_font_override("font", MenuStyle.PIXEL_FONT)
 	label.add_theme_font_size_override("font_size", 24)
 	label.add_theme_color_override("font_color", Color.WHITE)
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
