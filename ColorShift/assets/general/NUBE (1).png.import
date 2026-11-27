@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vkqsj56yw4x2"
-path="res://.godot/imported/castle-background.png-dd9385c4bc48824a1d31ddc562db3ec4.ctex"
+uid="uid://b7hx52csu2r3t"
+path="res://.godot/imported/NUBE (1).png-fabadaf0227525ee0bd04e84398d17e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/general/castle-background.png"
-dest_files=["res://.godot/imported/castle-background.png-dd9385c4bc48824a1d31ddc562db3ec4.ctex"]
+source_file="res://assets/general/NUBE (1).png"
+dest_files=["res://.godot/imported/NUBE (1).png-fabadaf0227525ee0bd04e84398d17e5.ctex"]
 
 [params]
 
