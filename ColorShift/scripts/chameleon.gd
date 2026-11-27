@@ -5,6 +5,10 @@ signal boss_defeated
 
 const POOF_EFFECT_SCRIPT: Script = preload("res://scripts/poof_effect.gd")
 
+# These sheets are drawn facing left and are mirrored to face the player.
+# walk/jump have their own _left/_right sheets and are never mirrored.
+const FACE_PLAYER_ANIMATIONS: Array[StringName] = [&"cast", &"idle", &"hit"]
+
 enum BossState { ON_PLATFORM, HIT, RECOVERING }
 
 @export var projectile_scene: PackedScene
@@ -100,7 +104,30 @@ var boss_sequence: Array[Dictionary] = [
 
 
 func _ready() -> void:
+	sprite.animation_finished.connect(_on_animation_finished)
 	_play(&"idle")
+
+
+func _process(_delta: float) -> void:
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+
+	sprite.flip_h = (
+		sprite.animation in FACE_PLAYER_ANIMATIONS
+		and player != null
+		and player.global_position.x > global_position.x
+	)
+
+
+# --------------------------------------------------
+# ANIMATION CONTROL
+# --------------------------------------------------
+
+func _on_animation_finished() -> void:
+	# cast and hit are one-shot. When their frames run out show idle, but
+	# leave the state and the running step alone: a cast keeps casting.
+	# The spike hit chains into cast itself.
+	if state != BossState.HIT:
+		sprite.play(&"idle")
 
 
 # --------------------------------------------------
@@ -339,16 +366,14 @@ func cast_spell(spell_name: String) -> void:
 
 	_play(&"cast")
 
-	# The spell appears once the cast animation has played through.
+	# The spell appears once the cast animation has played through. By then
+	# the sprite shows idle, but the step lasts until the spell is done.
 	await _wait(_animation_length(&"cast"))
 
 	if action_id != _action_id:
 		return
 
 	await spawn_spell(spell_name)
-
-	if action_id == _action_id:
-		_play(&"idle")
 
 
 func spawn_spell(spell_name: String) -> void:
@@ -559,7 +584,7 @@ func jump_to_target(target: String) -> void:
 
 	velocity.y = -(gravity * jump_duration * 0.5)
 
-	_play(&"jump_left" if target == "left" else &"jump_right")
+	_play(&"jump_right" if destination.x > global_position.x else &"jump_left")
 
 	var travel_time: float = (
 		absf(destination.x - global_position.x) / maxf(walk_speed, 1.0)
