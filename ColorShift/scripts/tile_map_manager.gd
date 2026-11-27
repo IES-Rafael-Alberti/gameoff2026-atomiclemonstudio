@@ -252,12 +252,12 @@ func _process(_delta: float) -> void:
 			continue
 
 		if props.get("KEY", false):
-			UIManager.show_hint("Press E to pick up the key")
+			UIManager.show_hint("Press %s to pick up the key" % InputSettings.get_action_text("interact"))
 		elif props.get("DOOR", false):
 			if opened_doors.has(cell):
 				UIManager.show_hint("")
 			else:
-				UIManager.show_hint("Press E to open the door")
+				UIManager.show_hint("Press %s to open the door" % InputSettings.get_action_text("interact"))
 		else:
 			UIManager.show_hint("")
 

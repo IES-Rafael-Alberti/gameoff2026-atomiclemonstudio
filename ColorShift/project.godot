@@ -98,6 +98,10 @@ enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
 player=""
 
+[gui]
+
+theme/custom_font="res://assets/fonts/DynaPuff-Medium.ttf"
+
 [input]
 
 ui_accept={
