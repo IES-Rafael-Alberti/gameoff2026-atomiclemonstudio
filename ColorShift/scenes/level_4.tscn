@@ -16,7 +16,6 @@
 [ext_resource type="PackedScene" path="res://scenes/color_wheel.tscn" id="10_wheel"]
 [ext_resource type="Texture2D" uid="uid://b7hx52csu2r3t" path="res://assets/general/NUBE (1).png" id="11_q41qf"]
 [ext_resource type="PackedScene" path="res://scenes/moving_platform.tscn" id="12_bee8o"]
-[ext_resource type="Texture2D" uid="uid://brpgp7i8cyq1p" path="res://assets/general/castle-background.png.png" id="12_q41qf"]
 [ext_resource type="Texture2D" uid="uid://djgru4rb23m5i" path="res://assets/general/CIELO (1).png" id="12_s0ibv"]
 [ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="13_gxyip"]
 [ext_resource type="PackedScene" path="res://scenes/collectable_carrot.tscn" id="20_a51ki"]
@@ -2612,7 +2611,7 @@ sources/1 = SubResource("TileSetAtlasSource_bee8o")
 sources/2 = SubResource("TileSetAtlasSource_u7ckc")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s0ibv"]
-texture = ExtResource("12_q41qf")
+texture = ExtResource("9_dmmei")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0

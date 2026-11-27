@@ -7,7 +7,7 @@ const MenuStyle := preload("res://scripts/menu_style.gd")
 @onready var title: TextureRect = $Title
 
 const BACKGROUNDS: Array[Texture2D] = [
-	preload("res://assets/general/brick_castle.png"),
+	preload("res://assets/general/castle-background.png"),
 ]
 
 @onready var background: TextureRect = $TextureRect
