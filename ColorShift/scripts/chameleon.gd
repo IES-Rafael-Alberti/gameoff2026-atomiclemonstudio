@@ -9,7 +9,7 @@ const POOF_EFFECT_SCRIPT: Script = preload("res://scripts/poof_effect.gd")
 # walk/jump have their own _left/_right sheets and are never mirrored.
 const FACE_PLAYER_ANIMATIONS: Array[StringName] = [&"cast", &"idle", &"hit"]
 
-enum BossState { ON_PLATFORM, JUMPING, HIT, RECOVERING }
+enum BossState { ON_PLATFORM, JUMPING, FALLING, HIT, RECOVERING }
 
 @export var projectile_scene: PackedScene
 @export var heatseeker_scene: PackedScene
@@ -62,7 +62,7 @@ enum BossState { ON_PLATFORM, JUMPING, HIT, RECOVERING }
 @export var spike_check_offset_x: float = 10.0
 @export var recovery_jump_height: float = 80.0
 @export var recovery_jump_duration: float = 0.5
-@export var fall_limit_y: float = 260.0
+@export var fall_limit_y: float = 270.0
 
 @onready var sprite: AnimatedSprite2D = $Chameleon
 @onready var attack_point: Marker2D = $AttackPoint
@@ -175,27 +175,37 @@ func _spell_parent() -> Node:
 # --------------------------------------------------
 
 func _physics_process(delta: float) -> void:
-	# The hit stun and the recovery hop control the boss themselves.
-	if state != BossState.ON_PLATFORM:
-		return
+	# Jumps, the hit stun and the recovery hop move the boss themselves.
+	match state:
+		BossState.ON_PLATFORM:
+			velocity.y += gravity * delta
 
-	velocity.y += gravity * delta
+			# Horizontal movement.
+			velocity.x = 0.0
+			if is_moving:
+				var distance: float = movement_target_x - global_position.x
 
-	# Horizontal movement.
-	velocity.x = 0.0
-	if is_moving:
-		var distance: float = movement_target_x - global_position.x
+				if absf(distance) <= 4.0:
+					is_moving = false
+				else:
+					velocity.x = signf(distance) * walk_speed
 
-		if absf(distance) <= 4.0:
-			is_moving = false
-		else:
-			velocity.x = signf(distance) * walk_speed
+			move_and_slide()
 
-	move_and_slide()
+			if not is_on_floor():
+				_start_fall()
 
-	# Check for spikes or falling below the level. Every spike colour counts.
-	if global_position.y > fall_limit_y or _is_over_spike():
-		_start_fall()
+		BossState.FALLING:
+			# No collisions while falling, so no platform below can catch the
+			# boss: every fall ends on spikes or past fall_limit_y (y grows
+			# downwards).
+			velocity.y += gravity * delta
+			global_position += velocity * delta
+
+			if _is_over_spike():
+				_end_fall(true)
+			elif global_position.y > fall_limit_y:
+				_end_fall(false)
 
 
 # --------------------------------------------------
@@ -227,16 +237,27 @@ func get_lives_remaining() -> int:
 
 
 func _start_fall() -> void:
-	# Leaving ON_PLATFORM first means physics cannot count the same fall twice.
-	state = BossState.HIT
+	# Leaving ON_PLATFORM first means physics cannot start the same fall twice.
+	state = BossState.FALLING
 	# Cancel the running step. Spells already spawned stay in the scene.
 	_action_id += 1
 	is_moving = false
 	velocity = Vector2.ZERO
+
+	# The boss casts (facing the player) while it falls.
+	_play(&"cast")
+
+
+func _end_fall(on_spike: bool) -> void:
+	state = BossState.HIT if on_spike else BossState.RECOVERING
+	velocity = Vector2.ZERO
+
+	# Every fall costs a life, spikes or not.
 	hits_taken += 1
 
-	_play(&"hit")
-	await _wait(_animation_length(&"hit"))
+	if on_spike:
+		_play(&"hit")
+		await _wait(_animation_length(&"hit"))
 
 	if get_lives_remaining() <= 0:
 		_defeat_boss()
@@ -252,65 +273,23 @@ func _start_fall() -> void:
 func _start_recovery() -> void:
 	state = BossState.RECOVERING
 
-	var available_markers: Array[Marker2D] = []
+	# Return to the marker closest to where the boss fell.
+	var target_marker: Marker2D = _nearest_marker(global_position.x)
 
-	if left_position != null:
-		available_markers.append(left_position)
-
-	if right_position != null:
-		available_markers.append(right_position)
-
-	if available_markers.is_empty():
+	if target_marker == null:
 		push_error("Chameleon: No recovery markers assigned!")
 		return
 
-	# Return to the designated spot closest to where the boss fell, instead
-	# of hopping to a random marker.
-	var fall_position: Vector2 = global_position
-	var target_marker: Marker2D = available_markers[0]
-	var best_distance: float = INF
-
-	for marker in available_markers:
-		var distance: float = absf(marker.global_position.x - fall_position.x)
-
-		if distance < best_distance:
-			best_distance = distance
-			target_marker = marker
-
-	var target_position: Vector2 = target_marker.global_position
-
-	# The fall is shown with the cast animation while the boss arcs back.
+	# The recovery spell: cast again while hopping back up.
 	_play(&"cast")
 
-	var apex_position: Vector2 = Vector2(
-		(fall_position.x + target_position.x) * 0.5,
-		minf(fall_position.y, target_position.y) - recovery_jump_height
+	await _arc_to(
+		target_marker.global_position,
+		recovery_jump_height,
+		recovery_jump_duration
 	)
 
-	var tween := create_tween()
-
-	# First half: jump towards the middle of the marker.
-	tween.tween_property(
-		self,
-		"global_position",
-		apex_position,
-		recovery_jump_duration * 0.5
-	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-
-	# Second half: land at the marker.
-	tween.tween_property(
-		self,
-		"global_position",
-		target_position,
-		recovery_jump_duration * 0.5
-	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-
-	await tween.finished
-
-	velocity = Vector2.ZERO
-	movement_target_x = target_position.x
-
-	# The boss is back on the floor: show the poof now.
+	# The boss is back on its platform: show the poof now.
 	_spawn_poof(global_position + Vector2(0.0, -8.0))
 
 	state = BossState.ON_PLATFORM
