@@ -2,6 +2,8 @@ extends Control
 
 ## Level select shown after finishing a level. Add a level here when its
 ## scene is registered in SceneManager.SCENES; the rest stay locked.
+## The last card (BOSS_SLOT) is reserved for the boss level: add it to LEVELS
+## once its scene is registered.
 const LEVELS := {
 	1: "level_1",
 	2: "level_2",
@@ -9,8 +11,10 @@ const LEVELS := {
 	4: "level_4",
 	5: "level_5",
 	6: "level_6",
+	7: "level_7",
 }
-const LEVEL_COUNT := 6
+const LEVEL_COUNT := 8
+const BOSS_SLOT := 8
 const MenuStyle := preload("res://scripts/menu_style.gd")
 const DOOR := preload("res://assets/sprites/scenary/door.png")
 const DOOR_SIZE := Vector2(64, 96)
@@ -50,7 +54,7 @@ func _make_button(n: int) -> Button:
 	button.add_child(thumb)
 
 	var label := Label.new()
-	label.text = "LEVEL %d" % n
+	label.text = "BOSS" if n == BOSS_SLOT else "LEVEL %d" % n
 	label.theme_type_variation = &"CardLabel"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
