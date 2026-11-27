@@ -264,11 +264,10 @@ func _end_fall(on_spike: bool) -> void:
 	state = BossState.HIT if on_spike else BossState.RECOVERING
 	velocity = Vector2.ZERO
 
-	# Every fall costs a life, spikes or not.
-	hits_taken += 1
-	_update_health_bar()
-
+	# Only spikes cost a life; falling past fall_limit_y just sends it back.
 	if on_spike:
+		hits_taken += 1
+		_update_health_bar()
 		_play(&"hit")
 		await _wait(_animation_length(&"hit"))
 
