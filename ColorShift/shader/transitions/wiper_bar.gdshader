@@ -17,6 +17,9 @@ void fragment() {
 
 	// Sin barra en reposo (progress 0 o 1).
 	float live = smoothstep(0.0, 0.03, wiper_progress) * (1.0 - smoothstep(0.97, 1.0, wiper_progress));
+	// Solo dentro del juego: nunca encima de las barras laterales.
+	float x = wiper_game_px(SCREEN_UV, 1.0 / SCREEN_PIXEL_SIZE).x;
+	live *= step(0.0, x) * step(x, wiper_game_size(1.0 / SCREEN_PIXEL_SIZE).x);
 
 	vec3 rgb = mix(tint.rgb, vec3(1.0), core * 0.8);
 	COLOR = vec4(rgb, clamp(core + glow + trail, 0.0, 1.0) * live);

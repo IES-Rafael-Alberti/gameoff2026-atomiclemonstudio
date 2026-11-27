@@ -12,8 +12,19 @@ func _build_ui() -> void:
 	canvas.layer = 100 # Ensures UI renders on top of everything
 	add_child(canvas)
 
+	# Levels are shown in 16:9 with side bars: keep the HUD inside the
+	# centred 1024x768 game (in 4:3 it is the whole screen).
+	var game_area := Control.new()
+	game_area.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	game_area.set_anchors_preset(Control.PRESET_CENTER)
+	game_area.offset_left = -512.0
+	game_area.offset_top = -384.0
+	game_area.offset_right = 512.0
+	game_area.offset_bottom = 384.0
+	canvas.add_child(game_area)
+
 	var carrot_counter := preload("res://scenes/carrot_counter.tscn").instantiate()
-	canvas.add_child(carrot_counter)
+	game_area.add_child(carrot_counter)
 
 	# 1. Center message label (for notifications like "Got a key!")
 	message_label = Label.new()
@@ -25,7 +36,7 @@ func _build_ui() -> void:
 	message_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	message_label.add_theme_constant_override("outline_size", 10)
 	message_label.modulate.a = 0.0
-	canvas.add_child(message_label)
+	game_area.add_child(message_label)
 
 	# 2. Bottom hint label (for prompts like "Press E to open door")
 	hint_label = Label.new()
@@ -38,7 +49,7 @@ func _build_ui() -> void:
 	hint_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	hint_label.add_theme_constant_override("outline_size", 7)
 	hint_label.modulate.a = 0.0
-	canvas.add_child(hint_label)
+	game_area.add_child(hint_label)
 
 # Public method to show pop-up messages with a fade-out effect
 func show_message(text: String, duration: float = 1.5) -> void:
