@@ -402,6 +402,8 @@ func _is_body_inside_level(world_position: Vector2) -> bool:
 func _get_play_rect() -> Rect2:
 	var viewport := get_viewport()
 	var size := viewport.get_visible_rect().size
+	# Levels show 16:9 with side bars: the play area is still the centred 4:3 game.
+	size.x = minf(size.x, size.y * 4.0 / 3.0)
 	var camera := viewport.get_camera_2d()
 
 	if camera != null:
