@@ -29,6 +29,8 @@ enum BossState { ON_PLATFORM, JUMPING, FALLING, HIT, RECOVERING }
 # Life counter for spike/fall hits. Change this in the inspector to decide
 # how many times the Chameleon can fall before it is defeated.
 @export var max_hits: int = 3
+# Shows the lives left (max_hits - hits_taken).
+@export var health_bar: ProgressBar
 
 # Projectile attack settings.
 @export var projectile_count: int = 16
@@ -110,6 +112,7 @@ var boss_sequence: Array[Dictionary] = [
 func _ready() -> void:
 	sprite.animation_finished.connect(_on_animation_finished)
 	_play(&"idle")
+	_update_health_bar()
 
 	if chameleon_markers == null:
 		push_error("Chameleon: chameleon_markers is not assigned!")
@@ -236,6 +239,15 @@ func get_lives_remaining() -> int:
 	return maxi(max_hits - hits_taken, 0)
 
 
+func _update_health_bar() -> void:
+	if health_bar == null:
+		return
+
+	# ProgressBar clamps value to [0, max_value] by itself.
+	health_bar.max_value = max_hits
+	health_bar.value = get_lives_remaining() if is_alive else 0
+
+
 func _start_fall() -> void:
 	# Leaving ON_PLATFORM first means physics cannot start the same fall twice.
 	state = BossState.FALLING
@@ -254,6 +266,7 @@ func _end_fall(on_spike: bool) -> void:
 
 	# Every fall costs a life, spikes or not.
 	hits_taken += 1
+	_update_health_bar()
 
 	if on_spike:
 		_play(&"hit")
@@ -675,6 +688,7 @@ func _defeat_boss() -> void:
 	_action_id += 1
 
 	velocity = Vector2.ZERO
+	_update_health_bar()
 
 	boss_defeated.emit()
 
