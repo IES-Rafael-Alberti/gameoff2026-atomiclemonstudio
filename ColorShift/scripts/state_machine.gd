@@ -8,11 +8,6 @@ var states: Dictionary = {}
 var drop_through_timer := 0.0
 var drop_through_collision_mask := 1
 
-# Velocidad de la plataforma mientras estamos en suelo. Se congela al saltar
-# para que el jugador conserve esa inercia durante todo el vuelo.
-var inherited_velocity := Vector2.ZERO
-var previous_state_name := ""
-
 func _ready() -> void:
 	#Registers child states based on the child nodes
 	for child in get_children():
@@ -29,17 +24,12 @@ func _process(delta: float) -> void:
 		current_state.update(delta)
 
 func _physics_process(delta: float) -> void:
-	var character = get_parent() as CharacterBody2D
-	# is_on_floor() todavia refleja el frame anterior, asi que aqui la velocidad
-	# de la plataforma sigue siendo valida. En el aire no se actualiza: es la
-	# inercia que el jugador conserva hasta aterrizar.
-	if character != null and character.is_on_floor():
-		inherited_velocity = character.get_platform_velocity()
-
 	if drop_through_timer > 0.0:
 		drop_through_timer -= delta
-		if drop_through_timer <= 0.0 and character != null:
-			character.collision_mask = drop_through_collision_mask
+		if drop_through_timer <= 0.0:
+			var character = get_parent() as CharacterBody2D
+			if character != null:
+				character.collision_mask = drop_through_collision_mask
 
 	if current_state:
 		current_state.physics_update(delta)
@@ -181,7 +171,6 @@ func _get_character_bottom() -> float:
 	return 32.0
 
 func change_state(new_state_name: String) -> void:
-	previous_state_name = current_state.name.to_lower() if current_state else ""
 	if current_state:
 		current_state.exit()
 		
