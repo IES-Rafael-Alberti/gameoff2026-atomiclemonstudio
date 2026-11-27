@@ -1,15 +1,23 @@
-[background arg="res://assets/level-selection/select-lvl1.png" fade="0.0"]
-[style name="dialogue_style_larry"]
-larry: oh noooo what's hapening
-[background arg="res://assets/general/castle-background.png" fade="0.5"]
-update larry left [animation="Tada" length="1.0"]
+[background arg="res://assets/general/castle-background.png" fade="0.0"]
+fondo - castillo con bechamel quitando los colores
+join Bechamel (Default) right
 [style name="dialogue_style_bechamel"]
-Bechamel: MUAJAJA
-join Bechamel right
-[style name="dialogue_style_bechamel"]
-Bechamel: jojojo i got all the colors
-join larry left
-[style name="dialogue_style_larry"]
-larry: im a carrot
+Bechamel: How wonderfully quiet ChromaVale becomes once I pocket all the color! A gray world is terribly dull... and entirely mine.
 leave --All--
-[background arg="res://assets/level-selection/select-lvl6.png" fade="0.0"]
+[background arg="res://assets/level-selection/select-lvl1.png" fade="0.0"]
+join larry (Sad) center
+[style name="dialogue_style_larry"]
+larry (Sad): Oh no, is Bechamel the Sixth, he's taking all the light from the realm!
+[background arg="res://assets/general/castle-background.png" fade="0.5"]
+join larry (Angry) left
+[style name="dialogue_style_larry"]
+larry (Angry): I need to do something, I can't let this happen
+[background fade="0.0"]
+fondo encontrando el cromoscopio
+update larry (Default)
+larry: He left this visor behind...
+larry: It has a wheel fitted with three colored lenses.
+[background fade="0.0"]
+fondo - larry probando el cromoscopio
+larry: When I turn the wheel, the world answers back. I won't let him get away with this\
+I'm bringing every color home.

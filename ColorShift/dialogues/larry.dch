@@ -2,7 +2,7 @@
 "@path": "res://addons/dialogic/Resources/character.gd",
 "@subpath": NodePath(""),
 &"_translation_id": "",
-&"color": Color(0.84375, 0.8338623, 0.8338623, 1),
+&"color": Color(0.73828125, 0.71520996, 0.71520996, 1),
 &"custom_info": {
 "prefix": "",
 "sound_mood_default": "",
@@ -17,9 +17,27 @@
 &"nicknames": [""],
 &"offset": Vector2(-200, 0),
 &"portraits": {
+"Angry": {
+"export_overrides": {
+"image": "\"res://assets/dialogues/larry_angry_bocadillo.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
 "Default": {
 "export_overrides": {
 "image": "\"res://assets/dialogues/larry_neutral_bocadillo.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"Sad": {
+"export_overrides": {
+"image": "\"res://assets/dialogues/larry_sad_bocadillo.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),
