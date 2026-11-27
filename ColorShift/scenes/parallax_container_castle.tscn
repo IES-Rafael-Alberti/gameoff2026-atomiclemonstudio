@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://vg2urtns2kv" path="res://assets/sprites/backgrounds/bg2_2.PNG" id="5_3jp15"]
 [ext_resource type="Texture2D" uid="uid://knqrqgpjy6f2" path="res://assets/sprites/backgrounds/bg2_1.PNG" id="6_24ges"]
 
-[node name="ParallaxContainer" type="Node2D" unique_id=178089555]
+[node name="ParallaxContainer" type="Control" unique_id=1438894154]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_3jp15")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=2046271612]

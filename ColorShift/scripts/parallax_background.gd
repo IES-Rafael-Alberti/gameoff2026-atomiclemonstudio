@@ -1,5 +1,5 @@
 
-extends Node2D
+extends Control
 
 @export var player: Node2D
 @export var camera: Camera2D

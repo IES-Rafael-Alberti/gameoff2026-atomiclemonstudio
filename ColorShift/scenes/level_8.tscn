@@ -43,7 +43,15 @@ script = ExtResource("4_3ijp0")
 room_offset = Vector2(-512, -384)
 
 [node name="ParallaxContainer" parent="Camera2D" unique_id=178089555 node_paths=PackedStringArray("player", "camera") instance=ExtResource("5_snfn4")]
-visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 player = NodePath("../../Player")
 camera = NodePath("..")
 layer_speeds = Array[float]([1.0, 1.0, 0.95, 0.9, 1.0])
