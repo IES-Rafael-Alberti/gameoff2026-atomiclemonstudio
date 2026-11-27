@@ -292,6 +292,11 @@ func _start_recovery() -> void:
 	# The boss is back on its platform: show the poof now.
 	_spawn_poof(global_position + Vector2(0.0, -8.0))
 
+	# The platform may still be gone (the Button brings it back after a few
+	# seconds): hover on the marker until it is solid again.
+	while not test_move(global_transform, Vector2.DOWN):
+		await _wait(0.1)
+
 	state = BossState.ON_PLATFORM
 
 	# Resume the movelist on the step the fall interrupted.
