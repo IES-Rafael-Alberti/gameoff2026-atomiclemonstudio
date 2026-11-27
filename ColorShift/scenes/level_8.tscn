@@ -25,7 +25,7 @@ size = Vector2(20, 55.63913)
 unique_name_in_owner = true
 position = Vector2(-54, 32)
 
-[node name="BeChamel" parent="." unique_id=1565266819 node_paths=PackedStringArray("left_position", "right_position") instance=ExtResource("9_ppfpn")]
+[node name="BeChamel" parent="." unique_id=1565266819 node_paths=PackedStringArray("left_position", "right_position", "tile_layer") instance=ExtResource("9_ppfpn")]
 position = Vector2(380, -255)
 projectile_scene = ExtResource("9_iynha")
 heatseeker_scene = ExtResource("10_r51xj")
@@ -33,6 +33,7 @@ platforms_spell_scene = ExtResource("5_r51xj")
 left_position = NodePath("../ChameleonMarkers/LeftMark")
 right_position = NodePath("../ChameleonMarkers/RightMark")
 max_hits = 5
+tile_layer = NodePath("../Tilemaps/TileMapLayer")
 
 [node name="Key" parent="." unique_id=2020584789 instance=ExtResource("2_gi7hc")]
 

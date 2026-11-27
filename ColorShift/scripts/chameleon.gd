@@ -50,6 +50,8 @@ enum BossState { ON_PLATFORM, HIT, RECOVERING }
 ]
 
 # Recovery settings.
+# Level TileMapLayer (tile_map_manager.gd): it already knows where spikes are.
+@export var tile_layer: TileMapLayer
 @export var spike_check_offset_y: float = 20.0
 @export var spike_check_offset_x: float = 10.0
 @export var recovery_jump_height: float = 80.0
@@ -162,42 +164,17 @@ func _physics_process(delta: float) -> void:
 # --------------------------------------------------
 
 func _is_over_spike() -> bool:
-	var tile_layers := get_tree().get_nodes_in_group("tile_layers")
+	if tile_layer == null:
+		return false
 
-	# Check three positions around the Chameleon's feet.
-	var check_positions: Array[Vector2] = [
-		global_position + Vector2(0.0, spike_check_offset_y),
-		global_position + Vector2(-spike_check_offset_x, spike_check_offset_y),
-		global_position + Vector2(spike_check_offset_x, spike_check_offset_y)
-	]
+	# Check three positions around the Chameleon's feet. The tile manager
+	# reads its SPIKE cache of every colour, so a spike counts even while
+	# its colour is inactive (the boss is not a physics body for those tiles).
+	var feet: Vector2 = global_position + Vector2(0.0, spike_check_offset_y)
 
-	for node in tile_layers:
-		var layer := node as TileMapLayer
-
-		if layer == null:
-			continue
-
-		# Only check the original TileMapLayer.
-		# Generated color layers don't have interactive_tiles.
-		if not layer.has_method("get_tile_properties"):
-			continue
-
-		var interactive_tiles: Variant = layer.get("interactive_tiles")
-
-		if not interactive_tiles is Dictionary:
-			continue
-
-		for check_position in check_positions:
-			var local_position: Vector2 = layer.to_local(check_position)
-			var cell: Vector2i = layer.local_to_map(local_position)
-
-			# Read the original cached properties directly.
-			# This deliberately ignores the active color, so spikes
-			# of every color can trigger the recovery.
-			var props: Dictionary = interactive_tiles.get(cell, {})
-
-			if props.get("SPIKE", false):
-				return true
+	for offset_x in [-spike_check_offset_x, 0.0, spike_check_offset_x]:
+		if tile_layer.is_spike_at_world_position(feet + Vector2(offset_x, 0.0)):
+			return true
 
 	return false
 
