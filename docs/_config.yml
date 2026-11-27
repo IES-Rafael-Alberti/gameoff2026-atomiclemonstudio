@@ -25,6 +25,9 @@ description: >-
 baseurl: "/gameoff2026-atomiclemonstudio" # the subpath of the site (repository name)
 url: "https://ies-rafael-alberti.github.io" # the base hostname & protocol
 github_username: IES-Rafael-Alberti
+# Publish posts even if their date is later than the build. Without it, a post
+# merged before its date and time stays hidden until main is built again.
+future: true
 # Used by jekyll-seo-tag: the logo of the studio, and the image shown when any page is shared.
 logo: /assets/img/icons/atomic_lemon_studio_text_web.png
 defaults:
