@@ -140,7 +140,7 @@ func _recover_from_fall() -> void:
 	velocity = Vector2.ZERO
 
 	# Play jump animation while returning to the starting position.
-	sprite.play("jump")
+	sprite.play("jump_left")
 
 	var tween := create_tween()
 

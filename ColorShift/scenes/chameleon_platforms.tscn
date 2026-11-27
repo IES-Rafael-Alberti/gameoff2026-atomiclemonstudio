@@ -1,11 +1,6 @@
 [gd_scene format=3 uid="uid://bnnsuqcgy6y10"]
 
 [ext_resource type="Script" uid="uid://bidt5mwd86adg" path="res://scripts/chameleon_platforms.gd" id="1_ijwen"]
-[ext_resource type="Texture2D" uid="uid://b3n1t3oeao2k2" path="res://assets/sprites/attacks/chameleon_attack.png" id="2_5s8e5"]
 
 [node name="Platforms" type="Node2D" unique_id=711666676]
 script = ExtResource("1_ijwen")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("2_5s8e5")
