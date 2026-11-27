@@ -4,9 +4,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i38d4"]
 shader = ExtResource("1_xedbw")
-shader_parameter/light_color = Color(0.22745098, 1, 1, 1)
-shader_parameter/light_speed = 0.0
-shader_parameter/light_size = 0.01
+shader_parameter/origin = Vector2(20, 256)
+shader_parameter/direction = 0.0
 
 [node name="Node2D" type="Node2D" unique_id=1018482605]
 

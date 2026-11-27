@@ -5,8 +5,10 @@ extends RefCounted
 ##   const MenuStyle := preload("res://scripts/menu_style.gd")
 ##   theme = MenuStyle.get_theme()
 
-const PIXEL_FONT := preload("res://assets/fonts/PressStart2P-Regular.ttf")
-const BODY_FONT := preload("res://assets/fonts/VT323-Regular.ttf")
+#const PIXEL_FONT := preload("res://assets/fonts/PressStart2P-Regular.ttf") #Pixel art
+const PIXEL_FONT := preload("res://assets/fonts/DynaPuff-Medium.ttf") #Muy gorda
+#const BODY_FONT := preload("res://assets/fonts/VT323-Regular.ttf")
+const BODY_FONT := preload("res://assets/fonts/DynaPuff-Regular.ttf") #Muy delgada en comparación
 const BUTTON_NORMAL := preload("res://assets/ui/button_normal.PNG")
 const BUTTON_PRESSED := preload("res://assets/ui/button_pressed.PNG")
 const CARD_NORMAL := preload("res://assets/ui/level-selection/Card1.PNG")
@@ -91,7 +93,7 @@ static func set_hover_highlight(enabled: bool) -> void:
 static func _build_theme() -> Theme:
 	var theme := Theme.new()
 	theme.default_font = BODY_FONT
-	theme.default_font_size = 30
+	theme.default_font_size = 20
 	_add_labels(theme)
 	_add_buttons(theme)
 	return theme
@@ -169,7 +171,7 @@ static func _add_labels(theme: Theme) -> void:
 
 	theme.set_type_variation(&"TitleLabel", &"Label")
 	theme.set_font("font", &"TitleLabel", PIXEL_FONT)
-	theme.set_font_size("font_size", &"TitleLabel", 40)
+	theme.set_font_size("font_size", &"TitleLabel", 50) #Titulo
 	theme.set_color("font_outline_color", &"TitleLabel", INK)
 	theme.set_constant("outline_size", &"TitleLabel", 16)
 	theme.set_color("font_shadow_color", &"TitleLabel", Color(0, 0, 0, 0.45))

@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://eknd86g2wg75" path="res://assets/general/larry.png" id="5_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://dgvv1on2khl8h" path="res://assets/general/title.png" id="6_title"]
 [ext_resource type="Script" uid="uid://btlny5dc8e42c" path="res://scripts/menu_editor_preview.gd" id="7_prev"]
+[ext_resource type="Shader" uid="uid://brbfjvcvesuxl" path="res://shader/larry_menu_shader.gdshader" id="8_beam"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_beam"]
+shader = ExtResource("8_beam")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_title"]
 atlas = ExtResource("6_title")
@@ -38,6 +42,16 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_wu84c")
 expand_mode = 1
+
+[node name="Beam" type="ColorRect" parent="." unique_id=1573920481]
+material = SubResource("ShaderMaterial_beam")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="OptionsMenu" parent="." unique_id=2056824226 instance=ExtResource("5_8ln24")]
 z_index = 1
