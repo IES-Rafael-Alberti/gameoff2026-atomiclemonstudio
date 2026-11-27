@@ -48,9 +48,9 @@ En cada estilo, las opciones del layer `"13"` se guardan en
   `text_use_global_color = false` y `text_custom_color = Color(0, 0, 0, 1)`.
 - El panel se deja sin tinte global con `box_color_use_global = false` y
   `box_color_custom = Color(1, 1, 1, 1)`.
-- No se fuerza el nombre del personaje a negro. El panel del nombre puede ser
-  oscuro, así que el color global o el color del personaje mantiene el nombre
-  legible.
+- Larry usa texto blanco y panel negro explícitos, independientes de los
+  colores globales y del personaje, para mantener el contraste.
+- Bechamel conserva el color global o el color del personaje para el nombre.
 - Bechamel tiene `name_label_alignment = "2"` para colocar el panel del nombre
   a la derecha. En la enumeración de Dialogic, `LEFT = 0`, `CENTER = 1` y
   `RIGHT = 2`. Larry conserva la alineación izquierda.
@@ -126,3 +126,6 @@ predeterminado aunque el `.tres` personalizado exista.
 - **El texto no contrasta:** usa un color explícito con
   `text_use_global_color = false`; revisa por separado el color del nombre y el
   fondo de su etiqueta.
+- **No aparece el nombre:** la etiqueta debe actualizar su texto y la
+  visibilidad de su panel; el subsistema de texto lo hace mediante
+  `DialogicNode_NameLabel.set_dialogic_text()`.

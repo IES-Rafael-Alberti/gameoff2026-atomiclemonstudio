@@ -1,23 +1,36 @@
-[background arg="res://assets/general/castle-background.png" fade="0.0"]
-fondo - castillo con bechamel quitando los colores
+[background arg="res://assets/dialogues/castle_in_color.png" fade="0.5"]
+[style name="dialogue_style_larry"]
+For generations, ChromaVale shone with joy and color under King Croquet Lion V. When he passed, his son Béchamel the Sixth took the crown and drained every color and spark of joy from the realm.
+[background arg="#292929ff" fade="0.5"]
+join larry center
+Larry is a small, sharp-eared rabbit knight of ChromaVale who guards the sunlit kingdom in peaceful times, the quiet heroine our story is about to follow.
+[wait time="1.5"]
+leave --All--
+[background arg="res://assets/dialogues/castle_in_color.png" fade="1.0"]
 join Bechamel (Default) right
 [style name="dialogue_style_bechamel"]
 Bechamel: How wonderfully quiet ChromaVale becomes once I pocket all the color! A gray world is terribly dull... and entirely mine.
 leave --All--
+[background arg="res://assets/dialogues/bechamel_stealing_colors.png" fade="0.0"]
+[wait time="2.0"]
+[background arg="res://assets/dialogues/bechamel_in_the_castle.png" fade="0.0"]
+[wait time="2.0"]
 [background arg="res://assets/level-selection/select-lvl1.png" fade="0.0"]
+[wait time="2.5"]
 join larry (Sad) center
 [style name="dialogue_style_larry"]
 larry (Sad): Oh no, is Bechamel the Sixth, he's taking all the light from the realm!
-[background arg="res://assets/general/castle-background.png" fade="0.5"]
+[background arg="res://assets/dialogues/bechamel_in_the_castle.png" fade="0.5"]
 join larry (Angry) left
 [style name="dialogue_style_larry"]
 larry (Angry): I need to do something, I can't let this happen
-[background fade="0.0"]
-fondo encontrando el cromoscopio
-update larry (Default)
+[background arg="res://assets/dialogues/larry_find_chromoscope.PNG" fade="0.0"]
+leave larry
 larry: He left this visor behind...
 larry: It has a wheel fitted with three colored lenses.
-[background fade="0.0"]
-fondo - larry probando el cromoscopio
-larry: When I turn the wheel, the world answers back. I won't let him get away with this\
+[background arg="res://assets/dialogues/larry_using_color.PNG" fade="0.5"]
+larry: When I turn the wheel, the world changes. I won't let him get away with this.\
 I'm bringing every color home.
+[background arg="#292929ff" fade="1.0"]
+[style]
+Set your lenses—it's time to shift the world.

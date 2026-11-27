@@ -333,16 +333,16 @@ func update_name_label(character:DialogicCharacter, force := false):
 	elif character_id != speaker_identifier:
 		speaker_updated.emit(character)
 		speaker_identifier = character_id
-	else:
-		return
 
 	var name_label_text := get_character_name_parsed(character)
 
 	for name_label in get_tree().get_nodes_in_group("dialogic_name_label"):
-		name_label.text = name_label_text
-		if character:
-			if not "use_character_color" in name_label or name_label.use_character_color:
-				name_label.self_modulate = character.color
+		if name_label is DialogicNode_NameLabel:
+			name_label.set_dialogic_text(name_label_text)
+		else:
+			name_label.text = name_label_text
+		if character and (not "use_character_color" in name_label or name_label.use_character_color):
+			name_label.self_modulate = character.color
 		else:
 			name_label.self_modulate = Color(1,1,1,1)
 

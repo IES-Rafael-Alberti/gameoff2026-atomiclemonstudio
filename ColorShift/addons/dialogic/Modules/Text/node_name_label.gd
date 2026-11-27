@@ -14,13 +14,12 @@ func _ready() -> void:
 		name_label_root.visible = false
 	text = ""
 
-
-func _set(property, what):
-	if property == 'text' and typeof(what) == TYPE_STRING:
-		text = what
-		if hide_when_empty:
-			name_label_root.visible = !what.is_empty()
-		else:
-			name_label_root.show()
-		return true
-	return false
+func set_dialogic_text(value: String) -> void:
+	text = value
+	if name_label_root is Control:
+		var root_control := name_label_root as Control
+		root_control.size = root_control.get_combined_minimum_size()
+	if hide_when_empty:
+		name_label_root.visible = not value.is_empty()
+	else:
+		name_label_root.show()

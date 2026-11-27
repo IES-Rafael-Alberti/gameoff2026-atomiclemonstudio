@@ -76,8 +76,6 @@ func _execute() -> void:
 
 	## Change and Type Sound Mood
 	if character:
-		dialogic.Text.update_name_label(character)
-
 		var current_portrait: String = portrait
 		if portrait.is_empty():
 			current_portrait = dialogic.Portraits.portraits.get(character.get_identifier(), {}).get("portrait", "")
@@ -106,6 +104,7 @@ func _execute() -> void:
 			dialogic.Styles.change_style(character_style, false)
 			await dialogic.get_tree().process_frame
 
+	dialogic.Text.update_name_label(character)
 	_connect_signals()
 
 	var character_name_text := dialogic.Text.get_character_name_parsed(character)

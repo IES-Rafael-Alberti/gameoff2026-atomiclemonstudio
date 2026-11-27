@@ -15,7 +15,7 @@
 &"display_name": "Bechamel VI ",
 &"mirror": false,
 &"nicknames": ["Bechamel VI"],
-&"offset": Vector2(200, 0),
+&"offset": Vector2(185, 0),
 &"portraits": {
 "Angry": {
 "export_overrides": {

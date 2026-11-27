@@ -60,7 +60,10 @@ func _make_button(n: int) -> Button:
 	button.add_child(label)
 
 	if LEVELS.has(n):
-		button.pressed.connect(SceneManager.change_scene.bind(LEVELS[n]))
+		if n == 1:
+			button.pressed.connect(SceneManager.change_scene.bind("dialogue_intro"))
+		else:
+			button.pressed.connect(SceneManager.change_scene.bind(LEVELS[n]))
 	else:
 		# Locked: dimmed thumbnail with a door on top.
 		button.disabled = true

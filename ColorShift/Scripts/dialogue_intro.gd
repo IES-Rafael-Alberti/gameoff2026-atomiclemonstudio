@@ -21,4 +21,4 @@ func _exit_tree() -> void:
 
 
 func _on_timeline_ended() -> void:
-	SceneManager.change_scene("main_menu")
+	SceneManager.change_scene("level_1")
