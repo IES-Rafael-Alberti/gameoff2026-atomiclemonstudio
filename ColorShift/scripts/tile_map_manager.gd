@@ -480,3 +480,13 @@ func _on_button_pressed(button_id: int) -> void:
 				_remove_connected_barrier(cell, barrier_id)
 				UIManager.show_message("Barrier opened!", 1.8)
 				print("Barrier opened with ID: ", button_id)
+
+# Check whether a world position overlaps a spike.
+# This checks every colour, including currently inactive colours.
+func is_spike_at_world_position(world_position: Vector2) -> bool:
+	var local_position: Vector2 = to_local(world_position)
+	var cell: Vector2i = local_to_map(local_position)
+
+	var props: Dictionary = interactive_tiles.get(cell, {})
+
+	return props.get("SPIKE", false)
