@@ -2598,10 +2598,6 @@ tile_set = SubResource("TileSet_nbwsh")
 script = ExtResource("3_qf6rc")
 room_offset = Vector2(-512, -384)
 
-[node name="ParallaxContainer" parent="Camera2D" unique_id=1765224515 node_paths=PackedStringArray("player", "camera") instance=ExtResource("8_wae8j")]
-player = NodePath("../../Player")
-camera = NodePath("..")
-
 [node name="Checkpoints" type="Node" parent="." unique_id=1818447788 node_paths=PackedStringArray("player")]
 script = ExtResource("4_s8nj6")
 player = NodePath("../Player")
@@ -2635,26 +2631,4 @@ position = Vector2(1423, 95)
 
 [node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("5_vwg62")]
 
-[node name="Frog" parent="." unique_id=1037461664 node_paths=PackedStringArray("frog", "sprite") instance=ExtResource("7_53xsp")]
-position = Vector2(2, 321)
-frog = NodePath(".")
-sprite = NodePath("Sprite2D")
-
-[node name="FrogState" parent="Frog" index="2" unique_id=1987814727 node_paths=PackedStringArray("initial_frogstate")]
-initial_frogstate = NodePath("FrogWalk")
-
-[node name="FrogWalk" parent="Frog/FrogState" index="0" unique_id=225058873 node_paths=PackedStringArray("left_limit", "right_limit")]
-left_limit = NodePath("../../../Limits/LeftLimit")
-right_limit = NodePath("../../../Limits/RightLimit")
-
-[node name="Limits" type="Node2D" parent="." unique_id=1352114710]
-position = Vector2(-318, 323)
-
-[node name="LeftLimit" type="Marker2D" parent="Limits" unique_id=833675487]
-
-[node name="RightLimit" type="Marker2D" parent="Limits" unique_id=2038874192]
-position = Vector2(765, 0)
-
 [editable path="Tilemaps"]
-[editable path="Frog"]
-[editable path="Frog/Killzone"]
