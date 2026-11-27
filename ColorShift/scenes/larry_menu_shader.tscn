@@ -6,7 +6,6 @@
 shader = ExtResource("1_xedbw")
 shader_parameter/origin = Vector2(20, 256)
 shader_parameter/direction = 0.0
-shader_parameter/reach = 480.0
 
 [node name="Node2D" type="Node2D" unique_id=1018482605]
 
