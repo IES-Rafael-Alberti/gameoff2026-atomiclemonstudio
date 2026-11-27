@@ -13,6 +13,14 @@ const BUTTON_NORMAL := preload("res://assets/ui/button_normal.PNG")
 const BUTTON_PRESSED := preload("res://assets/ui/button_pressed.PNG")
 const CARD_NORMAL := preload("res://assets/ui/level-selection/Card1.PNG")
 const CARD_SELECTED := preload("res://assets/ui/level-selection/Card1-2.png")
+const OPTIONS_PANEL := preload("res://assets/ui/level-selection/Options.PNG")
+const PAUSE_PANEL := preload("res://assets/ui/level-selection/Pause.PNG")
+
+## Menu panels: the art is drawn at PANEL_SCALE so its pixels stay square, and
+## only its flat centre is stretched. PANEL_BORDER is the frame in art pixels
+## (left, top, right, bottom); the bottom one includes the shadow.
+const PANEL_SCALE := 4
+const PANEL_BORDER := [4, 4, 4, 7]
 
 ## Level cards ("LevelCard" buttons). The art has a transparent margin, so only
 ## CARD_REGION is drawn. CARD_ART and CARD_TEXT are the window for the picture and
@@ -42,6 +50,7 @@ static var _options_theme: Theme
 static var _focus_box: StyleBoxTexture
 static var _hover_boxes: Array[StyleBoxTexture] = []
 static var _hover_highlight := true
+static var _panel_boxes: Dictionary = {}
 
 
 static func get_theme() -> Theme:
@@ -62,6 +71,22 @@ static func get_options_theme() -> Theme:
 				"font_hover_pressed_color"]:
 			_options_theme.set_color(color, &"CheckButton", PAPER)
 	return _options_theme
+
+
+## Panel art (OPTIONS_PANEL, PAUSE_PANEL) as a box for a panel of any size.
+static func get_panel_box(texture: Texture2D) -> StyleBoxTexture:
+	if not _panel_boxes.has(texture):
+		var art := texture.get_image()
+		# Without the transparent margin around the panel.
+		var image := art.get_region(art.get_used_rect())
+		image.resize(image.get_width() * PANEL_SCALE, image.get_height() * PANEL_SCALE,
+				Image.INTERPOLATE_NEAREST)
+		var box := StyleBoxTexture.new()
+		box.texture = ImageTexture.create_from_image(image)
+		for side in 4:
+			box.set_texture_margin(side, PANEL_BORDER[side] * PANEL_SCALE)
+		_panel_boxes[texture] = box
+	return _panel_boxes[texture]
 
 
 ## Ring around the selected control, for the controls without the button art.
