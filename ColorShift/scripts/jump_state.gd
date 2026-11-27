@@ -9,17 +9,15 @@ const SHORT_JUMP_VELOCITY := -200.0
 
 var hold_time_elapsed := 0.0
 var coyote_time := 0.0
-var _inherited_velocity := Vector2.ZERO
+var _platform_y_at_jump := 0.0
 
 func enter():
 	var character = state_machine.get_parent()
-	# El motor no hereda la velocidad de la plataforma (platform_on_leave =
-	# DO_NOTHING), asi que guardamos la del ultimo frame en suelo y la aplicamos
-	# durante todo el vuelo, tanto en X como en Y.
-	_inherited_velocity = state_machine.inherited_velocity
-	var direction = Input.get_axis("move_left", "move_right")
-	character.velocity.x = direction * SPEED + _inherited_velocity.x
-	character.velocity.y = -450.0 + _inherited_velocity.y
+	# Godot suma la velocidad de la plataforma al dejar el suelo, asi que el
+	# salto se fija en coordenadas relativas a la plataforma. Guardamos su
+	# componente vertical para que el salto corto no borre esa inercia.
+	_platform_y_at_jump = character.get_platform_velocity().y
+	character.velocity.y = -450
 	hold_time_elapsed = 0.0
 	animated_sprite.play("jump")
 
@@ -27,7 +25,7 @@ func handle_input(event):
 	if event.is_action_released("jump"):
 		var character = state_machine.get_parent()
 		if hold_time_elapsed < HOLD_TIME:
-			character.velocity.y = _inherited_velocity.y + SHORT_JUMP_VELOCITY
+			character.velocity.y = _platform_y_at_jump + SHORT_JUMP_VELOCITY
 
 func physics_update(delta):
 	var character = state_machine.get_parent()
@@ -40,7 +38,7 @@ func physics_update(delta):
 
 	# Horizontal movement (air control)
 	var direction = Input.get_axis("move_left", "move_right")
-	character.velocity.x = direction * SPEED + _inherited_velocity.x
+	character.velocity.x = direction * SPEED
 	if direction > 0:
 		animated_sprite.flip_h = false
 	elif direction < 0:
