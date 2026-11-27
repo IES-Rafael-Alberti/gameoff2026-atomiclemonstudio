@@ -1,0 +1,100 @@
+[gd_scene format=4 uid="uid://bwajug716cqcl"]
+
+[ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_ux05n"]
+[ext_resource type="PackedScene" uid="uid://bshep50s3ur4c" path="res://scenes/chameleon.tscn" id="2_uytnm"]
+[ext_resource type="PackedScene" uid="uid://c1bqiljmgkhw7" path="res://scenes/chameleon_projectile.tscn" id="3_ds8vu"]
+[ext_resource type="PackedScene" uid="uid://bc0dy268n326w" path="res://scenes/chameleon_heatseeker.tscn" id="4_gmaj1"]
+[ext_resource type="PackedScene" uid="uid://bnnsuqcgy6y10" path="res://scenes/chameleon_platforms.tscn" id="5_4lneq"]
+[ext_resource type="PackedScene" uid="uid://cgyb2deie6erh" path="res://scenes/key.tscn" id="6_matpj"]
+[ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="7_r2kj2"]
+[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="8_314y7"]
+[ext_resource type="PackedScene" uid="uid://csr8hkglx2m1f" path="res://scenes/parallax_container_castle.tscn" id="9_8ybmx"]
+[ext_resource type="Script" uid="uid://c8eb8ah0xyotr" path="res://scripts/checkpoints_level3.gd" id="10_fi6co"]
+[ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="11_csrax"]
+[ext_resource type="Script" uid="uid://d2r8at46b5pkl" path="res://scripts/battle_start_trigger.gd" id="12_c5wkq"]
+[ext_resource type="PackedScene" uid="uid://c0obu48ukrlhs" path="res://scenes/button.tscn" id="13_xqj3w"]
+[ext_resource type="PackedScene" uid="uid://df074ylh78ahw" path="res://scenes/color_wheel.tscn" id="14_lq6po"]
+[ext_resource type="PackedScene" uid="uid://cvhd3saqxcdej" path="res://scenes/game_manager.tscn" id="15_lnajf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pn6cq"]
+size = Vector2(20, 55.63913)
+
+[node name="Level8" type="Node2D" unique_id=1939000241]
+
+[node name="Player" parent="." unique_id=889365973 groups=["player"] instance=ExtResource("1_ux05n")]
+unique_name_in_owner = true
+position = Vector2(-54, 32)
+
+[node name="BeChamel" parent="." unique_id=1565266819 instance=ExtResource("2_uytnm")]
+position = Vector2(380, -255)
+projectile_scene = ExtResource("3_ds8vu")
+heatseeker_scene = ExtResource("4_gmaj1")
+platforms_spell_scene = ExtResource("5_4lneq")
+
+[node name="Key" parent="." unique_id=2020584789 instance=ExtResource("6_matpj")]
+
+[node name="Tilemaps" parent="." unique_id=210110623 instance=ExtResource("7_r2kj2")]
+
+[node name="TileMapLayer" parent="Tilemaps" index="0" unique_id=1750349955]
+tile_map_data = PackedByteArray("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")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=640248356]
+script = ExtResource("8_314y7")
+room_offset = Vector2(-512, -384)
+
+[node name="ParallaxContainer" parent="Camera2D" unique_id=178089555 node_paths=PackedStringArray("player", "camera") instance=ExtResource("9_8ybmx")]
+visible = false
+player = NodePath("../../Player")
+camera = NodePath("..")
+layer_speeds = Array[float]([1.0, 1.0, 0.95, 0.9, 1.0])
+
+[node name="Checkpoints" type="Node" parent="." unique_id=1818447788 node_paths=PackedStringArray("player")]
+script = ExtResource("10_fi6co")
+player = NodePath("../Player")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=633604805]
+
+[node name="Pause_Menu" parent="CanvasLayer" unique_id=291861861 instance=ExtResource("11_csrax")]
+
+[node name="BattleStartTrigger" type="Area2D" parent="." unique_id=673810965 node_paths=PackedStringArray("boss")]
+position = Vector2(0, 42)
+script = ExtResource("12_c5wkq")
+boss = NodePath("../BeChamel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BattleStartTrigger" unique_id=2121560029]
+position = Vector2(0, -40.21582)
+scale = Vector2(2.2568355, 2.2568355)
+shape = SubResource("RectangleShape2D_pn6cq")
+
+[node name="ChameleonMarkers" type="Node" parent="." unique_id=2105286342]
+
+[node name="LeftMark" type="Marker2D" parent="ChameleonMarkers" unique_id=1518322558]
+position = Vector2(-388, -255)
+
+[node name="MidMark" type="Marker2D" parent="ChameleonMarkers" unique_id=1569654195]
+position = Vector2(1, -255)
+
+[node name="RightMark" type="Marker2D" parent="ChameleonMarkers" unique_id=1805895762]
+position = Vector2(380, -255)
+
+[node name="Button" parent="." unique_id=717267214 node_paths=PackedStringArray("tile_layer") instance=ExtResource("13_xqj3w")]
+position = Vector2(0, 48)
+button_id = 1
+visible_in_all_colors = true
+tile_layer = NodePath("../Tilemaps/TileMapLayer")
+tile_start = Vector2i(8, -7)
+tile_respawn_time = 1.0
+
+[node name="ColorWheel" parent="." unique_id=461690810 instance=ExtResource("14_lq6po")]
+position = Vector2(-54, 40)
+
+[node name="GameManager" parent="." unique_id=374220462 instance=ExtResource("15_lnajf")]
+
+[node name="ProgressBar" type="TextureProgressBar" parent="." unique_id=1720291938]
+offset_top = -333.0
+offset_right = 4.0
+offset_bottom = -306.0
+max_value = 5.0
+
+[editable path="Tilemaps"]
+[editable path="Button"]
