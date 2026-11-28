@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://dvyi7y4b1e4jd" path="res://scenes/player.tscn" id="1_12fag"]
 [ext_resource type="PackedScene" uid="uid://x00cpbyy8vu5" path="res://scenes/tilemaps.tscn" id="2_1q6tm"]
-[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://scripts/camera_controller.gd" id="3_v36qu"]
-[ext_resource type="Script" uid="uid://d06nvfrb2xmcx" path="res://scripts/checkpoints_level2.gd" id="4_1q6tm"]
+[ext_resource type="Script" uid="uid://jrgdgiuhox4p" path="res://Scripts/camera_controller.gd" id="3_v36qu"]
+[ext_resource type="Script" uid="uid://d06nvfrb2xmcx" path="res://Scripts/checkpoints_level2.gd" id="4_1q6tm"]
 [ext_resource type="Texture2D" uid="uid://cgeddsrb444od" path="res://assets/sprites/scenary/Tileset - 4 colors.png" id="4_42uki"]
 [ext_resource type="Texture2D" uid="uid://d1umgh62arg4y" path="res://assets/sprites/scenary/door.png" id="5_t7v2y"]
 [ext_resource type="PackedScene" uid="uid://bqkcdngamp8yw" path="res://scenes/pause_menu.tscn" id="5_v36qu"]
@@ -2656,74 +2656,76 @@ platform_color = "YELLOW"
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1163304302]
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=1186092309]
+[node name="trees 1" type="Sprite2D" parent="Node2D" unique_id=1186092309]
 z_index = -1
 position = Vector2(532, 322)
 texture = ExtResource("14_fldb1")
 
-[node name="Sprite2D5" type="Sprite2D" parent="Node2D" unique_id=767806062]
+[node name="trees 2" type="Sprite2D" parent="Node2D" unique_id=767806062]
 z_index = -1
 position = Vector2(1447, 358)
 texture = ExtResource("14_fldb1")
 
-[node name="Sprite2D2" type="Sprite2D" parent="Node2D" unique_id=286322229]
+[node name="trees 3" type="Sprite2D" parent="Node2D" unique_id=286322229]
 z_index = -2
 position = Vector2(395, 410)
 texture = ExtResource("14_fldb1")
 
-[node name="Sprite2D3" type="Sprite2D" parent="Node2D" unique_id=1963418829]
+[node name="trees 4" type="Sprite2D" parent="Node2D" unique_id=1963418829]
 z_index = -3
 position = Vector2(304, 370)
 texture = ExtResource("15_igmy8")
 
-[node name="Sprite2D6" type="Sprite2D" parent="Node2D" unique_id=1757694166]
+[node name="trees 5" type="Sprite2D" parent="Node2D" unique_id=1757694166]
 z_index = -3
 position = Vector2(1138, 372)
 texture = ExtResource("15_igmy8")
 
-[node name="Sprite2D4" type="Sprite2D" parent="Node2D" unique_id=370458559]
+[node name="sky" type="Sprite2D" parent="Node2D" unique_id=370458559]
 z_index = -4
 position = Vector2(517.5, 0)
 scale = Vector2(2.0107422, 1)
 texture = ExtResource("16_wdtqu")
 
-[node name="nube 4" type="Sprite2D" parent="." unique_id=903521706]
+[node name="clouds" type="Node" parent="Node2D" unique_id=483042455]
+
+[node name="nube 4" type="Sprite2D" parent="Node2D/clouds" unique_id=903521706]
 z_index = -1
 position = Vector2(-56.528076, 203.90466)
 texture = ExtResource("17_wdtqu")
 
-[node name="nube 5" type="Sprite2D" parent="." unique_id=826769673]
+[node name="nube 5" type="Sprite2D" parent="Node2D/clouds" unique_id=826769673]
 z_index = -1
 position = Vector2(-150.52814, -72.09534)
 scale = Vector2(1.0673279, 0.9190228)
 texture = ExtResource("17_wdtqu")
 
-[node name="nube 6" type="Sprite2D" parent="." unique_id=931254756]
+[node name="nube 6" type="Sprite2D" parent="Node2D/clouds" unique_id=931254756]
 z_index = -1
 position = Vector2(187.4721, 82.90466)
 scale = Vector2(0.88654584, 1.0502772)
 texture = ExtResource("17_wdtqu")
 flip_h = true
 
-[node name="nube 7" type="Sprite2D" parent="." unique_id=867329205]
+[node name="nube 7" type="Sprite2D" parent="Node2D/clouds" unique_id=867329205]
 z_index = -1
 position = Vector2(966.4719, 344.90475)
 texture = ExtResource("17_wdtqu")
 
-[node name="nube 8" type="Sprite2D" parent="." unique_id=553932503]
+[node name="nube 8" type="Sprite2D" parent="Node2D/clouds" unique_id=553932503]
 z_index = -1
 position = Vector2(872.47186, 68.90474)
 scale = Vector2(1.0673279, 0.9190228)
 texture = ExtResource("17_wdtqu")
 
-[node name="nube 9" type="Sprite2D" parent="." unique_id=1542065357]
+[node name="nube 9" type="Sprite2D" parent="Node2D/clouds" unique_id=1542065357]
 z_index = -1
 position = Vector2(1210.472, 223.90475)
 scale = Vector2(0.88654584, 1.0502772)
 texture = ExtResource("17_wdtqu")
 flip_h = true
 
-[node name="nube 10" type="Sprite2D" parent="." unique_id=1690564726]
+[node name="nube 10" type="Sprite2D" parent="Node2D/clouds" unique_id=1690564726]
 z_index = -4
 position = Vector2(1307.0001, 9)
 scale = Vector2(0.88654584, 1.0502772)
