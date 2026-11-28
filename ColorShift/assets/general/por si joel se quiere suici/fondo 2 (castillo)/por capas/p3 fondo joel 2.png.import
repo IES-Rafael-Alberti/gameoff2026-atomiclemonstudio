@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4a8n2c3o6sla"
-path="res://.godot/imported/p3 fondo joel 2.png-5098cecee75884c01633854c139fd894.ctex"
+path="res://.godot/imported/p3 fondo joel 2.png-a6644a659674d909fe29abf2c42ba43b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/general/por si joel se quiere suici/fondo 2 (castillo)/p3 fondo joel 2.png"
-dest_files=["res://.godot/imported/p3 fondo joel 2.png-5098cecee75884c01633854c139fd894.ctex"]
+source_file="res://assets/general/por si joel se quiere suici/fondo 2 (castillo)/por capas/p3 fondo joel 2.png"
+dest_files=["res://.godot/imported/p3 fondo joel 2.png-a6644a659674d909fe29abf2c42ba43b.ctex"]
 
 [params]
 

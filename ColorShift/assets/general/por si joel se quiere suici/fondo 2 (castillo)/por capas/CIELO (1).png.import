@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b78nsfllk5v2s"
-path="res://.godot/imported/CIELO (1).png-f997a0a8cf08e92918c25b36c58561f3.ctex"
+path="res://.godot/imported/CIELO (1).png-520bb3ab017e0661f79f9d157834a4c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/general/por si joel se quiere suici/fondo 2 (castillo)/CIELO (1).png"
-dest_files=["res://.godot/imported/CIELO (1).png-f997a0a8cf08e92918c25b36c58561f3.ctex"]
+source_file="res://assets/general/por si joel se quiere suici/fondo 2 (castillo)/por capas/CIELO (1).png"
+dest_files=["res://.godot/imported/CIELO (1).png-520bb3ab017e0661f79f9d157834a4c0.ctex"]
 
 [params]
 
